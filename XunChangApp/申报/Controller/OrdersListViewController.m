@@ -18,7 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"申报订单";
-    [self createNavBackButt:@"白色"];
     NSArray *titleArray=@[@"待审核",@"待付款",@"待服务",@"待确认",@"待评价"];
     ButtonLabelView *fiveButtView=[[ButtonLabelView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40) andTitlesArray:titleArray andDefaultSelectIndex:1 andCallBackBlock:^(id butt, id model) {
         NSLog(@"wakakakakkak");
@@ -31,6 +30,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self createNavBackButt:@"白色"];
     [self setNavBarColor:[UIColor colorWithHexString:@"#6f9c57"]];
     self.view.backgroundColor=[UIColor whiteColor];
 }

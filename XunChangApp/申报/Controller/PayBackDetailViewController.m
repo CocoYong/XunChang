@@ -1,72 +1,57 @@
 //
-//  ShenBaoOrdersCommitViewController.m
+//  PayBackDetailViewController.m
 //  XunChangApp
 //
-//  Created by MrZhang on 16/5/10.
+//  Created by MrZhang on 16/5/12.
 //  Copyright © 2016年 zhangyong. All rights reserved.
 //
 
-#import "ShenBaoOrdersCommitViewController.h"
+#import "PayBackDetailViewController.h"
 
-@interface ShenBaoOrdersCommitViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface PayBackDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @end
 
-@implementation ShenBaoOrdersCommitViewController
+@implementation PayBackDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"提交申报订单";
-    [self createNavBackButt:@"白色"];
+    self.title=@"退款详情";
+    [self createNavBackButt:@"黑色"];
     // Do any additional setup after loading the view.
 }
-- (IBAction)addShenBaoAction:(UIButton *)sender {
-}
-
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    return 5;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.row) {
         case 0:
         {
-            return [tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellOne"];
+            return [tableView dequeueReusableCellWithIdentifier:@"PayBackDetailCellOne"];
         }
             break;
         case 1:
         {
-            return [tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellTwo"];
+            return [tableView dequeueReusableCellWithIdentifier:@"PayBackDetailCellTwo"];
         }
             break;
         case 2:
         {
-            return [tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellThree"];
+            return [tableView dequeueReusableCellWithIdentifier:@"PayBackDetailCellThree"];
         }
             break;
         case 3:
         {
-            return  [tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellFour"];
+            return  [tableView dequeueReusableCellWithIdentifier:@"PayBackDetailCellFour"];
         }
             break;
         case 4:
         {
-            return [tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellFive"];
+            return [tableView dequeueReusableCellWithIdentifier:@"PayBackDetailCellFive"];
         }
             break;
-        case 5:
-        {
-            return [tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellSix"];
-        }
-            break;
-        case 6:
-        {
-         return [tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellSeven"];
-        }
-            break;
-            
         default:
             return [tableView dequeueReusableCellWithIdentifier:@"CellStyleFive"];
             break;
@@ -76,27 +61,21 @@
 {
     switch (indexPath.row) {
         case 0:
-            return 208;
+            return 50;
             break;
         case 1:
-            return 145;
+            return 181;
             break;
         case 2:
-            return 44;
+            return 140;
             break;
         case 3:
-            return 99;
+            return 110;
             break;
         case 4:
-            return 102;
+            return 130;
             break;
-        case 5:
-            return 151;
-            break;
-        case 6:
-            return 200;
-            break;
-        default:
+          default:
             return 44;
             break;
     }
@@ -105,7 +84,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 /*
 #pragma mark - Navigation

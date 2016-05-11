@@ -26,7 +26,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [tableView dequeueReusableCellWithIdentifier:@"ShenBaoItemListCell"];
+    return [tableView dequeueReusableCellWithIdentifier:@"ShenBaoSelectItemListCell;"];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

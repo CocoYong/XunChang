@@ -1,32 +1,32 @@
 //
-//  CommitPayEvidenceViewController.m
+//  PayBackViewController.m
 //  XunChangApp
 //
 //  Created by MrZhang on 16/5/11.
 //  Copyright © 2016年 zhangyong. All rights reserved.
 //
 
-#import "CommitPayEvidenceViewController.h"
+#import "PayBackViewController.h"
 
-@interface CommitPayEvidenceViewController ()
+@interface PayBackViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *payBackReasonTextfield;
+@property (weak, nonatomic) IBOutlet UITextField *moneyTextfield;
 
 @end
 
-@implementation CommitPayEvidenceViewController
+@implementation PayBackViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"提交线下支付凭证";
-    [self createNavBackButt:@"黑色"];
     // Do any additional setup after loading the view.
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self setNavBarColor:[UIColor colorWithHexString:@"#f8f8f8"]];
-    self.navigationController.navigationBar.titleTextAttributes=@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:15]};
-    
+- (IBAction)takePhotoAction:(id)sender {
 }
+- (IBAction)selectPhotoAction:(id)sender {
+}
+- (IBAction)submitAction:(id)sender {
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

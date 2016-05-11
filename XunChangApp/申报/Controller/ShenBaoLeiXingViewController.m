@@ -28,7 +28,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoLeiXing"];
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoLeiXingCell"];
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
