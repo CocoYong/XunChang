@@ -18,6 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title=@"申请退款";
+    [self createNavBackButt];
     // Do any additional setup after loading the view.
 }
 - (IBAction)takePhotoAction:(id)sender {

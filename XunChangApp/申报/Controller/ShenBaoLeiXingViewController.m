@@ -7,8 +7,16 @@
 //
 
 #import "ShenBaoLeiXingViewController.h"
-
+#import "ShenBaoWorkObjectModel.h"
+#import "YYModel.h"
+#import "ShenBaoLeiXingCell.h"
+#import "UIImageView+WebCache.h"
+#import "YYModel.h"
 @interface ShenBaoLeiXingViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    ShenBaoWorkObjectModel *objectModel;
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -17,23 +25,80 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"用电类型";
-    [self createNavBackButt:@"白色"];
-    // Do any additional setup after loading the view.
-}
+    [self createNavBackButt];
+    [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
+    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/getObject" params:nil httpMethod:@"POST" block:^(id result) {
+         [SVProgressHUD dismiss];
+        NSLog(@"result====%@",result);
+        objectModel=[ShenBaoWorkObjectModel yy_modelWithDictionary:result];
+        objectModel.datas=[NSArray yy_modelArrayWithClass:[ShenBaoWorkObjectDataModel class] json:[result objectForKey:@"data"]];
+        [objectModel.datas enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            ShenBaoWorkObjectDataModel   *secondModel=(ShenBaoWorkObjectDataModel*)obj;
+            secondModel.objects=[NSArray yy_modelArrayWithClass:[ShenBaoWorkObjectDataObjectsModel class] json:[[[result objectForKey:@"data"] objectAtIndex:idx] objectForKey:@"objects"]];
+        }];
+        ShenBaoWorkObjectDataModel* thirdModel=(ShenBaoWorkObjectDataModel*)[objectModel.datas objectAtIndex:0];
+        NSLog(@"thirdModel==model.datas===%@",thirdModel.objects);
+        if (objectModel.code==0) {
+            [self.tableView reloadData];
+        }else if (objectModel.code==9999)
+        {
+            [SVProgressHUD showWithStatus:objectModel.message];
+        }else if(objectModel.code==1001)
+        {
+            [USER_DEFAULT removeObjectForKey:@"user_token"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
 
+      
+    } errorBlock:^(NSError *error) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+    } noNetWorking:^(NSString *noNetWorking) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
+    }];
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return objectModel.datas.count;
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    ShenBaoWorkObjectDataModel *firstModel=[objectModel.datas objectAtIndex:section];
+    return firstModel.objects.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoLeiXingCell"];
+    ShenBaoLeiXingCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoLeiXingCell"];
+    ShenBaoWorkObjectDataModel *tempModel=[objectModel.datas objectAtIndex:indexPath.section];
+    ShenBaoWorkObjectDataObjectsModel *secondModel=[tempModel.objects objectAtIndex:indexPath.row];
+    [cell.logoImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+     cell.nameLabel.text=secondModel.title;
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 60;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40;
+}
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
+    headerView.backgroundColor=[UIColor colorWithHexString:@"#709B5A"];
+    UILabel *headerLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 5, SCREEN_WIDTH-40, 30)];
+    headerLabel.textColor=[UIColor whiteColor];
+    ShenBaoWorkObjectDataModel *tempModel=[objectModel.datas objectAtIndex:section];
+    headerLabel.text=tempModel.area_title;
+    [headerView addSubview:headerLabel];
+    return headerView;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

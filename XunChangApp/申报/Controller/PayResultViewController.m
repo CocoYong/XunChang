@@ -7,12 +7,12 @@
 //
 
 #import "PayResultViewController.h"
-#import <QuartzCore/QuartzCore.h>
 @interface PayResultViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *resultImageView;
 @property (weak, nonatomic) IBOutlet UILabel *twoLinesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *remindLabel;
 @property (weak, nonatomic) IBOutlet UIButton *backButt;
+@property (weak, nonatomic) IBOutlet UIButton *stateButt;
 
 @end
 
@@ -20,17 +20,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"支付成功";
-    [self createNavBackButt:@"黑色"];
-    self.backButt.layer.borderColor=[UIColor colorWithHexString:@"#e0e0e0"].CGColor;
-    self.backButt.layer.borderWidth=1.0f;
+    self.title=self.model.message;
+    [self createNavBackButt];
+    self.stateButt.layer.cornerRadius=3.0f;
+    self.backButt.layer.cornerRadius=3.0f;
+    if (self.model.code==0&&[self.model.message isEqualToString:@"success"]) {
+        self.resultImageView.image=[UIImage imageNamed:@"icons_success"];
+        self.twoLinesLabel.text=@"恭喜您!订单支付成功!";
+        self.remindLabel.attributedText=[self createAttributStringWithString:@"请进入\"会员中心-申报-申报订单\"查看申报订单状态" changeString:@"会员中心-申报-申报订单" andAttributDic:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#F99647"]}];
+        [self.stateButt setTitle:@"查看申报" forState:UIControlStateNormal];
+    }else
+    {
+        self.resultImageView.image=[UIImage imageNamed:@"icons_fail"];
+        self.twoLinesLabel.text=@"抱歉!订单支付失败!";
+        self.remindLabel.attributedText=[self createAttributStringWithString:@"请进入\"会员中心-申报-待付款\"完成订单支付" changeString:@"会员中心-申报-待付款" andAttributDic:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#F99647"]}];
+        [self.stateButt setTitle:@"去付款" forState:UIControlStateNormal];
+    }
+    self.stateButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
+        for (UIViewController *contrller in self.navigationController.viewControllers) {
+            if ([contrller isKindOfClass:NSClassFromString(@"OrdersListViewController")]) {
+                [self.navigationController popToViewController:contrller animated:YES];
+            }
+        }
+        return [RACSignal empty];
+    }];
+    
+    self.backButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
+        for (UIViewController *contrller in self.navigationController.viewControllers) {
+            if ([contrller isKindOfClass:NSClassFromString(@"HomeViewController")]) {
+                [self.navigationController popToViewController:contrller animated:YES];
+            }
+        }
+        return [RACSignal empty];
+    }];
     
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setNavBarColor:[UIColor colorWithHexString:@"#f8f8f8"]];
-    self.navigationController.navigationBar.titleTextAttributes=@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:15]};
+   
     
 }
 - (void)didReceiveMemoryWarning {

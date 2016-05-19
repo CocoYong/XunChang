@@ -17,14 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"提交线下支付凭证";
-    [self createNavBackButt:@"黑色"];
+    [self createNavBackButt];
     // Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setNavBarColor:[UIColor colorWithHexString:@"#f8f8f8"]];
-    self.navigationController.navigationBar.titleTextAttributes=@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:15]};
+  
     
 }
 - (void)didReceiveMemoryWarning {

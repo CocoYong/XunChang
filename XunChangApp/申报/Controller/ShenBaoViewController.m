@@ -7,33 +7,151 @@
 //
 
 #import "ShenBaoViewController.h"
-#import "ButtonLabelView.h"
-#import "CollectionBaseModel.h"
 #import "OrdersListViewController.h"
+#import "ShenBaoCollectionCell.h"
+#import "UIImageView+WebCache.h"
+#import "ShenBaoItemsModel.h"
+#import "ShenBaoNewMessagesModel.h"
 @interface ShenBaoViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+{
+    NSTimer *countTimer;
+    ShenBaoItemsModel *itemModel;
+    ShenBaoNewMessagesModel *newMessageModel;
+}
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UILabel *activityTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *daifukuanLabel;
+@property (weak, nonatomic) IBOutlet UILabel *daifuwuLabel;
+@property (weak, nonatomic) IBOutlet UILabel *daiquerenLabel;
+@property (weak, nonatomic) IBOutlet UILabel *daipingjiaLabel;
+
 @end
 
 @implementation ShenBaoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self createNavBackButt:@"白色"];
     self.title=@"申报";
-
+    [self createNavBackButt];
     
+    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:self.dataModel.scene_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    self.activityTitleLabel.text=self.dataModel.scene_title;
+    
+    self.daifukuanLabel.layer.cornerRadius=6.0f;
+    self.daifukuanLabel.layer.masksToBounds=YES;
+    self.daifuwuLabel.layer.cornerRadius=6.0f;
+    self.daifuwuLabel.layer.masksToBounds=YES;
+    self.daiquerenLabel.layer.cornerRadius=6.0f;
+    self.daiquerenLabel.layer.masksToBounds=YES;
+    self.daipingjiaLabel.layer.cornerRadius=6.0f;
+    self.daipingjiaLabel.layer.masksToBounds=YES;
+    
+    
+    countTimer=[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(countTimerRequestData) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:countTimer forMode:NSRunLoopCommonModes];
+    
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"8fd4bcd74eecfcd96d8b34bba1e7644c",@"user_token",@"11",@"scene_id", nil];
+    [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
+    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/applyType" params:paramsDic httpMethod:@"POST" block:^(id result) {
+         [SVProgressHUD dismiss];
+        NSLog(@"result====%@",result);
+        itemModel=[ShenBaoItemsModel yy_modelWithDictionary:result];
+        itemModel.datas=[NSArray yy_modelArrayWithClass:[ShenBaoItemDataModel class] json:[result objectForKey:@"data"]];
+        
+        if (itemModel.code==0) {
+            [self.collectionView reloadData];
+        }else if (itemModel.code==9999)
+        {
+            [SVProgressHUD showWithStatus:itemModel.message];
+        }else if(itemModel.code==1001)
+        {
+            [USER_DEFAULT removeObjectForKey:@"user_token"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+
+    } errorBlock:^(NSError *error) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+    } noNetWorking:^(NSString *noNetWorking) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
+    }];
+}
+-(void)countTimerRequestData
+{
+    [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
+    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/newMessage" params:nil httpMethod:@"POST" block:^(id result) {
+         [SVProgressHUD dismiss];
+        NSLog(@"result====%@",result);
+        newMessageModel=[ShenBaoNewMessagesModel yy_modelWithDictionary:result];
+        if (newMessageModel.code==0) {
+            if ([newMessageModel.data.pending_pay_count integerValue]>0) {
+              self.daifukuanLabel.text=newMessageModel.data.pending_pay_count;
+              self.daifukuanLabel.hidden=NO;
+            }else
+            {
+                self.daifukuanLabel.hidden=YES;
+            }
+             if ([newMessageModel.data.pending_confirm_count integerValue]>0) {
+                 
+                 self.daiquerenLabel.text=newMessageModel.data.pending_confirm_count;
+                 self.daiquerenLabel.hidden=NO;
+             }else
+             {
+                 self.daiquerenLabel.hidden=YES;
+             }
+             if ([newMessageModel.data.pending_server_count integerValue]>0) {
+                 
+                 self.daifuwuLabel.text=newMessageModel.data.pending_server_count;
+                 self.daifuwuLabel.hidden=NO;
+             }else
+             {
+                 self.daifuwuLabel.hidden=YES;
+             }
+             if ([newMessageModel.data.pending_comment_count integerValue]>0) {
+                 
+                 self.daipingjiaLabel.text=newMessageModel.data.pending_comment_count;
+              
+                 self.daipingjiaLabel.hidden=NO;
+             }else
+             {
+                 self.daipingjiaLabel.hidden=YES;
+             }
+        }else if (newMessageModel.code==9999)
+        {
+            [SVProgressHUD showWithStatus:newMessageModel.message];
+        }else if(newMessageModel.code==1001)
+        {
+            [USER_DEFAULT removeObjectForKey:@"user_token"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+    } errorBlock:^(NSError *error) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+    } noNetWorking:^(NSString *noNetWorking) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
+    }];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setNavBarColor:[UIColor colorWithHexString:@"#6f9c57"]];
+    [countTimer setFireDate:[NSDate distantPast]];
 
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 12;
+    return itemModel.datas.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [collectionView dequeueReusableCellWithReuseIdentifier:@"ShenBaoCollectionCell" forIndexPath:indexPath];
+
+    ShenBaoCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"ShenBaoCollectionCell" forIndexPath:indexPath];
+    ShenBaoItemDataModel *tempModel=[itemModel.datas objectAtIndex:indexPath.row];
+    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    cell.nameLabel.text=tempModel.title;
+    return cell;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -41,7 +159,7 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((SCREEN_WIDTH-5)/4, 110);
+    return CGSizeMake((SCREEN_WIDTH-5)/4, 81);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
@@ -52,20 +170,33 @@
 {
     return 1;
 }
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [countTimer setFireDate:[NSDate distantFuture]];
+}
+-(IBAction)fourButtAction:(UIButton*)sender
+{
+    [self performSegueWithIdentifier:@"OrdersListViewController" sender:sender];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue destinationViewController] isKindOfClass:[OrdersListViewController class]]) {
+        OrdersListViewController *viewController=[segue destinationViewController];
+        UIButton *butt=sender;
+        viewController.index=butt.tag;
+    }
 }
-*/
+
 
 @end

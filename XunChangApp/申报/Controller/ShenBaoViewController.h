@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "UserCenterModel.h"
 @interface ShenBaoViewController : BaseViewController
-
+@property(nonatomic,strong)UserCenterDataModel *dataModel;
 @end

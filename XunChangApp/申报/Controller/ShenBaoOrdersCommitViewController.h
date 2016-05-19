@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "ShenBaoKemuModel.h"
 @interface ShenBaoOrdersCommitViewController : BaseViewController
-
+@property(nonatomic,strong)ShenBaoKemuDataModel *dataModel;
 @end
