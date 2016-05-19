@@ -16,14 +16,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title=@"场景选择";
+    [self createNavBackButt];
     
-    // Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor=[UIColor colorWithHexString:@"#6f9c57"];
-    self.navigationController.navigationBar.titleTextAttributes=@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:15]};
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
