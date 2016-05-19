@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface BaseViewController : UIViewController
--(void)createNavBackButt:(NSString*)backColor;
+-(void)createNavBackButt;
 -(void)setNavBarColor:(UIColor*)color;
+-(void)backToFrontViewController;
+-(NSMutableAttributedString*)createAttributStringWithString:(NSString*)originalString changeString:(NSString*)specialString andAttributDic:(NSDictionary*)attributDic;
 @end
