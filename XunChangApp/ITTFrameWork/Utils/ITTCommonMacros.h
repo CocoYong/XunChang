@@ -42,6 +42,9 @@
 #define iPhone6PlusNavagationHeight     66
 #define iPhoneOtherNavigationHeight     44
 
+#define IOS6_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"6.0"] != NSOrderedAscending )
+#define IOS7_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending )
+#define IOS8_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"8.0"] != NSOrderedAscending )
 #define iPhoneVersionThan6          (isiPHONE6||isiPHONE6PLUS)
 
 #define SCREEN_NAVIGATION_HEIGHT    (isiPHONE6PLUS?44:44)

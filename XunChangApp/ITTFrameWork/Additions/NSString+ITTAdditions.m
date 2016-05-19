@@ -15,20 +15,22 @@
 - (NSInteger)numberOfLinesWithFont:(UIFont*)font
                      withLineWidth:(NSInteger)lineWidth
 {
-    CGSize size = [self sizeWithFont:font
-                   constrainedToSize:CGSizeMake(lineWidth, CGFLOAT_MAX)
-                       lineBreakMode:NSLineBreakByTruncatingTail];
-	NSInteger lines = size.height / [font ittLineHeight];
+//    CGSize size = [self sizeWithFont:font
+//                   constrainedToSize:CGSizeMake(lineWidth, CGFLOAT_MAX)
+//                       lineBreakMode:NSLineBreakByTruncatingTail];
+    CGRect rect=[self boundingRectWithSize:CGSizeMake(lineWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+	NSInteger lines = rect.size.height / [font ittLineHeight];
 	return lines;
 }
 
 - (CGFloat)heightWithFont:(UIFont*)font
             withLineWidth:(NSInteger)lineWidth
 {
-    CGSize size = [self sizeWithFont:font
-                   constrainedToSize:CGSizeMake(lineWidth, CGFLOAT_MAX)
-                       lineBreakMode:NSLineBreakByTruncatingTail];
-	return size.height;
+//    CGSize size = [self sizeWithFont:font
+//                   constrainedToSize:CGSizeMake(lineWidth, CGFLOAT_MAX)
+//                       lineBreakMode:NSLineBreakByTruncatingTail];
+    CGRect rect=[self boundingRectWithSize:CGSizeMake(lineWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+	return rect.size.height;
 	
 }
 

@@ -6,7 +6,6 @@
 //
 
 #import "UIUtil.h"
-#import "CONSTS.h"
 #import "UIDevice+ITTAdditions.h"
 
 @implementation UIUtil
