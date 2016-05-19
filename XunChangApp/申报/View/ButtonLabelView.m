@@ -45,12 +45,12 @@ typedef void(^FiveButtCallBack)(id butt,id model);
 {
     self=[super initWithFrame:frame];
     if(!self) return nil;
-    CGFloat padding=(SCREEN_WIDTH-(titlesArray.count*BUTTWIDTH))/(titlesArray.count+1);
+    CGFloat buttonWidth=SCREEN_WIDTH/titlesArray.count;
     self.callBlock=callBackBlock;
     for (int i=0; i<titlesArray.count; i++) {
         ITTAssert([[titlesArray objectAtIndex:i] isKindOfClass:[NSString class]],@"传人数据不对");
         UIButton *butt=[UIButton buttonWithType:UIButtonTypeCustom];
-        butt.frame=CGRectMake(padding+(padding+50)*i, 10, BUTTWIDTH, 21);
+        butt.frame=CGRectMake(buttonWidth*i, 10, buttonWidth, 21);
         butt.tag=i;
         [butt setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         butt.titleLabel.font=[UIFont systemFontOfSize:14];
@@ -60,7 +60,7 @@ typedef void(^FiveButtCallBack)(id butt,id model);
         
         UIView *lineView=[[UIView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/titlesArray.count)*i, 38, SCREEN_WIDTH/titlesArray.count, 2)];
         lineView.hidden=YES;
-        lineView.tag=butt.tag+5;
+        lineView.tag=butt.tag+4;
         lineView.backgroundColor=[UIColor greenColor];
         [self addSubview:lineView];
         if (index==i) {
@@ -73,14 +73,14 @@ typedef void(^FiveButtCallBack)(id butt,id model);
 -(void)buttonTaped:(UIButton*)butt
 {
     for (UIView *view in self.subviews) {
-        if (view.tag!=butt.tag+5&&[view isMemberOfClass:[UIView class]]) {
+        if (view.tag!=butt.tag+4&&[view isMemberOfClass:[UIView class]]) {
             view.hidden=YES;
         }
         if (view.tag!=butt.tag&&[view isMemberOfClass:[UIButton class]]) {
             [(UIButton*)view  setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         }
     }
-    UIView *tempView=[self viewWithTag:butt.tag+5];
+    UIView *tempView=[self viewWithTag:butt.tag+4];
     tempView.hidden=NO;
     [butt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.callBlock(butt,[self.dataArray objectAtIndex:butt.tag]);

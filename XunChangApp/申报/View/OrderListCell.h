@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface OrderListCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIView *contentBackView;
 @property (weak, nonatomic) IBOutlet UIButton *radioButt;
 @property (weak, nonatomic) IBOutlet UILabel *orderNumLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
@@ -16,10 +16,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *stadiumNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *goodsImageView;
 @property (weak, nonatomic) IBOutlet UILabel *goodsNameLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *goodsNumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *goodsNumLabel;
 @property (weak, nonatomic) IBOutlet UILabel *startTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *moneyLabel;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButt;
 @property (weak, nonatomic) IBOutlet UIButton *payButt;
-
+@property (weak, nonatomic) IBOutlet UIButton *deletButt;
 @end
