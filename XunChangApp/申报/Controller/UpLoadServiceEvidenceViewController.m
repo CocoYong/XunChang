@@ -26,7 +26,7 @@
         NSLog(@"result====%@",result);
         LoginModel *model=[LoginModel yy_modelWithDictionary:result];
         if (model.code==0) {
-            [SVProgressHUD showWithStatus:@"上传成功"];
+            [SVProgressHUD  showSuccessWithStatus:@"上传成功" maskType:SVProgressHUDMaskTypeBlack];
         }else
         {
             [SVProgressHUD showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeClear];
