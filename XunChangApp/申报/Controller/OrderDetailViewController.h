@@ -10,4 +10,5 @@
 
 @interface OrderDetailViewController : BaseViewController
 @property(nonatomic,copy)NSString *userType;
+@property(nonatomic,copy)NSString *orderNum;
 @end

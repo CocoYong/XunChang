@@ -13,4 +13,5 @@
 -(void)setNavBarColor:(UIColor*)color;
 -(void)backToFrontViewController;
 -(NSMutableAttributedString*)createAttributStringWithString:(NSString*)originalString changeString:(NSString*)specialString andAttributDic:(NSDictionary*)attributDic;
+-(void)dialTelephoneWithTelephoneNum:(NSString*)telNum;
 @end

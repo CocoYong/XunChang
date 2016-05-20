@@ -23,7 +23,7 @@
     [super viewDidLoad];
     self.title=@"订单详情";
     [self createNavBackButt];
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@123,@"order_num", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderDetail" params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];

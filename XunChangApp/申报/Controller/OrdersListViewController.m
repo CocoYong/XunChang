@@ -12,7 +12,10 @@
 #import "UIImageView+WebCache.h"
 #import "OrderListModel.h"
 #import "PayViewController.h"
+#import "EvaluateViewController.h"
 #import "LoginModel.h"
+#import "GrayAlertView.h"
+#import "OrderDetailViewController.h"
 @interface OrdersListViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableArray *payModelDataArray; //最后付款的订单数组
@@ -22,14 +25,7 @@
 }
 @property(nonatomic,copy)NSString *status;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *backGrayView;
-@property (weak, nonatomic) IBOutlet UIView *alertBackView;
-@property (weak, nonatomic) IBOutlet UILabel *alertLable;
-@property (weak, nonatomic) IBOutlet UIButton *alertFirstButt;
-@property (weak, nonatomic) IBOutlet UIButton *alertSecondButt;
-
 @property (weak, nonatomic) IBOutlet UIView *bottomBackView;
-
 @property (weak, nonatomic) IBOutlet UILabel *totalMoneyLabel;
 @property (weak, nonatomic) IBOutlet UIButton *allSelectButt;
 @property (weak, nonatomic) IBOutlet UIButton *allPayButt;
@@ -38,6 +34,8 @@
 
 @implementation OrdersListViewController
 
+
+#pragma mark--------系统方法
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"申报订单";
@@ -129,6 +127,25 @@
          return [RACSignal empty];
      }];
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#EFF0F1"];
+    [payModelDataArray removeAllObjects];
+}
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if (self.bottomBackView.hidden==YES) {
+        self.tableView.height=SCREEN_HEIGHT-104;
+    }else
+    {
+        self.tableView.height=SCREEN_HEIGHT-104-53;
+    }
+    [self.view layoutIfNeeded];
+}
+
+
 -(void)requestOrderListData
 {
     self.bottomBackView.hidden=YES;
@@ -162,12 +179,7 @@
         [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    self.view.backgroundColor=[UIColor colorWithHexString:@"#EFF0F1"];
-    [payModelDataArray removeAllObjects];
-}
+#pragma mark------tableviewDeleget--------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return model.datas.count;
@@ -276,52 +288,123 @@
 {
     return 224;
 }
--(void)viewDidLayoutSubviews
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [super viewDidLayoutSubviews];
-    if (self.bottomBackView.hidden==YES) {
-        self.tableView.height=SCREEN_HEIGHT-104;
-    }else
-    {
-        self.tableView.height=SCREEN_HEIGHT-104-53;
-    }
-    [self.view layoutIfNeeded];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    OrderListDataModel *tempModel=[model.datas objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"OrderDetailViewController" sender:tempModel.order_num];
 }
-
+#pragma mark---------cellButtAction-----------
 - (void)payButtAction:(UIButton*)sender {
     if ([sender.titleLabel.text isEqualToString:@"付款"]) {
     [payModelDataArray addObject:[model.datas objectAtIndex:sender.tag/4]];
     [self performSegueWithIdentifier:@"PayViewController" sender:self];
     }else if ([sender.titleLabel.text isEqualToString:@"签收"])
     {
-     OrderListDataModel *tempModel=[model.datas objectAtIndex:sender.tag/4];
-        [self recieveGoodsRequest:tempModel.order_num];
+    [GrayAlertView showAlertViewWithFirstButtTitle:@"我要投诉" secondButtTitle:@"现在评价" andAlertText:@"您已签收,确认申报服务完成." remindTitleColor:[UIColor colorWithHexString:@"#999999"] buttOneTitleColor:[UIColor whiteColor] buttTwoTitleColor:[UIColor whiteColor] buttOneBackGroundColor:[UIColor colorWithHexString:@"#6AAB20"] buttTwoBackColor:[UIColor colorWithHexString:@"#6AAB20"] andCallBackBlock:^(UIButton *butt) {
+        if (butt.tag==1) {
+            OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
+            [self dialTelephoneWithTelephoneNum:tempModel.checker_tel];
+        }else
+        {
+            OrderListDataModel *tempModel=[model.datas objectAtIndex:sender.tag/4];
+            [self recieveGoodsRequest:tempModel.order_num];
+        }
+        }];
     }else if([sender.titleLabel.text isEqualToString:@"投诉"])
     {
-        
+    OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
+       [self dialTelephoneWithTelephoneNum:tempModel.checker_tel];
     }else if ([sender.titleLabel.text isEqualToString:@"评价"])
     {
-        
+        OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
+        [self performSegueWithIdentifier:@"EvaluateViewController" sender:tempModel.order_num];
+ 
     }
 }
 - (void)cancelButtAction:(UIButton *)sender {
     if ([sender.titleLabel.text isEqualToString:@"联系服务"]) {
-        
+        OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
+        [self dialTelephoneWithTelephoneNum:tempModel.staff_tel];
     }else if ([sender.titleLabel.text isEqualToString:@"取消订单"])
     {
-        
+        [GrayAlertView showAlertViewWithFirstButtTitle:@"确认取消" secondButtTitle:@"再看一看" andAlertText:@"是否取消订单?" remindTitleColor:[UIColor colorWithHexString:@"#999999"] buttOneTitleColor:[UIColor whiteColor] buttTwoTitleColor:[UIColor whiteColor] buttOneBackGroundColor:[UIColor colorWithHexString:@"#6AAB20"] buttTwoBackColor:[UIColor colorWithHexString:@"#E4E4E4"] andCallBackBlock:^(UIButton *butt) {
+            if (butt.tag==1) {
+            OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
+            [self cancelOrderRequest:tempModel.order_num];
+            }
+        }];
     }else if([sender.titleLabel.text isEqualToString:@"投诉"])
     {
-        
+        OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
+        [self dialTelephoneWithTelephoneNum:tempModel.checker_tel];
     }else if ([sender.titleLabel.text isEqualToString:@"删除订单"])
     {
-        
+        OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
+        [self deletOrderWithOrderNum:tempModel.order_num];
     }
 }
 -(void)deletButtAction:(UIButton*)sender
 {
-    
+    OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
+    [self deletOrderWithOrderNum:tempModel.order_num];
 }
+#pragma mark-------------订单操作-----取消  删除   签收----------
+//取消订单
+-(void)cancelOrderRequest:(NSString*)orderNum
+{
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
+    [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
+    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/ordercancel" params:paramsDic httpMethod:@"POST" block:^(id result) {
+        [SVProgressHUD dismiss];
+        NSLog(@"result====%@",result);
+        LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
+        if (tempModel.code==0) {
+          [self requestOrderListData];  //重新请求数据刷新列表
+        }else if (tempModel.code==9999)
+        {
+            [SVProgressHUD showWithStatus:tempModel.message];
+        }else if(tempModel.code==1001)
+        {
+            [USER_DEFAULT removeObjectForKey:@"user_token"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    } errorBlock:^(NSError *error) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+    } noNetWorking:^(NSString *noNetWorking) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
+    }];
+}
+//删除订单
+-(void)deletOrderWithOrderNum:(NSString*)orderNum
+{
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
+    [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
+    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderDelete" params:paramsDic httpMethod:@"POST" block:^(id result) {
+        [SVProgressHUD dismiss];
+        NSLog(@"result====%@",result);
+        LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
+        if (tempModel.code==0) {
+          [self requestOrderListData];  //重新请求数据刷新列表
+        }else if (tempModel.code==9999)
+        {
+            [SVProgressHUD showWithStatus:tempModel.message];
+        }else if(tempModel.code==1001)
+        {
+            [USER_DEFAULT removeObjectForKey:@"user_token"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    } errorBlock:^(NSError *error) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+    } noNetWorking:^(NSString *noNetWorking) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
+    }];
+}
+//签收订单.....
 -(void)recieveGoodsRequest:(NSString*)orderNum
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
@@ -329,11 +412,9 @@
     [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderSign" params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
-        NSDictionary *resultDic=(NSDictionary*)result;
-       LoginModel *tempModel=[LoginModel yy_modelWithDictionary:resultDic];
+       LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
         if (tempModel.code==0) {
-            self.backGrayView.hidden=NO;
-            self.alertBackView.hidden=NO;
+        [self performSegueWithIdentifier:@"EvaluateViewController" sender:orderNum];
         }else if (tempModel.code==9999)
         {
             [SVProgressHUD showWithStatus:tempModel.message];
@@ -351,22 +432,6 @@
     }];
 
 }
-- (IBAction)alertHiddenButtAction:(UIButton*)sender {
-    self.backGrayView.hidden=YES;
-    self.alertBackView.hidden=YES;
-}
-- (IBAction)alertSecondButtAction:(UIButton*)sender {
-    if ([sender.titleLabel.text isEqualToString:@"现在评价"]) {
-        
-    }
-}
-- (IBAction)alertFirstButtAction:(UIButton*)sender {
-    if ([sender.titleLabel.text isEqualToString:@"我要投诉"]) {
-        
-    }
-}
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -381,6 +446,14 @@
     if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"PayViewController")]) {
         PayViewController *payController=[segue destinationViewController];
         payController.dataArray=[payModelDataArray copy];
+    }else if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"EvaluateViewController")]){
+        EvaluateViewController *evaluateController=[segue destinationViewController];
+        evaluateController.orderNum=sender;
+    }else if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"OrderDetailViewController")])
+    {
+        OrderDetailViewController *orderDetailController=[segue destinationViewController];
+        orderDetailController.userType=@"shenBaoRen";
+        orderDetailController.orderNum=sender; //change
     }
 }
 

@@ -7,8 +7,12 @@
 //
 
 #import "SubmittUserInfoViewController.h"
-
-@interface SubmittUserInfoViewController ()
+#import "ImageObjectModel.h"
+#import "LoginModel.h"
+@interface SubmittUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+{
+    ImageObjectModel *imageModel;
+}
 @property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (weak, nonatomic) IBOutlet UIButton *addPhotoButt;
@@ -23,28 +27,19 @@
     [super viewDidLoad];
     [self createNavBackButt];
     self.title=@"基本资料";
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"MAN",@"sex",@"coco",@"nickname", nil];
-    [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestUpLoadImageurl:@"api/user/bindUserInfo" params:paramsDic httpMethod:@"POST" imageData:[UIImage imageNamed:@"icon_cpmrt"] fileName:@"icon_cpmrt" iamgeUrlParams:@"avatar" successCallBackBlock:^(id result) {
-        [SVProgressHUD dismiss];
-        NSLog(@"result====%@",result);
-        
-    } errorBlock:^(NSError *error) {
-        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
-        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
-    } noNetworkingBlock:^(NSString *noNetWorking) {
-        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
-        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
-    }];
+    [self.manButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
+    [self.manButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
+    [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
+    [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
+    self.manButt.selected=YES;
+   
 }
 -(void)backToFrontViewController
 {
     [USER_DEFAULT setObject:@"login" forKey:@"status"];
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (IBAction)addPhotoButtAction:(UIButton *)sender {
-    
-}
+
 - (IBAction)manButtAction:(UIButton *)sender {
     sender.selected=!sender.selected;
     if (sender.selected) {
@@ -67,7 +62,55 @@
         }
     }
 }
+//选择图片
+- (IBAction)addPhotoButtAction:(UIButton *)sender {
+    UIImagePickerController *imagePicker=[[UIImagePickerController alloc]init];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePicker.mediaTypes=[UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
+    }
+    imagePicker.delegate=self;
+    imagePicker.allowsEditing=YES;
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:@"public.image"]) {
+        imageModel=[[ImageObjectModel alloc]init];
+        imageModel.originalImage=[info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        imageModel.editImage=[info objectForKey:@"UIImagePickerControllerEditedImage"];
+        imageModel.originalImageName=[NSString stringWithFormat:@"%@_original",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
+        imageModel.editImageName=[NSString stringWithFormat:@"%@_editing",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
+    }
+    self.photoImageView.image=imageModel.originalImage;
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
 - (IBAction)submittUserInfoAction:(UIButton *)sender {
+    
+    if ([self.nickNameTextField.text isEqualToString:@""]||self.nickNameTextField.text==nil) {
+        [SVProgressHUD showErrorWithStatus:@"昵称没填呢.." maskType:SVProgressHUDMaskTypeBlack];
+        return;
+    }
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.sex,@"sex",self.nickNameTextField.text,@"nickname", nil];
+    [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
+    [ShenBaoDataRequest requestUpLoadImageurl:@"api/user/bindUserInfo" params:paramsDic httpMethod:@"POST" imageData:imageModel.originalImage fileName:imageModel.originalImageName iamgeUrlParams:@"avatar" successCallBackBlock:^(id result) {
+        [SVProgressHUD dismiss];
+        LoginModel *model=[LoginModel yy_modelWithJSON:result];
+        if (model.code==0) {
+            [SVProgressHUD showSuccessWithStatus:@"更新资料成功" maskType:SVProgressHUDMaskTypeBlack];
+            [self backToFrontViewController];
+        }else if(model.code==9999)
+        {
+            [SVProgressHUD showWithStatus:model.message];
+        }
+    } errorBlock:^(NSError *error) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+    } noNetworkingBlock:^(NSString *noNetWorking) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

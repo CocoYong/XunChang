@@ -70,6 +70,8 @@
 		C25DA5D71CED88AE00E63DEC /* PayBackDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DA5D61CED88AE00E63DEC /* PayBackDetailCell.m */; };
 		C25DA5DA1CED8A2300E63DEC /* TaskDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DA5D91CED8A2300E63DEC /* TaskDetailCell.m */; };
 		C25DA5DC1CEDB25B00E63DEC /* icon_cry.png in Resources */ = {isa = PBXBuildFile; fileRef = C25DA5DB1CEDB25B00E63DEC /* icon_cry.png */; };
+		C25DA5DF1CEDC95A00E63DEC /* ImageObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DA5DE1CEDC95A00E63DEC /* ImageObjectModel.m */; };
+		C25DA5E21CEDDABB00E63DEC /* GrayAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DA5E11CEDDABB00E63DEC /* GrayAlertView.m */; };
 		C260BB5D1CDAD7FD001AA54B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C260BB5C1CDAD7FD001AA54B /* BaseViewController.m */; };
 		C260BB631CDAD87C001AA54B /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C260BB621CDAD87C001AA54B /* BaseTableView.m */; };
 		C29109C31CD83A5100AA894C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C29109C21CD83A5100AA894C /* main.m */; };
@@ -238,7 +240,6 @@
 		C2994A9C1CE47FF70037A595 /* uc_setting_icon_time.png in Resources */ = {isa = PBXBuildFile; fileRef = C2994A101CE47FF70037A595 /* uc_setting_icon_time.png */; };
 		C2994AA01CE4BD2C0037A595 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2994A9F1CE4BD2C0037A595 /* OrderDetailViewController.m */; };
 		C2994AA31CE4C5110037A595 /* OrderDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2994AA21CE4C5110037A595 /* OrderDetailCell.m */; };
-		C2994AA91CE4D54A0037A595 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2994AA81CE4D54A0037A595 /* TaskDetailViewController.m */; };
 		C2A47A091CE9657B00BED01F /* SubmittUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A47A081CE9657B00BED01F /* SubmittUserInfoViewController.m */; };
 		C2A89C1A1CE8AB65009E32D2 /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A89C161CE8AB65009E32D2 /* NSObject+YYModel.m */; };
 		C2A89C1B1CE8AB65009E32D2 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A89C181CE8AB65009E32D2 /* YYClassInfo.m */; };
@@ -392,6 +393,10 @@
 		C25DA5D81CED8A2300E63DEC /* TaskDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailCell.h; sourceTree = "<group>"; };
 		C25DA5D91CED8A2300E63DEC /* TaskDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailCell.m; sourceTree = "<group>"; };
 		C25DA5DB1CEDB25B00E63DEC /* icon_cry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_cry.png; sourceTree = "<group>"; };
+		C25DA5DD1CEDC95A00E63DEC /* ImageObjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageObjectModel.h; sourceTree = "<group>"; };
+		C25DA5DE1CEDC95A00E63DEC /* ImageObjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageObjectModel.m; sourceTree = "<group>"; };
+		C25DA5E01CEDDABB00E63DEC /* GrayAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayAlertView.h; sourceTree = "<group>"; };
+		C25DA5E11CEDDABB00E63DEC /* GrayAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrayAlertView.m; sourceTree = "<group>"; };
 		C260BB5B1CDAD7FD001AA54B /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		C260BB5C1CDAD7FD001AA54B /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		C260BB611CDAD87C001AA54B /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
@@ -586,8 +591,6 @@
 		C2994A9F1CE4BD2C0037A595 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
 		C2994AA11CE4C5110037A595 /* OrderDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailCell.h; sourceTree = "<group>"; };
 		C2994AA21CE4C5110037A595 /* OrderDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailCell.m; sourceTree = "<group>"; };
-		C2994AA71CE4D54A0037A595 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailViewController.h; sourceTree = "<group>"; };
-		C2994AA81CE4D54A0037A595 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
 		C2A47A071CE9657B00BED01F /* SubmittUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmittUserInfoViewController.h; sourceTree = "<group>"; };
 		C2A47A081CE9657B00BED01F /* SubmittUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmittUserInfoViewController.m; sourceTree = "<group>"; };
 		C2A89C151CE8AB65009E32D2 /* NSObject+YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YYModel.h"; sourceTree = "<group>"; };
@@ -1350,8 +1353,6 @@
 				C299495A1CE3920F0037A595 /* PayBackDetailViewController.m */,
 				C29949701CE42A160037A595 /* EvaluateViewController.h */,
 				C29949711CE42A160037A595 /* EvaluateViewController.m */,
-				C2994AA71CE4D54A0037A595 /* TaskDetailViewController.h */,
-				C2994AA81CE4D54A0037A595 /* TaskDetailViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1361,6 +1362,8 @@
 			children = (
 				C2C90AC71CE0E67E0023726C /* ButtonLabelView.h */,
 				C2C90AC81CE0E67E0023726C /* ButtonLabelView.m */,
+				C25DA5E01CEDDABB00E63DEC /* GrayAlertView.h */,
+				C25DA5E11CEDDABB00E63DEC /* GrayAlertView.m */,
 				C29949731CE462EB0037A595 /* HomeCollectionViewItemCell.h */,
 				C29949741CE462EB0037A595 /* HomeCollectionViewItemCell.m */,
 				C29949071CE314610037A595 /* ShenBaoCollectionCell.h */,
@@ -1394,6 +1397,8 @@
 			children = (
 				C232BC891CE8B174005AD551 /* LoginModel.h */,
 				C232BC8A1CE8B174005AD551 /* LoginModel.m */,
+				C25DA5DD1CEDC95A00E63DEC /* ImageObjectModel.h */,
+				C25DA5DE1CEDC95A00E63DEC /* ImageObjectModel.m */,
 				C232BC8C1CE8B217005AD551 /* RegistOrLogin.h */,
 				C232BC8D1CE8B217005AD551 /* RegistOrLogin.m */,
 				C232BC8F1CE8B555005AD551 /* ShenBaoItemsModel.h */,
@@ -1807,6 +1812,7 @@
 				C232BC9A1CE8BCE1005AD551 /* ShenBaoNewMessagesModel.m in Sources */,
 				C2F06F141CD8AB2400F8B327 /* SDWebImageDownloaderOperation.m in Sources */,
 				C24B72E11CD8979A00DDD55B /* Reachability.m in Sources */,
+				C25DA5E21CEDDABB00E63DEC /* GrayAlertView.m in Sources */,
 				C2A89C1B1CE8AB65009E32D2 /* YYClassInfo.m in Sources */,
 				C232BC8B1CE8B174005AD551 /* LoginModel.m in Sources */,
 				C232BC8E1CE8B217005AD551 /* RegistOrLogin.m in Sources */,
@@ -1823,7 +1829,6 @@
 				C2F06F1A1CD8AB2400F8B327 /* UIImage+WebP.m in Sources */,
 				C24B72F81CD8979A00DDD55B /* SoundUtils.m in Sources */,
 				C2F06F0E1CD8AB2400F8B327 /* NSData+GIF.m in Sources */,
-				C2994AA91CE4D54A0037A595 /* TaskDetailViewController.m in Sources */,
 				C222FE2C1CE7603000F1AC7E /* LoginViewController.m in Sources */,
 				C24B72A11CD8979A00DDD55B /* UIView+ITTAdditions.m in Sources */,
 				C24B72F41CD8979A00DDD55B /* CommonUtils.m in Sources */,
@@ -1832,6 +1837,7 @@
 				C225D0B01CEC6E1200FDCB23 /* MoneyModel.m in Sources */,
 				C24B729C1CD8979A00DDD55B /* UIDevice+ITTAdditions.m in Sources */,
 				C24B72A01CD8979A00DDD55B /* UITextField+ITTAdditions.m in Sources */,
+				C25DA5DF1CEDC95A00E63DEC /* ImageObjectModel.m in Sources */,
 				C25DA5DA1CED8A2300E63DEC /* TaskDetailCell.m in Sources */,
 				C29949751CE462EB0037A595 /* HomeCollectionViewItemCell.m in Sources */,
 				C2C90AD31CE193CE0023726C /* ShenBaoSelectItemListViewController.m in Sources */,

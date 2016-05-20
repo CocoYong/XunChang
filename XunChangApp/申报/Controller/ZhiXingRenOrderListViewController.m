@@ -11,7 +11,7 @@
 #import "ZhiXingRenOrderCell.h"
 #import "UIImageView+WebCache.h"
 #import "UpLoadServiceEvidenceViewController.h"
-#import "TaskDetailViewController.h"
+#import "OrderDetailViewController.h"
 @interface ZhiXingRenOrderListViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     OrderListModel *model;
@@ -123,7 +123,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self performSegueWithIdentifier:@"TaskDetailViewController" sender:self];
+    OrderListDataModel *tempModel=[model.datas objectAtIndex:indexPath.row];
+    self.markOrderNum=tempModel.order_num;
+    [self performSegueWithIdentifier:@"OrderDetailViewController" sender:self];
 }
 -(void)statusButtAction:(UIButton*)sender
 {
@@ -146,6 +148,11 @@
     
     if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"UpLoadServiceEvidenceViewController")]) {
         UpLoadServiceEvidenceViewController *viewComtroller=[segue destinationViewController];
+        viewComtroller.orderNum=self.markOrderNum;
+    }else if([[segue destinationViewController] isKindOfClass:NSClassFromString(@"OrderDetailViewController")])
+    {
+        OrderDetailViewController *viewComtroller=[segue destinationViewController];
+        viewComtroller.userType=@"staff";
         viewComtroller.orderNum=self.markOrderNum;
     }
 }

@@ -58,6 +58,16 @@
     [originalStr addAttributes:attributDic range:range];
     return originalStr;
 }
+-(void)dialTelephoneWithTelephoneNum:(NSString*)telNum
+{
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",telNum];
+    
+    UIWebView * callWebview = [[UIWebView alloc] init];
+    
+    [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+    
+    [self.view addSubview:callWebview];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
