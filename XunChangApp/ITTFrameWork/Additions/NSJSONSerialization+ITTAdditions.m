@@ -7,7 +7,6 @@
 //
 
 #import "NSJSONSerialization+ITTAdditions.h"
-#import "ITTBaseModelObject.h"
 
 @implementation NSJSONSerialization (ITTAdditions)
 
@@ -50,58 +49,58 @@
 	return jsonString;
 }
 
-+ (void)serializeArray:(NSArray*)array jsonString:(NSMutableString*)string
-{
-	[string appendString:@"["];
-	for (id object in array) {
-		if (object) {
-			if ([object isKindOfClass:[ITTBaseModelObject class]]) {
-				NSDictionary *propertiesValuesDic = [object propertiesAndValuesDictionary];
-				[self serializeDictionary:propertiesValuesDic jsonString:string];
-			}
-			else if ([object isKindOfClass:[NSDictionary class]]){
-				[self serializeDictionary:object jsonString:string];
-			}
-			else if([object isKindOfClass:[NSArray class]]) {
-				[self serializeArray:object jsonString:string];
-			}
-			else {
-				[string appendFormat:@"\"%@\",", object];
-			}
-		}
-	}
-	[string deleteCharactersInRange:NSMakeRange([string length] - 1, 1)];
-	[string appendString:@"]"];
-	[string appendString:@","];
-}
-
-+ (void)serializeDictionary:(NSDictionary*)dictionary jsonString:(NSMutableString*)string
-{
-	[string appendString:@"{"];
-	NSArray *allKeys = [dictionary allKeys];
-	for (NSString *key in allKeys) {
-		id value = dictionary[key];
-		if (value) {
-			if ([value isKindOfClass:[ITTBaseModelObject class]]) {
-				[string appendFormat:@"\"%@\":", key];
-				[self serializeDictionary:[value propertiesAndValuesDictionary] jsonString:string];
-			}
-			else if ([value isKindOfClass:[NSArray class]]) {
-				[string appendFormat:@"\"%@\":", key];
-				[self serializeArray:value jsonString:string];
-			}
-			else if ([value isKindOfClass:[NSDictionary class]]) {
-				[string appendFormat:@"\"%@\":", key];
-				[self serializeDictionary:value jsonString:string];
-			}
-			else {
-				[string appendFormat:@"\"%@\":\"%@\",", key, [value description]];
-			}
-		}
-	}
-	[string deleteCharactersInRange:NSMakeRange([string length] - 1, 1)];
-	[string appendString:@"}"];
-	[string appendString:@","];
-}
+//+ (void)serializeArray:(NSArray*)array jsonString:(NSMutableString*)string
+//{
+//	[string appendString:@"["];
+//	for (id object in array) {
+//		if (object) {
+//			if ([object isKindOfClass:[ITTBaseModelObject class]]) {
+//				NSDictionary *propertiesValuesDic = [object propertiesAndValuesDictionary];
+//				[self serializeDictionary:propertiesValuesDic jsonString:string];
+//			}
+//			else if ([object isKindOfClass:[NSDictionary class]]){
+//				[self serializeDictionary:object jsonString:string];
+//			}
+//			else if([object isKindOfClass:[NSArray class]]) {
+//				[self serializeArray:object jsonString:string];
+//			}
+//			else {
+//				[string appendFormat:@"\"%@\",", object];
+//			}
+//		}
+//	}
+//	[string deleteCharactersInRange:NSMakeRange([string length] - 1, 1)];
+//	[string appendString:@"]"];
+//	[string appendString:@","];
+//}
+//
+//+ (void)serializeDictionary:(NSDictionary*)dictionary jsonString:(NSMutableString*)string
+//{
+//	[string appendString:@"{"];
+//	NSArray *allKeys = [dictionary allKeys];
+//	for (NSString *key in allKeys) {
+//		id value = dictionary[key];
+//		if (value) {
+//			if ([value isKindOfClass:[ITTBaseModelObject class]]) {
+//				[string appendFormat:@"\"%@\":", key];
+//				[self serializeDictionary:[value propertiesAndValuesDictionary] jsonString:string];
+//			}
+//			else if ([value isKindOfClass:[NSArray class]]) {
+//				[string appendFormat:@"\"%@\":", key];
+//				[self serializeArray:value jsonString:string];
+//			}
+//			else if ([value isKindOfClass:[NSDictionary class]]) {
+//				[string appendFormat:@"\"%@\":", key];
+//				[self serializeDictionary:value jsonString:string];
+//			}
+//			else {
+//				[string appendFormat:@"\"%@\":\"%@\",", key, [value description]];
+//			}
+//		}
+//	}
+//	[string deleteCharactersInRange:NSMakeRange([string length] - 1, 1)];
+//	[string appendString:@"}"];
+//	[string appendString:@","];
+//}
 
 @end
