@@ -35,7 +35,7 @@
             [self.tableView reloadData];
         }else if (kemuModel.code==9999)
         {
-            [SVProgressHUD showWithStatus:kemuModel.message];
+           [SVProgressHUD  showErrorWithStatus:userModel.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(kemuModel.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];

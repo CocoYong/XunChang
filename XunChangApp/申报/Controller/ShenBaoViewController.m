@@ -63,7 +63,7 @@
             [self.collectionView reloadData];
         }else if (itemModel.code==9999)
         {
-            [SVProgressHUD showWithStatus:itemModel.message];
+            [SVProgressHUD  showErrorWithStatus:itemModel.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(itemModel.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];
@@ -120,7 +120,7 @@
              }
         }else if (newMessageModel.code==9999)
         {
-            [SVProgressHUD showWithStatus:newMessageModel.message];
+            [SVProgressHUD  showErrorWithStatus:itemModel.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(newMessageModel.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];

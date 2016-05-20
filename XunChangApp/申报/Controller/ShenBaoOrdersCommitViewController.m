@@ -44,7 +44,7 @@
             [self performSegueWithIdentifier:@"PayViewController" sender:self];
         }else if (resultModel.code==9999)
         {
-            [SVProgressHUD showWithStatus:resultModel.message];
+           [SVProgressHUD  showErrorWithStatus:resultModel.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(resultModel.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];

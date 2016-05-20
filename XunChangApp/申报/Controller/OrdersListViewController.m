@@ -165,7 +165,7 @@
             [self.tableView reloadData];
         }else if (model.code==9999)
         {
-            [SVProgressHUD showWithStatus:model.message];
+           [SVProgressHUD  showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(model.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];
@@ -363,7 +363,7 @@
           [self requestOrderListData];  //重新请求数据刷新列表
         }else if (tempModel.code==9999)
         {
-            [SVProgressHUD showWithStatus:tempModel.message];
+           [SVProgressHUD  showErrorWithStatus:tempModel.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(tempModel.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];
@@ -390,7 +390,7 @@
           [self requestOrderListData];  //重新请求数据刷新列表
         }else if (tempModel.code==9999)
         {
-            [SVProgressHUD showWithStatus:tempModel.message];
+           [SVProgressHUD  showErrorWithStatus:tempModel.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(tempModel.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];
@@ -417,7 +417,7 @@
         [self performSegueWithIdentifier:@"EvaluateViewController" sender:orderNum];
         }else if (tempModel.code==9999)
         {
-            [SVProgressHUD showWithStatus:tempModel.message];
+           [SVProgressHUD  showErrorWithStatus:tempModel.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(tempModel.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];

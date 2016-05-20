@@ -42,7 +42,7 @@
             [self.tableView reloadData];
         }else if (model.code==9999)
         {
-            [SVProgressHUD showWithStatus:model.message];
+            [SVProgressHUD  showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(model.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];

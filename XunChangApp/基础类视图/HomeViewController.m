@@ -78,7 +78,7 @@
             [self.ItemCollectionView reloadData];
         }else
         {
-            [SVProgressHUD  showWithStatus:userModel.message];
+            [SVProgressHUD  showErrorWithStatus:userModel.message maskType:SVProgressHUDMaskTypeBlack];
         }
     } errorBlock:^(NSError *error) {
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];

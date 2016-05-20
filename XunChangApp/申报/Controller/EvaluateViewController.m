@@ -56,7 +56,7 @@
             [self backToFrontViewController];
         }else
         {
-            [SVProgressHUD  showWithStatus:[result objectForKey:@"message"]];
+            [SVProgressHUD  showErrorWithStatus:[result objectForKey:@"message"] maskType:SVProgressHUDMaskTypeBlack];
         }
     } errorBlock:^(NSError *error) {
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];

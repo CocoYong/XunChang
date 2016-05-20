@@ -33,7 +33,7 @@
             [self.tableView reloadData];
         }else if (detailModel.code==9999)
         {
-            [SVProgressHUD showWithStatus:detailModel.message];
+            [SVProgressHUD  showErrorWithStatus:detailModel.message maskType:SVProgressHUDMaskTypeBlack];
         }else if(detailModel.code==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];
