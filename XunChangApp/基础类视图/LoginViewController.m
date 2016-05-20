@@ -83,7 +83,7 @@
                 [self dismissViewControllerAnimated:YES completion:nil];
             }else if (model.code==9999)
             {
-                [SVProgressHUD showWithStatus:model.message];
+                [SVProgressHUD showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeBlack];
             }else
             {
                 
