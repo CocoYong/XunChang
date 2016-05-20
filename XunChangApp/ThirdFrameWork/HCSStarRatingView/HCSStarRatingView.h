@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 
 @import UIKit;
-
 IB_DESIGNABLE
 @interface HCSStarRatingView : UIControl
 @property (nonatomic) IBInspectable NSUInteger maximumValue;
