@@ -8,11 +8,13 @@
 
 #import "EvaluateViewController.h"
 #import "HCSStarRatingView.h"
+#import "UIPlaceHolderTextView.h"
 @interface EvaluateViewController ()
 @property (weak, nonatomic) IBOutlet HCSStarRatingView *starView;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UILabel *wordNumLabel;
+@property (weak, nonatomic) IBOutlet UIButton *submittButt;
 
 
 @end
@@ -23,26 +25,38 @@
     [super viewDidLoad];
     self.title=@"服务评价";
     [self createNavBackButt];
-    
-    // Do any additional setup after loading the view.
+    self.contentTextView.placeholder=@"请输入评价";
+    [self.contentTextView.rac_textSignal subscribeNext:^(id x) {
+        NSString *inputWord=x;
+        self.wordNumLabel.text=[NSString stringWithFormat:@"%d",inputWord.length];
+    }];
+    self.submittButt.layer.cornerRadius=5.0f;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
 }
+- (IBAction)starValueChanged:(HCSStarRatingView *)sender {
+    self.scoreLabel.text=[NSString stringWithFormat:@"%.0f",sender.value];
+}
+
 - (IBAction)submittButtAction:(id)sender {
+    
+//    if (self.contentTextView.text==nil) {
+//      SVProgressHUD showErrorWithStatus:@"" maskType:<#(SVProgressHUDMaskType)#>
+//    }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"123",@"order_num",@"这样好吗?",@"comment",@"5",@"star", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.orderNum,@"order_num",self.contentTextView.text==nil?@"":self.contentTextView.text,@"comment",self.scoreLabel.text,@"star", nil];
     [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/comment" params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
-        NSDictionary *resultDic=(NSDictionary*)result;
-        if ([[resultDic objectForKey:@"code"] integerValue]==0) {
-            [SVProgressHUD showWithStatus:[resultDic objectForKey:@"message"]];
+        if ([[result objectForKey:@"code"] integerValue]==0) {
+            [SVProgressHUD showSuccessWithStatus:@"评价成功" maskType:SVProgressHUDMaskTypeBlack];
+            [self backToFrontViewController];
         }else
         {
-            [SVProgressHUD  showWithStatus:[resultDic objectForKey:@"message"]];
+            [SVProgressHUD  showWithStatus:[result objectForKey:@"message"]];
         }
     } errorBlock:^(NSError *error) {
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
@@ -52,6 +66,10 @@
         [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
 }
+- (IBAction)resignKeyBoard:(UITapGestureRecognizer *)sender {
+    [self.contentTextView resignFirstResponder];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

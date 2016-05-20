@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface EvaluateViewController : BaseViewController
-
+@property(nonatomic,copy)NSString *orderNum;
 @end
