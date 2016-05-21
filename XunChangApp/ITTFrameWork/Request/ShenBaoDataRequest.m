@@ -119,13 +119,13 @@
     }];
     [httpManager.reachabilityManager startMonitoring];
     AFHTTPRequestOperation *operation=[httpManager POST:baseURLString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"operation.responseString===%@", operation.responseString);
+//        NSLog(@"operation.responseString===%@", operation.responseString);
         if (successblock != nil) {
             successblock(responseObject);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (errorBlock != nil) {
-        NSLog(@"errorOperation.responseString===%@", operation.responseString);
+//        NSLog(@"errorOperation.responseString===%@", operation.responseString);
             errorBlock(error);
         }
     }];
