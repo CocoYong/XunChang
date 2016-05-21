@@ -32,11 +32,12 @@
             [SVProgressHUD showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeClear];
         }
     } errorBlock:^(NSError *error) {
-        NSLog(@"error====%@",error);
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
     } noNetworkingBlock:^(NSString *noNetWorking) {
-        
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
-
 }
 - (IBAction)takePhotoButtAction:(UIButton *)sender {
     
@@ -71,7 +72,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
    
-
+  
 
 }
 
