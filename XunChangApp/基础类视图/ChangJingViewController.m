@@ -7,8 +7,11 @@
 //
 
 #import "ChangJingViewController.h"
-
-@interface ChangJingViewController ()
+#import "ShenBaoLeiXingCell.h"
+#import "UserCenterModel.h"
+#import "UIImageView+WebCache.h"
+@interface ChangJingViewController ()<UITableViewDelegate,UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -18,12 +21,35 @@
     [super viewDidLoad];
     self.title=@"场景选择";
     [self createNavBackButt];
+    self.tableView.tableFooterView=[UIView new];
     
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.dataArray.count;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ShenBaoLeiXingCell *changJingCell=[tableView dequeueReusableCellWithIdentifier:@"ChangJingTableCell"];
+    ScenesModel *sceneModel=[self.dataArray objectAtIndex:indexPath.row];
+    [changJingCell.changJingImageView sd_setImageWithURL:[NSURL URLWithString:sceneModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    changJingCell.changJIngNameLabel.text=sceneModel.title;
+    return changJingCell;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.sceneBlock([self.dataArray objectAtIndex:indexPath.row]);
+    [self backToFrontViewController];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

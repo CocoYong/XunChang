@@ -7,7 +7,9 @@
 //
 
 #import "BaseViewController.h"
-
+#import "UserCenterModel.h"
+typedef void(^ChangJingCallBack)(ScenesModel *sceneModel);
 @interface ChangJingViewController : BaseViewController
-
+@property(nonatomic,strong)NSArray *dataArray;
+@property(nonatomic,copy)ChangJingCallBack sceneBlock;
 @end

@@ -11,4 +11,7 @@
 @interface ShenBaoLeiXingCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *changJingImageView;
+@property (weak, nonatomic) IBOutlet UILabel *changJIngNameLabel;
+
 @end
