@@ -41,7 +41,7 @@
     self.UserPhotoImageView.layer.borderWidth=1.0f;
     
     //测试专用
-//    [USER_DEFAULT setObject:@"8fd4bcd74eecfcd96d8b34bba1e7644c" forKey:@"user_token"];
+    [USER_DEFAULT setObject:@"8fd4bcd74eecfcd96d8b34bba1e7644c" forKey:@"user_token"];
     [USER_DEFAULT setObject:@"12" forKey:@"scene_id"];
     [USER_DEFAULT setObject:@"app" forKey:@"request_from"];
     
@@ -121,6 +121,9 @@
     if ([actionModel.message_count integerValue]>0) {
         cell.messageNumLabel.hidden=NO;
         cell.messageNumLabel.text=[NSString stringWithFormat:@"%d",[actionModel.message_count integerValue]];
+    }else
+    {
+      cell.messageNumLabel.hidden=YES;
     }
     return cell;
 }

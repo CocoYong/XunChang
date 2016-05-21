@@ -12,12 +12,14 @@
 #import "PayViewController.h"
 #import "CreateOrderModel.h"
 @interface ShenBaoOrdersCommitViewController ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate>
+{
+    NSMutableArray *dataArray;
+}
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(nonatomic,strong)UIDatePicker *datePickView;
 @property(nonatomic,copy)NSString *datePickType;
 @property(nonatomic,strong)NSDate *startDate;
 @property(nonatomic,strong)NSDate *endDate;
-@property(nonatomic,copy)NSString *orderNum;
 @end
 
 @implementation ShenBaoOrdersCommitViewController
@@ -26,12 +28,21 @@
     [super viewDidLoad];
     self.title=@"提交申报订单";
     [self createNavBackButt];
-    
+    dataArray=[NSMutableArray array];
 
 }
 - (IBAction)addShenBaoAction:(UIButton *)sender {
+    
     ShenBaoOrdersCommitCell *cellThree=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
     ShenBaoOrdersCommitCell *cellTwo=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    if ([cellThree.startTimeTextField.text isEqualToString:@""]||cellThree.startTimeTextField.text==nil) {
+        [SVProgressHUD showErrorWithStatus:@"请选择开始使用时间" maskType:SVProgressHUDMaskTypeBlack];
+        return;
+    }
+    if ([cellThree.endTimeTextField.text isEqualToString:@""]||cellThree.endTimeTextField.text==nil) {
+        [SVProgressHUD showErrorWithStatus:@"请选择结束使用时间" maskType:SVProgressHUDMaskTypeBlack];
+        return;
+    }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.dataModel.id,@"object_id",self.dataModel.type_id,@"item_id",cellTwo.numLabel.text,@"num",cellThree.startTimeTextField.text,@"start_time",cellThree.endTimeTextField.text,@"end_time", nil];
     [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/createOrder" params:paramsDic httpMethod:@"POST" block:^(id result) {
@@ -39,8 +50,9 @@
         NSLog(@"result====%@",result);
          CreateOrderModel*resultModel=[CreateOrderModel yy_modelWithDictionary:result];
         if (resultModel.code==0) {
-            self.orderNum=resultModel.data.order_num;
             self.dataModel.object_num=cellTwo.numLabel.text;
+            self.dataModel.order_num=resultModel.data.order_num;
+            [dataArray addObject:self.dataModel];
             [self performSegueWithIdentifier:@"PayViewController" sender:self];
         }else if (resultModel.code==9999)
         {
@@ -100,6 +112,10 @@
     {
         return 102;
     }
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.view endEditing:YES];
 }
 -(void)startTimeButtAction:(UIButton*)startButt
 {
@@ -215,8 +231,8 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     PayViewController *payController=[segue destinationViewController];
-    payController.orderNum=self.orderNum;
-    payController.dataModel=self.dataModel;
+    payController.dataArray=[dataArray copy];
+   
 }
 
 

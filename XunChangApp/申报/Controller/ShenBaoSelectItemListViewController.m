@@ -41,8 +41,6 @@
             [USER_DEFAULT removeObjectForKey:@"user_token"];
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
-        
-        
     } errorBlock:^(NSError *error) {
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
         [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];

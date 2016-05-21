@@ -12,6 +12,7 @@
 #import "MoneyModel.h"
 #import "PayResultViewController.h"
 #import "LoginModel.h"
+#import "ShenBaoKemuModel.h"
 @interface PayViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     MoneyModel *model;
@@ -29,17 +30,16 @@
     [self createNavBackButt];
     
     //第一行显示的总钱数
-    totalMoney=0;
-    if (self.dataArray.count==0) {
+        totalMoney=0;
         [self.dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            OrderListDataModel *orderModel=(OrderListDataModel*)obj;
-            totalMoney +=[orderModel.total_money floatValue];
+            if ([obj isKindOfClass:[OrderListDataModel class]]) {
+                OrderListDataModel *orderModel=(OrderListDataModel*)obj;
+                totalMoney +=[orderModel.total_money floatValue];
+            }else{
+                ShenBaoKemuDataModel *keMuModel=(ShenBaoKemuDataModel*)obj;
+              totalMoney=([keMuModel.price floatValue]+[keMuModel.deposit floatValue])*[keMuModel.object_num integerValue];
+            }
         }];
-    }else
-    {
-        totalMoney=([self.dataModel.price floatValue]+[self.dataModel.deposit floatValue])*[self.dataModel.object_num integerValue];
-    }
-    
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@123,@"object_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/getObjectMoney" params:paramsDic httpMethod:@"POST" block:^(id result) {
@@ -63,17 +63,20 @@
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
         [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
-    
     self.payButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
+        NSMutableArray *orderNumArray=[NSMutableArray array];
+        [self.dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[OrderListDataModel class]]) {
+                OrderListDataModel *orderModel=(OrderListDataModel*)obj;
+                [orderNumArray addObject:orderModel.order_num];
+            }else{
+                ShenBaoKemuDataModel *keMuModel=(ShenBaoKemuDataModel*)obj;
+                [orderNumArray addObject:keMuModel.order_num];
+            }
+        }];
         PayControllerCell *cellTwo=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
         if (cellTwo.yuFuKuanButt.selected) {
-            if (self.dataArray.count==0) {
-                [self payRequet:self.orderNum];
-            }else
-            {
-                OrderListDataModel *testModel=[self.dataArray objectAtIndex:0];
-                [self payRequet:testModel.order_num];
-            }
+            [self payRequet:@"123"];  //待修改....
         }else
         {
             //weixinzhifu
@@ -146,8 +149,9 @@
         }else
         {
             PayControllerCell *cellOne=[tableView dequeueReusableCellWithIdentifier:@"PayControllerCellOne"];
-            if (self.dataArray.count==0) {
-              cellOne.orderDetailLabel.text=[NSString stringWithFormat:@"%@-%@",self.dataModel.title,self.dataModel.intro];
+            if ([self.dataArray[0] isKindOfClass:[ShenBaoKemuDataModel class]]) {
+                ShenBaoKemuDataModel *tempModel=self.dataArray[0];
+              cellOne.orderDetailLabel.text=[NSString stringWithFormat:@"%@-%@",tempModel.title,tempModel.intro];
             }else
             {
                 OrderListDataModel  *orderModel=[self.dataArray objectAtIndex:indexPath.row-1];

@@ -7,9 +7,6 @@
 //
 
 #import "BaseViewController.h"
-#import "ShenBaoKemuModel.h"
 @interface PayViewController : BaseViewController
 @property(nonatomic,strong)NSArray *dataArray;
-@property(nonatomic,copy)NSString *orderNum;
-@property(nonatomic,strong)ShenBaoKemuDataModel *dataModel;
 @end

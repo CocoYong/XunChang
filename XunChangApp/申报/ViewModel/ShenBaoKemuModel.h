@@ -23,5 +23,6 @@
 @property(nonatomic,copy)NSString *type_id;
 @property(nonatomic,copy)NSString *unit;
 @property(nonatomic,assign)BOOL select;
-@property(nonatomic,copy)NSString *object_num;
+@property(nonatomic,copy)NSString *object_num; //物品数量临时存储用 非url返回字段
+@property(nonatomic,copy)NSString *order_num; //订单号临时存储用...非url返回字段
 @end

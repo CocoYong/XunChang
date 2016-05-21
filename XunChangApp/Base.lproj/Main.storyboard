@@ -3837,13 +3837,13 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单名称:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Evo-Ap-pbM">
-                                                    <rect key="frame" x="17" y="13" width="73" height="21"/>
+                                                    <rect key="frame" x="10" y="13" width="73" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60A-fL-n7w">
-                                                    <rect key="frame" x="98" y="13" width="42" height="21"/>
+                                                    <rect key="frame" x="93" y="13" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -3851,13 +3851,13 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.99607843139999996" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstItem="Evo-Ap-pbM" firstAttribute="leading" secondItem="ak2-3X-KGr" secondAttribute="leading" constant="17" id="0Pv-v2-ysk"/>
+                                                <constraint firstItem="Evo-Ap-pbM" firstAttribute="leading" secondItem="ak2-3X-KGr" secondAttribute="leading" constant="10" id="0Pv-v2-ysk"/>
                                                 <constraint firstAttribute="bottom" secondItem="5rJ-Ru-jGE" secondAttribute="bottom" id="BgB-1W-DZJ"/>
                                                 <constraint firstItem="5rJ-Ru-jGE" firstAttribute="leading" secondItem="ak2-3X-KGr" secondAttribute="leading" id="FEK-iK-hTU"/>
                                                 <constraint firstAttribute="trailing" secondItem="5rJ-Ru-jGE" secondAttribute="trailing" id="I5o-Wq-WxW"/>
                                                 <constraint firstItem="60A-fL-n7w" firstAttribute="centerY" secondItem="Evo-Ap-pbM" secondAttribute="centerY" id="jhn-ed-OaJ"/>
                                                 <constraint firstItem="Evo-Ap-pbM" firstAttribute="centerY" secondItem="ak2-3X-KGr" secondAttribute="centerY" id="n8d-gk-PiO"/>
-                                                <constraint firstItem="60A-fL-n7w" firstAttribute="leading" secondItem="Evo-Ap-pbM" secondAttribute="trailing" constant="8" id="tWF-1X-pi7"/>
+                                                <constraint firstItem="60A-fL-n7w" firstAttribute="leading" secondItem="Evo-Ap-pbM" secondAttribute="trailing" constant="10" id="tWF-1X-pi7"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -4056,13 +4056,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单总价" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4in-Rq-g9l">
-                                                    <rect key="frame" x="24" y="11" width="68" height="21"/>
+                                                    <rect key="frame" x="10" y="11" width="68" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.41568627450000001" green="0.41960784309999999" blue="0.42352941179999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shn-PS-y6H">
-                                                    <rect key="frame" x="528" y="11" width="42" height="21"/>
+                                                    <rect key="frame" x="548" y="11" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.87450980389999999" green="0.039215686270000001" blue="0.050980392159999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -4088,11 +4088,11 @@
                                                 <constraint firstItem="4in-Rq-g9l" firstAttribute="centerY" secondItem="hAP-ZE-mBi" secondAttribute="centerY" id="Hmr-qy-gpI"/>
                                                 <constraint firstItem="bAw-1U-z6V" firstAttribute="top" secondItem="hAP-ZE-mBi" secondAttribute="top" id="Lya-YV-djj"/>
                                                 <constraint firstAttribute="trailing" secondItem="bAw-1U-z6V" secondAttribute="trailing" id="Q0Z-Rq-LQL"/>
-                                                <constraint firstItem="4in-Rq-g9l" firstAttribute="leading" secondItem="hAP-ZE-mBi" secondAttribute="leading" constant="24" id="XBN-RS-5Xc"/>
+                                                <constraint firstItem="4in-Rq-g9l" firstAttribute="leading" secondItem="hAP-ZE-mBi" secondAttribute="leading" constant="10" id="XBN-RS-5Xc"/>
                                                 <constraint firstAttribute="bottom" secondItem="liW-kn-eKg" secondAttribute="bottom" id="dmJ-9L-a2k"/>
                                                 <constraint firstItem="shn-PS-y6H" firstAttribute="centerY" secondItem="4in-Rq-g9l" secondAttribute="centerY" id="koz-gw-cBA"/>
                                                 <constraint firstItem="liW-kn-eKg" firstAttribute="leading" secondItem="hAP-ZE-mBi" secondAttribute="leading" id="vPf-5T-h2H"/>
-                                                <constraint firstAttribute="trailing" secondItem="shn-PS-y6H" secondAttribute="trailing" constant="30" id="vT1-uM-hNr"/>
+                                                <constraint firstAttribute="trailing" secondItem="shn-PS-y6H" secondAttribute="trailing" constant="10" id="vT1-uM-hNr"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
