@@ -10,6 +10,16 @@
 #import "AFNetworking.h"
 #import "ShenBaoDataRequest.h"
 @implementation ShenBaoDataRequest
+/**
+ *  特殊处理接口
+ *
+ *  @param url          接口地址
+ *  @param params       参数字典
+ *  @param httpMethod   请求方式
+ *  @param successblock 成功block
+ *  @param errorBlock   出错block
+ *  @param noNetworking 没网block
+ */
 +(void)requestWithNormalURL:(NSString*)url
                      params:(NSMutableDictionary*)params
                 httpMesthod:(NSString*)httpMethod
@@ -61,6 +71,19 @@
         successblock(object);
     }
 }
+/**
+ *  提交个人信息接口
+ *
+ *  @param url               提交个人信息接口
+ *  @param params            参数字典
+ *  @param httpMethod        上传方式
+ *  @param updateImage       上传的图片
+ *  @param fileName          图片filenam
+ *  @param imageUrlParams    图片参数此处是avarer
+ *  @param successBlock      成功block
+ *  @param errorBlock        错误block
+ *  @param noNetWorkingBlock 没有网络block
+ */
 +(void)requestUpLoadImageurl:(NSString *)url params:(NSMutableDictionary*)params httpMethod:(NSString*)httpMethod imageData:(UIImage*)updateImage fileName:(NSString*)fileName iamgeUrlParams:(NSString*)imageUrlParams successCallBackBlock:(CompletionLoad)successBlock errorBlock:(ErrorBlock)errorBlock noNetworkingBlock:(NoNetWork)noNetWorkingBlock
 {
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://kcwc.luofei.i.ubolixin.com/api/upload/index" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
@@ -81,7 +104,60 @@
     }];
     [uploadTask resume];
  }
-//AFNetworking
+/**
+ *  上传单张图片接口
+ *
+ *  @param updateImage       上传的图片
+ *  @param fileName          图片filename
+ *  @param successBlock      成功block
+ *  @param errorBlock        错误block
+ *  @param noNetWorkingBlock 没网的block
+ */
++(void)requestUpLoadImageData:(UIImage*)updateImage fileName:(NSString*)fileName successCallBackBlock:(CompletionLoad)successBlock errorBlock:(ErrorBlock)errorBlock noNetworkingBlock:(NoNetWork)noNetWorkingBlock
+{
+    AFHTTPRequestOperationManager *httpManager=[AFHTTPRequestOperationManager manager];
+    NSOperationQueue *operationQueue = httpManager.operationQueue;
+    [httpManager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                [operationQueue setSuspended:NO];
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                noNetWorkingBlock(@"没有网络连接!");
+                break;
+            default:
+                [operationQueue setSuspended:YES];
+                break;
+        }
+    }];
+    [httpManager.reachabilityManager startMonitoring];
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://kcwc.luofei.i.ubolixin.com/api/upload/index" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSData *fileData=UIImagePNGRepresentation(updateImage);
+        [formData appendPartWithFileData:fileData name:@"file" fileName:@"testImage.png" mimeType:@"image/jpeg"];
+    } error:nil];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURLSessionUploadTask *uploadTask= [manager uploadTaskWithStreamedRequest:request progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        }else
+        {
+            ITTAssert([responseObject isKindOfClass:[NSDictionary class]],@"上传图片接口返回的不是字典数据");
+            successBlock(responseObject);
+        }
+    }];
+    [uploadTask resume];
+}
+/**
+ *  普通请求接口
+ *
+ *  @param url          接口地址非空
+ *  @param params       参数字典(可为空)
+ *  @param httpMethod   请求方式
+ *  @param successblock 成功block
+ *  @param errorBlock   错误block
+ *  @param noNetworking 没网block
+ */
 + (void)requestAFWithURL:(NSString *)url
                   params:(NSMutableDictionary *)params
               httpMethod:(NSString *)httpMethod

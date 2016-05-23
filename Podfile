@@ -4,8 +4,9 @@
 # use_frameworks!
 
 target 'XunChangApp' do
-pod 'SVProgressHUD', '~> 1.1.3'
 pod 'ReactiveCocoa', '~> 2.5'
 pod 'AFNetworking', '~> 2.5.4'
+pod 'MWPhotoBrowser', '~> 2.1.1'
+pod 'SVProgressHUD', '~> 1.1.3'
 end
 

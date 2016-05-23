@@ -27,6 +27,20 @@ typedef void(^NoNetWork)(NSString *noNetWorking);
               errorBlock:(ErrorBlock)errorBlock
             noNetWorking:(NoNetWork)noNetworking;
 
-//上传图片用这个哈
-+(void)requestUpLoadImageurl:(NSString *)url params:(NSMutableDictionary*)params httpMethod:(NSString*)httpMethod imageData:(UIImage*)updateImage fileName:(NSString*)fileName iamgeUrlParams:(NSString*)imageUrlParams successCallBackBlock:(CompletionLoad)successBlock errorBlock:(ErrorBlock)errorBlock noNetworkingBlock:(NoNetWork)noNetWorkingBlock;
+//上传单张图片+其他参数的用这个哈
++(void)requestUpLoadImageurl:(NSString *)url
+                      params:(NSMutableDictionary*)params
+                  httpMethod:(NSString*)httpMethod
+                   imageData:(UIImage*)updateImage
+                    fileName:(NSString*)fileName
+              iamgeUrlParams:(NSString*)imageUrlParams
+        successCallBackBlock:(CompletionLoad)successBlock
+                  errorBlock:(ErrorBlock)errorBlock
+           noNetworkingBlock:(NoNetWork)noNetWorkingBlock;
+//上传图片
++(void)requestUpLoadImageData:(UIImage*)updateImage
+                     fileName:(NSString*)fileName
+         successCallBackBlock:(CompletionLoad)successBlock
+                   errorBlock:(ErrorBlock)errorBlock
+            noNetworkingBlock:(NoNetWork)noNetWorkingBlock;
 @end
