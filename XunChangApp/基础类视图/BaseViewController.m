@@ -19,7 +19,7 @@
     self.automaticallyAdjustsScrollViewInsets=NO;
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.navigationController.navigationBar.titleTextAttributes=@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:17]};
-    
+    self.navigationController.interactivePopGestureRecognizer.delegate=(id<UIGestureRecognizerDelegate>)self;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
