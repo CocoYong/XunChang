@@ -78,7 +78,7 @@
     cell.startTimeLabel.text=[NSString stringWithFormat:@"开始使用时间:%@",secondModel.start_time];
     [cell.statusButt addTarget:self action:@selector(statusButtAction:) forControlEvents:UIControlEventTouchUpInside];
     cell.statusButt.tag=indexPath.row*2+1;
-    if ([secondModel.task_status isEqualToString:@"start"]) {
+    if ([secondModel.task_status isEqualToString:@"starting"]) {
          cell.statusLabel.text=@"付款成功";
         [cell.statusButt setTitle:@"完成服务" forState:UIControlStateNormal];
         cell.statusButt.backgroundColor=[UIColor colorWithHexString:@"#CE6836"];

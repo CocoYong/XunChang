@@ -29,6 +29,9 @@
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         detailModel=[OrderDetailModel yy_modelWithDictionary:result];
+        detailModel.data.progressArray=[NSArray yy_modelArrayWithClass:[OrderDetailDataProgressModel class] json:[[result objectForKey:@"data"] objectForKey:@"progress"]];
+        detailModel.data.serviceFileArray=[NSArray yy_modelArrayWithClass:[OrderDetailDataServiceFileModel class] json:[[result objectForKey:@"data"] objectForKey:@"service_file"]];
+        
         if (detailModel.code==0) {
             [self.tableView reloadData];
         }else if (detailModel.code==9999)
@@ -46,15 +49,19 @@
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
         [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
-
     // Do any additional setup after loading the view.
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==6) {
-        return 6;
+        return detailModel.data.progressArray.count;
     }else{
-        return 1;
+        if (section==4) {
+            return detailModel.data.serviceFileArray.count+1;
+        }else
+        {
+          return 1;
+        }
     }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -63,7 +70,7 @@
         OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellOne"];
         [cell.changGuanIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
         [cell.objectIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-        cell.orderStatusLabel.text=detailModel.data.status;
+        cell.orderStatusLabel.text=orderDetailStatus(detailModel.data.status);
         cell.changGuanLabel.text=detailModel.data.object_address;
         cell.objectCountLabel.text=[NSString stringWithFormat:@"x%@",detailModel.data.num];
         cell.orderNumLabel.text=detailModel.data.order_num;
@@ -82,22 +89,37 @@
       OrderDetailCell *cellThree=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
         [cellThree.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
          cellThree.userTypeLabel.text=@"申请人";
+        cellThree.clearButt.tag=111;
+        [cellThree.clearButt addTarget:self action:@selector(telephoneButtAction:) forControlEvents:UIControlEventTouchUpInside];
         cellThree.nameLabel.text=detailModel.data.realname;
         return cellThree;
     }
     else if(indexPath.section==3){
         OrderDetailCell *cellThree=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
         [cellThree.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+        cellThree.clearButt.tag=222;
+        [cellThree.clearButt addTarget:self action:@selector(telephoneButtAction:) forControlEvents:UIControlEventTouchUpInside];
         cellThree.nameLabel.text=detailModel.data.staff_realname;
         cellThree.userTypeLabel.text=@"服务执行人";
         return cellThree;
     }
     else if(indexPath.section==4){
-        OrderDetailCell *cellFour=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFour"];
-        cellFour.completEvidenceTimeLabel.text=detailModel.data.paid_time;
-//        cellFour.placeHolderViewFour.text=
-         [cellFour.bigImageViewFour sd_setImageWithURL:[NSURL URLWithString:detailModel.data.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-        return cellFour;
+        if (indexPath.row==0) {
+            OrderDetailCell *cellFour=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFour"];
+            cellFour.completEvidenceTimeLabel.text=detailModel.data.paid_time;
+//                    cellFour.placeHolderViewFour.text=
+            return cellFour;
+        }else
+        {
+           OrderDetailCell *cellFourImage=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellSeven"];
+            OrderDetailDataServiceFileModel *tempModel=[detailModel.data.serviceFileArray objectAtIndex:indexPath.row-1];
+            NSArray *imageStringArray=[tempModel.url componentsSeparatedByString:@","];
+             [cellFourImage.detailImageView sd_setImageWithURL:[NSURL URLWithString:[imageStringArray objectAtIndex:0]] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            cellFourImage.imageNameLabel.text=tempModel.filename;
+            cellFourImage.imageSizeLabel.text=[self bytesToMBOrKB:tempModel.size];
+            cellFourImage.imageCreatTimeLabel.text=tempModel.create_time;
+            return cellFourImage;
+        }
     }
     else if(indexPath.section==5){
         OrderDetailCell *cellFive=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFive"];
@@ -109,31 +131,15 @@
     }
     else{
         OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellSix"];
-        if (indexPath.row==0) {
-            cell.orderActionLabel.text=@"提交订单";
-            cell.orderActionTimeLabel.text=detailModel.data.create_time;
-        }else if (indexPath.row==1)
-        {
-            cell.orderActionLabel.text=@"取消订单";
-           cell.orderActionTimeLabel.text=detailModel.data.cancel_time;
-        }else if (indexPath.row==2)
-        {
-            cell.orderActionLabel.text=@"完成支付";
-          cell.orderActionTimeLabel.text=detailModel.data.paid_time;
-        }
-        else if (indexPath.row==3)
-        {
-            cell.orderActionLabel.text=@"服务执行确认";
-         cell.orderActionTimeLabel.text=detailModel.data.finish_time;
-        }
-        else if (indexPath.row==4)
-        {
-            cell.orderActionLabel.text=@"订单签收确认";
-         cell.orderActionTimeLabel.text=detailModel.data.sign_time;
+        OrderDetailDataProgressModel *progressModel=[detailModel.data.progressArray objectAtIndex:indexPath.row];
+        cell.orderActionLabel.text=progressModel.title;
+        cell.orderActionTimeLabel.text=progressModel.create_time;
+        cell.orderActionInfoLabel.text=progressModel.message;
+        if (indexPath.row==detailModel.data.progressArray.count-1) {
+            cell.radioImageView.image=[UIImage imageNamed:@"icon_ld"];
         }else
         {
-          cell.orderActionLabel.text=@"交易成功";
-          cell.orderActionTimeLabel.text=detailModel.data.end_time;
+           cell.radioImageView.image=[UIImage imageNamed:@"icon_hd"]; 
         }
         return cell;
     }
@@ -153,7 +159,12 @@
         return 89;
     }else if (indexPath.section==4)
     {
-        return 308;
+        if (indexPath.row==0) {
+            return 120;
+        }else
+        {
+            return 60;
+        }
     }else if (indexPath.section==5)
     {
         return 224;
@@ -177,6 +188,16 @@
     }else
     return 10;
 }
+-(void)telephoneButtAction:(UIButton*)sender
+{
+    if (sender.tag==111) {
+        [self dialTelephoneWithTelephoneNum:detailModel.data.checker_tel];
+    }else
+    {
+      [self dialTelephoneWithTelephoneNum:detailModel.data.tel];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

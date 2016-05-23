@@ -162,14 +162,15 @@
     }else{
         PayControllerCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"PayControllerCellTwo"];
         cellTwo.moneyLabel.attributedText=[self createAttributStringWithString:[NSString stringWithFormat:@"(还剩￥%.2f)",[model.data.money floatValue]] changeString:[NSString stringWithFormat:@"￥%.2f",[model.data.money floatValue]] andAttributDic:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#E9554B"]}];
-        if ([model.data.money floatValue]<totalMoney) {
+        if ([model.data.money floatValue]>=totalMoney) {
+            cellTwo.yuFuKuanButt.selected=YES;
+            cellTwo.yuFuKuanButt.enabled=YES;
+            cellTwo.weiXinButt.selected=NO;
+        }else
+        {
             cellTwo.yuFuKuanButt.selected=NO;
             cellTwo.yuFuKuanButt.enabled=NO;
             cellTwo.weiXinButt.selected=YES;
-        }else
-        {
-            cellTwo.yuFuKuanButt.selected=YES;
-            cellTwo.yuFuKuanButt.enabled=YES;
         }
         return cellTwo;
     }

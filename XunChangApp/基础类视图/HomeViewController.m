@@ -13,6 +13,7 @@
 #import "ShenBaoViewController.h"
 #import "UserCenterModel.h"
 #import "ChangJingViewController.h"
+#import "YuFuKuanManagerViewController.h"
 @interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
     UserCenterModel *userModel;
@@ -170,6 +171,8 @@
     }
     else if([actionModel.title isEqualToString:@"整改管理"]){
         [self performSegueWithIdentifier:@"ZhenGaiViewController" sender:self];
+    } else if([actionModel.title isEqualToString:@"预存款管理"]){
+        [self performSegueWithIdentifier:@"YuFuKuanManagerViewController" sender:self];
     }
 }
 
@@ -202,6 +205,9 @@
             [self requestUserCenterData];
         };
     }
+//    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"YuFuKuanManagerViewController")]) {
+//        YuFuKuanManagerViewController *viewController=[segue destinationViewController];
+//    }
     NSLog(@"sender  =%@",sender);
     NSLog(@"distinationViewcontroller=%@",NSStringFromClass([[segue destinationViewController] class]));
 }

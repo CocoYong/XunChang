@@ -12,4 +12,12 @@
 
 @end
 @implementation OrderDetailDataModel
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    return @{@"progressArray" : [OrderDetailDataProgressModel class],@"serviceFileArray" : [OrderDetailDataServiceFileModel class]};
+}
+@end
+@implementation OrderDetailDataProgressModel
+@end
+@implementation OrderDetailDataServiceFileModel
+
 @end

@@ -24,6 +24,7 @@
     self.title=@"选择用电项目";
     [super viewDidLoad];
     [self createNavBackButt];
+    self.tableView.tableFooterView=[UIView new];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"12",@"type_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/getItem" params:paramsDic httpMethod:@"POST" block:^(id result) {

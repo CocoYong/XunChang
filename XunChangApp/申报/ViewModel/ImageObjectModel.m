@@ -9,5 +9,8 @@
 #import "ImageObjectModel.h"
 
 @implementation ImageObjectModel
-
+@end
+@implementation ImageObjectDataModel
+@end
+@implementation ImageObjectDataSourceModel
 @end

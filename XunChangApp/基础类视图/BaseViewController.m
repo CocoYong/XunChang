@@ -68,6 +68,18 @@
     
     [self.view addSubview:callWebview];
 }
+-(NSString*)bytesToMBOrKB:(NSString*)bytes
+{
+    NSString *sizeOfImage;
+    CGFloat bytesNum=[bytes floatValue];
+    if (bytesNum/1024>1024) {
+        sizeOfImage=[NSString stringWithFormat:@"%.1fM",bytesNum/1024/1024];
+    }else
+    {
+        sizeOfImage=[NSString stringWithFormat:@"%.1fk",bytesNum/1024];
+    }
+    return sizeOfImage;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -8,7 +8,7 @@
 
 #import "ShenBaoViewController.h"
 #import "OrdersListViewController.h"
-#import "ShenBaoCollectionCell.h"
+#import "HomeCollectionViewItemCell.h"
 #import "UIImageView+WebCache.h"
 #import "ShenBaoItemsModel.h"
 #import "ShenBaoNewMessagesModel.h"
@@ -146,10 +146,10 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    ShenBaoCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"ShenBaoCollectionCell" forIndexPath:indexPath];
+    HomeCollectionViewItemCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"ShenBaoCollectionCell" forIndexPath:indexPath];
     ShenBaoItemDataModel *tempModel=[itemModel.datas objectAtIndex:indexPath.row];
-    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-    cell.nameLabel.text=tempModel.title;
+    [cell.shenBaoIconImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    cell.shenBaoNameLabel.text=tempModel.title;
     return cell;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView

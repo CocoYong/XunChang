@@ -9,9 +9,22 @@
 #import "YuFuKuanModel.h"
 
 @implementation YuFuKuanModel
-+ (NSDictionary *)modelContainerPropertyGenericClass {
-    return @{@"datas" : [YuFuKuanDataModel class]};
-}
+
 @end
 @implementation YuFuKuanDataModel
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    return @{@"listsArray" : [YuFuKuanDataListsModel class],@"objectsArray" : [YuFuKuanDataObjectsModel class]};
+}
+@end
+
+@implementation YuFuKuanDataListsModel
+
+
+
+@end
+
+@implementation YuFuKuanDataObjectsModel
+
+
+
 @end

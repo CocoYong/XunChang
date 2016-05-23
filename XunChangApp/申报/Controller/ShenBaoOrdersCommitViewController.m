@@ -11,7 +11,7 @@
 #import "NSDate+ITTAdditions.h"
 #import "PayViewController.h"
 #import "CreateOrderModel.h"
-@interface ShenBaoOrdersCommitViewController ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate>
+@interface ShenBaoOrdersCommitViewController ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,UITextFieldDelegate>
 {
     NSMutableArray *dataArray;
 }
@@ -33,8 +33,8 @@
 }
 - (IBAction)addShenBaoAction:(UIButton *)sender {
     
-    ShenBaoOrdersCommitCell *cellThree=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
-    ShenBaoOrdersCommitCell *cellTwo=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    ShenBaoOrdersCommitCell *cellThree=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    ShenBaoOrdersCommitCell *cellTwo=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     if ([cellThree.startTimeTextField.text isEqualToString:@""]||cellThree.startTimeTextField.text==nil) {
         [SVProgressHUD showErrorWithStatus:@"请选择开始使用时间" maskType:SVProgressHUDMaskTypeBlack];
         return;
@@ -72,25 +72,55 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    if (section==1||section==2) {
+        return 1;
+    }else
+    {
+        return 5;
+    }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==0) {
-     ShenBaoOrdersCommitCell *cellOne=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellOne"];
-        cellOne.keMuLabel.text=self.dataModel.title;
-        cellOne.danweiLabel.text=self.dataModel.unit;
-        cellOne.danjiaLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
-        cellOne.yajinLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit floatValue]];
-        cellOne.shuomingLabel.text=self.dataModel.intro;
+    if (indexPath.section==0) {
+     ShenBaoOrdersCommitCell *cellOne=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCelleight"];
+        if (indexPath.row==0) {
+            UIView *lineView=[[UIView alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-20, 1)];
+            lineView.backgroundColor=[UIColor colorWithHexString:@"#B5B6B7"];
+            [cellOne addSubview:lineView];
+         cellOne.itemTitleLabel.text=@"科目";
+         cellOne.itemDetailLabel.text=self.dataModel.title;
+        }else if (indexPath.row==1)
+        {
+            cellOne.itemTitleLabel.text=@"单位";
+            cellOne.itemDetailLabel.text=self.dataModel.unit;
+        }else if (indexPath.row==2)
+        {
+            cellOne.itemTitleLabel.text=@"单价";
+            cellOne.itemDetailLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
+        }else if (indexPath.row==3)
+        {
+            cellOne.itemTitleLabel.text=@"押金";
+            cellOne.itemDetailLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit floatValue]];
+        }else
+        {
+            if (self.dataModel.intro==nil||[self.dataModel.intro isEqualToString:@""]) {
+                cellOne.hidden=YES;
+            }else
+            {
+                
+                cellOne.hidden=NO;
+                cellOne.itemTitleLabel.text=@"押金";
+                cellOne.itemDetailLabel.text=self.dataModel.intro;
+            }
+        }
         return cellOne;
-    }else if (indexPath.row==1)
+    }else if (indexPath.section==1)
     {
         ShenBaoOrdersCommitCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellTwo"];
         cellTwo.dataModel=self.dataModel;
         cellTwo.numLabel.text=@"1";
         cellTwo.feiyongLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
-        cellTwo.yajinLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit floatValue]];
+        cellTwo.yajinTwoLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit floatValue]];
         cellTwo.hejiLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit floatValue]+[self.dataModel.price floatValue]];
         return cellTwo;
     }else
@@ -98,14 +128,35 @@
         ShenBaoOrdersCommitCell *cellThree=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellFive"];
         [cellThree.startTimeButt addTarget:self action:@selector(startTimeButtAction:) forControlEvents:UIControlEventTouchUpInside];
         [cellThree.endTimeButt addTarget:self action:@selector(endTimeButtAction:) forControlEvents:UIControlEventTouchUpInside];
+        cellThree.startTimeTextField.delegate=self;
+        cellThree.startTimeTextField.tag=100;
+        cellThree.endTimeTextField.tag=200;
+        cellThree.endTimeTextField.delegate=self;
         return cellThree;
     }
 }
+-(void)startDoSomething
+{
+    [self.view endEditing:YES];
+    
+    NSLog(@"do something");
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==0) {
-        return 208;
-    }else if(indexPath.row==1)
+    if (indexPath.section==0) {
+        if (indexPath.row<4) {
+            return 44;
+        }else
+        {
+            if (self.dataModel.intro==nil||[self.dataModel.intro isEqualToString:@""]) {
+                return 0;
+            }else
+            {
+                UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+                return cell.height;
+            }
+        }
+    }else if(indexPath.section==1)
     {
        return 145;
     }else
@@ -113,9 +164,44 @@
         return 102;
     }
 }
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0&&indexPath.row==4) {
+        return 100;
+    }else
+    {
+        return 44;
+    }
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 3;
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.view endEditing:YES];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section==0||section==1) {
+        return 10;
+    }else
+    {
+        return 0;
+    }
+}
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    if (textField.tag==100) {
+        self.datePickType=@"start";
+        [self createDatePickerView:self.endDate];
+    }else
+    {
+        self.datePickType=@"end";
+        [self createDatePickerView:self.startDate];
+    }
+//    [self.view endEditing:YES];
+    return NO;
 }
 -(void)startTimeButtAction:(UIButton*)startButt
 {
@@ -202,7 +288,7 @@
 }
 -(void)pickerDateAction:(UIDatePicker*)datePicker
 {
-    ShenBaoOrdersCommitCell *cell=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    ShenBaoOrdersCommitCell *cell=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     if ([self.datePickType isEqualToString:@"start"]) {
         self.startDate=datePicker.date;
         cell.startTimeTextField.text=[datePicker.date stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];

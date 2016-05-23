@@ -43,4 +43,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *carNumTextField;
 @property (weak, nonatomic) IBOutlet UITextField *sendGoodsTextfield;
 @property (weak, nonatomic) IBOutlet UITextField *goinTimeTextfield;
+//eight
+@property (weak, nonatomic) IBOutlet UILabel *itemTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *itemDetailLabel;
+
+
 @end

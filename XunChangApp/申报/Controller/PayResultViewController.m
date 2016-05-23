@@ -7,6 +7,7 @@
 //
 
 #import "PayResultViewController.h"
+#import "OrdersListViewController.h"
 @interface PayResultViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *resultImageView;
 @property (weak, nonatomic) IBOutlet UILabel *twoLinesLabel;
@@ -37,11 +38,13 @@
         [self.stateButt setTitle:@"去付款" forState:UIControlStateNormal];
     }
     self.stateButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
-        for (UIViewController *contrller in self.navigationController.viewControllers) {
-            if ([contrller isKindOfClass:NSClassFromString(@"OrdersListViewController")]) {
-                [self.navigationController popToViewController:contrller animated:YES];
+        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:NSClassFromString(@"OrdersListViewController")]) {
+                [self.navigationController popToViewController:controller animated:YES];
             }
         }
+        [self performSegueWithIdentifier:@"OrdersListViewController" sender:self];
         return [RACSignal empty];
     }];
     
@@ -66,14 +69,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    OrdersListViewController *orderListController=[segue destinationViewController];
+    orderListController.index=0;
 }
-*/
+
 
 @end

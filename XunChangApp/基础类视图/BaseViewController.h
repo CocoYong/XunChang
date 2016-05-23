@@ -14,4 +14,5 @@
 -(void)backToFrontViewController;
 -(NSMutableAttributedString*)createAttributStringWithString:(NSString*)originalString changeString:(NSString*)specialString andAttributDic:(NSDictionary*)attributDic;
 -(void)dialTelephoneWithTelephoneNum:(NSString*)telNum;
+-(NSString*)bytesToMBOrKB:(NSString*)bytes;
 @end

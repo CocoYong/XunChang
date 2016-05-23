@@ -41,7 +41,7 @@
 @property(nonatomic,copy)NSString *realname;
 @property(nonatomic,copy)NSString *scene_id;
 @property(nonatomic,copy)NSString *service_message;
-@property(nonatomic,copy)NSString *service_pic;
+@property(nonatomic,strong)NSArray *serviceFileArray;//
 @property(nonatomic,copy)NSString *show_comment;
 @property(nonatomic,copy)NSString *show_guest;
 @property(nonatomic,copy)NSString *show_service;
@@ -63,4 +63,21 @@
 @property(nonatomic,copy)NSString *type_icon;
 @property(nonatomic,copy)NSString *update_time;
 @property(nonatomic,copy)NSString *user_id;
+@property(nonatomic,strong)NSArray *progressArray;
+@end
+
+@interface OrderDetailDataProgressModel : NSObject
+@property(nonatomic,copy)NSString *create_time;
+@property(nonatomic,copy)NSString *id;
+@property(nonatomic,copy)NSString *message;
+@property(nonatomic,copy)NSString *scene_id;
+@property(nonatomic,copy)NSString *title;
+@property(nonatomic,copy)NSString *type;
+@end
+
+@interface OrderDetailDataServiceFileModel : NSObject
+@property(nonatomic,copy)NSString *filename;
+@property(nonatomic,copy)NSString *url;
+@property(nonatomic,copy)NSString *create_time;
+@property(nonatomic,copy)NSString *size;
 @end
