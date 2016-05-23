@@ -28,12 +28,13 @@
     backGrayView.backgroundColor=[UIColor darkGrayColor];
     backGrayView.alpha=0.5;
     [appWindow addSubview:backGrayView];
-    
+    //弹出框
     UIView *alertView=[[UIView alloc]initWithFrame:CGRectMake(30, SCREEN_HEIGHT/2-80, SCREEN_WIDTH-60, 160)];
     alertView.backgroundColor=[UIColor whiteColor];
     alertView.layer.borderColor=[UIColor colorWithHexString:@"#E4E4E4"].CGColor;
     alertView.layer.cornerRadius=3.0f;
     
+    //第一个按钮
     UIButton *buttOne=[UIButton buttonWithType:UIButtonTypeCustom];
     buttOne.frame=CGRectMake(20, 110, 80, 30);
     buttOne.titleLabel.font=[UIFont systemFontOfSize:13];
@@ -48,7 +49,7 @@
     [buttOne setTitleColor:buttOneTitleColor forState:UIControlStateNormal];
     buttOne.backgroundColor=buttOneBackColor;
     [alertView addSubview:buttOne];
-    
+    //第二个按钮
     UIButton *buttTwo=[UIButton buttonWithType:UIButtonTypeCustom];
     buttTwo.frame=CGRectMake(SCREEN_WIDTH-160, 110, 80, 30);
     buttTwo.titleLabel.font=[UIFont systemFontOfSize:13];
@@ -69,7 +70,7 @@
     label.textColor=titleColor;
     [alertView addSubview:label];
     
-    
+    //关闭按钮
     UIButton *closedButt=[UIButton buttonWithType:UIButtonTypeCustom];
     closedButt.frame=CGRectMake(CGRectGetWidth(alertView.frame)-30, 10, 20, 20);
     [closedButt setImage:[UIImage imageNamed:@"cion_sc"] forState:UIControlStateNormal];
