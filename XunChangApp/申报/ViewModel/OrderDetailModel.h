@@ -80,4 +80,5 @@
 @property(nonatomic,copy)NSString *url;
 @property(nonatomic,copy)NSString *create_time;
 @property(nonatomic,copy)NSString *size;
+@property(nonatomic,strong)NSArray *imageUrlArray;
 @end
