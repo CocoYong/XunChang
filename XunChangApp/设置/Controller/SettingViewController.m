@@ -7,8 +7,13 @@
 //
 
 #import "SettingViewController.h"
-
-@interface SettingViewController ()
+#import "SettingTableCell.h"
+@interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    NSMutableArray *titleArray;
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *logoutButt;
 
 @end
 
@@ -18,9 +23,47 @@
     [super viewDidLoad];
     self.title=@"设置";
     [self createNavBackButt];
+    titleArray=[NSMutableArray array];
+//    [titleArray addObject:@[@"帐号与安全"]];
+//    [titleArray addObject:@[@"消息设置",@"关于巡场",@"帮助与反馈"]];
+//    [titleArray addObject:@[@"清除缓存"]];
+    [titleArray addObject:@[@"关于巡场"]];
+//    [titleArray addObject:@[@"消息设置",@"关于巡场",@"帮助与反馈"]];
+    [titleArray addObject:@[@"修改资料"]];
+    self.tableView.tableFooterView=[UIView new];
     // Do any additional setup after loading the view.
 }
-
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+//    if (section==1) {
+//        return 3;
+//    }else
+//    {
+        return 1;
+//    }
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SettingTableCell *cell=[tableView dequeueReusableCellWithIdentifier:@"SettingTableCellOne"];
+    cell.mainTitleLael.text=[[titleArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    return cell;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
