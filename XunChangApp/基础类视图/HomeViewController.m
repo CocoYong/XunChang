@@ -43,6 +43,10 @@
     self.userPhotoImageView.layer.borderColor=[UIColor whiteColor].CGColor;
     self.userPhotoImageView.layer.borderWidth=1.0f;
     
+    UIImageView *logoImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 28, 28)];
+    logoImageView.image=[UIImage imageNamed:@"img_czlogo"];
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:logoImageView];
+    
     //测试专用
     [USER_DEFAULT setObject:@"8fd4bcd74eecfcd96d8b34bba1e7644c" forKey:@"user_token"];
     [USER_DEFAULT setObject:@"12" forKey:@"scene_id"];
@@ -63,6 +67,7 @@
     if ([[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {
         [self performSegueWithIdentifier:@"SubmittUserInfoViewController" sender:self];
     }
+    
     [requestTimer setFireDate:[NSDate distantPast]];
 }
 -(void)requestUserCenterData

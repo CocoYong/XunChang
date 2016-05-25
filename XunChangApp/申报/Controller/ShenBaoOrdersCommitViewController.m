@@ -88,7 +88,7 @@
             lineView.backgroundColor=[UIColor colorWithHexString:@"#B5B6B7"];
             [cellOne addSubview:lineView];
          cellOne.itemTitleLabel.text=@"科目";
-         cellOne.itemDetailLabel.text=self.dataModel.title;
+         cellOne.itemDetailLabel.text=self.dataModel.order_title;
         }else if (indexPath.row==1)
         {
             cellOne.itemTitleLabel.text=@"单位";

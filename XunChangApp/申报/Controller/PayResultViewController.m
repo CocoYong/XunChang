@@ -9,6 +9,9 @@
 #import "PayResultViewController.h"
 #import "OrdersListViewController.h"
 @interface PayResultViewController ()
+{
+    __block BOOL haveOrderListController;
+}
 @property (weak, nonatomic) IBOutlet UIImageView *resultImageView;
 @property (weak, nonatomic) IBOutlet UILabel *twoLinesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *remindLabel;
@@ -38,16 +41,26 @@
         [self.stateButt setTitle:@"去付款" forState:UIControlStateNormal];
     }
     self.stateButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
-        
+        //先判断之前是否有订单列表页  有的话就饭回到订单列表页没有的话就创建一个并且push
         for (UIViewController *controller in self.navigationController.viewControllers) {
             if ([controller isKindOfClass:NSClassFromString(@"OrdersListViewController")]) {
-                [self.navigationController popToViewController:controller animated:YES];
+                haveOrderListController=YES;
             }
         }
-        [self performSegueWithIdentifier:@"OrdersListViewController" sender:self];
+        if (haveOrderListController) {
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                if ([controller isKindOfClass:NSClassFromString(@"OrdersListViewController")]) {
+                    [self.navigationController popToViewController:controller animated:YES];
+                }
+            }
+        }else{
+            UIStoryboard *mainStoryboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            OrdersListViewController *orderListController=[mainStoryboard instantiateViewControllerWithIdentifier:@"OrdersListViewController"];
+            orderListController.index=1;
+            [self showViewController:orderListController sender:self];
+        }
         return [RACSignal empty];
     }];
-    
     self.backButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
         for (UIViewController *contrller in self.navigationController.viewControllers) {
             if ([contrller isKindOfClass:NSClassFromString(@"HomeViewController")]) {
@@ -75,8 +88,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    OrdersListViewController *orderListController=[segue destinationViewController];
-    orderListController.index=0;
 }
 
 

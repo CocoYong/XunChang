@@ -10,6 +10,7 @@
 #import "BaseViewController+CommonFuncs.h"
 #import "LoginModel.h"
 #import "RegistOrLogin.h"
+#import "JPUSHService.h"
 @interface LoginViewController ()
 {
     NSInteger seconds;
@@ -76,10 +77,13 @@
         [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
         [ShenBaoDataRequest requestAFWithURL:@"api/main/login" params:paramsDic httpMethod:@"POST" block:^(id result) {
              [SVProgressHUD dismiss];
+            NSLog(@"result===%@",result);
             RegistOrLogin *model=[RegistOrLogin yy_modelWithDictionary:result];
             if (model.code==0) {
                 [USER_DEFAULT setObject:model.data.user_token forKey:@"user_token"];
                 [USER_DEFAULT setObject:model.data.status forKey:@"status"];
+                [USER_DEFAULT setObject:model.data.id forKey:@"user_id"];
+                [self registerJPUSH:[JPUSHService registrationID]];
                 [self dismissViewControllerAnimated:YES completion:nil];
             }else if (model.code==9999)
             {
@@ -115,6 +119,30 @@
         seconds=60;
         self.verifySecondLabel.text=@"获取验证码";
     }
+}
+
+-(void)registerJPUSH:(NSString*)register_id
+{
+    
+    NSString *user_id=[USER_DEFAULT objectForKey:@"user_id"];
+    [JPUSHService setTags:[NSSet setWithObject:user_id] alias:user_id fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+        NSLog(@"设置成功iResCode==%d",iResCode);
+    }];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:user_id,@"user_id",@"ios",@"type",register_id,@"reg_id", nil];
+    [ShenBaoDataRequest requestAFWithURL:@"api/api/bindApp" params:paramsDic httpMethod:@"POST" block:^(id result) {
+        LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
+        if (tempModel.code==0) {
+            NSLog(@"注册成功");
+        }
+    } errorBlock:^(NSError *error) {
+        
+    } noNetWorking:^(NSString *noNetWorking) {
+        
+    }];
+}
+-(void)callBackSelector:(NSNotification*)notifition
+{
+    NSLog(@"hello coco");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

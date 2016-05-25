@@ -33,6 +33,8 @@
 
 //four
 @property (weak, nonatomic) IBOutlet UILabel *completEvidenceTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *serviceDetailLabel;
+
 //five
 @property (weak, nonatomic) IBOutlet UIView *starBackView;
 @property (weak, nonatomic) IBOutlet HCSStarRatingView *starView;
@@ -49,6 +51,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *imageNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *imageCreatTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *imageSizeLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *buttOne;
+@property (weak, nonatomic) IBOutlet UIButton *buttonTwo;
+@property (weak, nonatomic) IBOutlet UIButton *buttonThree;
 
 
 @end

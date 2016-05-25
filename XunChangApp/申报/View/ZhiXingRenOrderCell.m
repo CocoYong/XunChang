@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.statusButt.layer.cornerRadius=3.0f;
     // Initialization code
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "OrdersListViewController.h"
-#import "ButtonLabelView.h"
 #import "OrderListCell.h"
 #import "UIImageView+WebCache.h"
 #import "OrderListModel.h"
@@ -19,11 +18,12 @@
 @interface OrdersListViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableArray *payModelDataArray; //最后付款的订单数组
-    NSArray *titleArray;
+    NSArray *statusArray;
     OrderListModel *model;  //请求回来的总model
     NSInteger itemsNum;   //合并付款后面的计数
 }
 @property(nonatomic,copy)NSString *status;
+@property (weak, nonatomic) IBOutlet UIView *fourButtBackView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomBackView;
 @property (weak, nonatomic) IBOutlet UILabel *totalMoneyLabel;
@@ -33,29 +33,20 @@
 @end
 
 @implementation OrdersListViewController
-
-
 #pragma mark--------系统方法
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"申报订单";
     [self createNavBackButt];
-    titleArray=@[@"待付款",@"待服务",@"待确认",@"待评价"];
-    NSArray *statusArray=@[@"pending",@"start",@"finish",@"signin"];
+    statusArray=@[@"pending",@"start",@"finish",@"signin"];
     //初始化最后付款的数组
     payModelDataArray=[[NSMutableArray alloc]init];
     //首次进入请求数据
     self.status=[statusArray objectAtIndex:_index];
-    [self requestOrderListData];
-    //顶部五个按钮
-    ButtonLabelView *fiveButtView=[[ButtonLabelView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40) andTitlesArray:titleArray andDefaultSelectIndex:_index andCallBackBlock:^(UIButton *butt, id model) {
-        self.index=butt.tag;
-        self.status=[statusArray objectAtIndex:butt.tag];
-        [self requestOrderListData];
-    }];
-    fiveButtView.layer.borderColor=[UIColor colorWithHexString:@"#e0e0e0"].CGColor;
-    fiveButtView.layer.borderWidth=1.0;
-    [self.view addSubview:fiveButtView];
+    [self buttTapedAction:[self.fourButtBackView viewWithTag:self.index]];
+    //顶部四个按钮
+       self.fourButtBackView.layer.borderColor=[UIColor colorWithHexString:@"#e0e0e0"].CGColor;
+    self.fourButtBackView.layer.borderWidth=1.0;
     //隐藏bottombackView
     self.bottomBackView.hidden=YES;
     self.tableView.height=SCREEN_HEIGHT-104;
@@ -133,6 +124,22 @@
     self.view.backgroundColor=[UIColor colorWithHexString:@"#EFF0F1"];
     [payModelDataArray removeAllObjects];
 }
+- (IBAction)buttTapedAction:(UIButton *)sender {
+    for (UIView *view in self.fourButtBackView.subviews) {
+        if (view.tag!=sender.tag+4&&[view isMemberOfClass:[UIView class]]) {
+            view.hidden=YES;
+        }
+        if (view.tag!=sender.tag&&[view isMemberOfClass:[UIButton class]]) {
+            [(UIButton*)view  setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        }
+    }
+    UIView *tempView=[self.fourButtBackView viewWithTag:sender.tag+4];
+    tempView.hidden=NO;
+    [sender setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.status=[statusArray objectAtIndex:sender.tag-1];
+    [self requestOrderListData];
+}
+
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -187,6 +194,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OrderListCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderListCell"];
+    tableView.separatorInset=UIEdgeInsetsZero;
     OrderListDataModel *secondModel=[model.datas objectAtIndex:indexPath.row];
     cell.orderNumLabel.text=secondModel.order_num;
     [cell.stadiumImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
@@ -231,7 +239,7 @@
     cell.cancelButt.tag=indexPath.row*4+2;
     cell.payButt.tag=indexPath.row*4+3;
     
-    if (self.index==0){
+    if ([self.status isEqualToString:@"pending"]){
         cell.radioButt.hidden=NO;
         cell.startTimeLabel.hidden=NO;
         cell.deletButt.hidden=YES;
@@ -241,7 +249,7 @@
         [cell.payButt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         cell.statusLabel.textColor=[UIColor colorWithHexString:@"#D16A38"];
         cell.statusLabel.text=@"待付款";
-    }else if (self.index==1)
+    }else if ([self.status isEqualToString:@"start"])
     {
         cell.radioButt.hidden=YES;
         cell.startTimeLabel.hidden=NO;
@@ -252,12 +260,13 @@
         [cell.payButt setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];
         [cell.payButt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [cell.cancelButt setTitle:@"联系服务" forState:UIControlStateNormal];
-    }else if (self.index==2)
+    }else if ([self.status isEqualToString:@"finish"])
     {
         cell.startTimeLabel.hidden=YES;
         cell.radioButt.hidden=YES;
         cell.deletButt.hidden=YES;
         cell.statusLabel.text=@"等待确定";
+        cell.statusLabel.textColor=[UIColor colorWithHexString:@"#8AAC7B"];
         [cell.payButt setTitle:@"签收" forState:UIControlStateNormal];
         [cell.payButt setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];
         [cell.payButt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -267,6 +276,7 @@
         cell.radioButt.hidden=YES;
         cell.startTimeLabel.hidden=YES;
         cell.statusLabel.text=@"交易成功";
+        cell.statusLabel.textColor=[UIColor colorWithHexString:@"#8AAC7B"];
         if ([secondModel.is_comment isEqualToString:@"Y"]) {
             [cell.payButt setBackgroundColor:[UIColor whiteColor]];
             [cell.payButt setTitle:@"投诉" forState:UIControlStateNormal];
@@ -460,7 +470,7 @@
     }else if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"OrderDetailViewController")])
     {
         OrderDetailViewController *orderDetailController=[segue destinationViewController];
-        orderDetailController.userType=@"shenBaoRen";
+        orderDetailController.userType=@"apply_guest";
         orderDetailController.orderNum=sender; //change
     }
 }

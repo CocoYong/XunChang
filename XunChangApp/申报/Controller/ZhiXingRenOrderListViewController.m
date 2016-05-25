@@ -118,7 +118,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 214;
+    return 224;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -152,7 +152,7 @@
     }else if([[segue destinationViewController] isKindOfClass:NSClassFromString(@"OrderDetailViewController")])
     {
         OrderDetailViewController *viewComtroller=[segue destinationViewController];
-        viewComtroller.userType=@"staff";
+        viewComtroller.userType=@"apply_staff";
         viewComtroller.orderNum=self.markOrderNum;
     }
 }

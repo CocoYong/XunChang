@@ -12,7 +12,13 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    
+    self.buttonTwo.layer.cornerRadius=3.0f;
+    self.buttonTwo.layer.borderColor=[UIColor colorWithHexString:@"#DADBDC"].CGColor;
+    self.buttonTwo.layer.borderWidth=1.0f;
+    self.buttOne.layer.borderColor=[UIColor colorWithHexString:@"#DADBDC"].CGColor;
+    self.buttOne.layer.borderWidth=1.0f;
+    self.buttonThree.layer.cornerRadius=3.0f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -9,6 +9,6 @@
 #import "BaseViewController.h"
 
 @interface OrderDetailViewController : BaseViewController
-@property(nonatomic,copy)NSString *userType;
-@property(nonatomic,copy)NSString *orderNum;
+@property(nonatomic,copy)NSString *userType; //用户类型
+@property(nonatomic,copy)NSString *orderNum; //订单id
 @end

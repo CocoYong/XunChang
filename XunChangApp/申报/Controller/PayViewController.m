@@ -13,6 +13,7 @@
 #import "PayResultViewController.h"
 #import "LoginModel.h"
 #import "ShenBaoKemuModel.h"
+#import "OrderDetailModel.h"
 @interface PayViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     MoneyModel *model;
@@ -35,7 +36,12 @@
             if ([obj isKindOfClass:[OrderListDataModel class]]) {
                 OrderListDataModel *orderModel=(OrderListDataModel*)obj;
                 totalMoney +=[orderModel.total_money floatValue];
-            }else{
+            }else if ([obj isKindOfClass:[OrderDetailModel class]])
+            {
+                OrderDetailModel *orderDetailModel=(OrderDetailModel*)obj;
+                totalMoney=[orderDetailModel.data.total_money floatValue];
+            }
+            else{
                 ShenBaoKemuDataModel *keMuModel=(ShenBaoKemuDataModel*)obj;
               totalMoney=([keMuModel.price floatValue]+[keMuModel.deposit floatValue])*[keMuModel.object_num integerValue];
             }
@@ -69,7 +75,12 @@
             if ([obj isKindOfClass:[OrderListDataModel class]]) {
                 OrderListDataModel *orderModel=(OrderListDataModel*)obj;
                 [orderNumArray addObject:orderModel.order_num];
-            }else{
+            }else if ([obj isKindOfClass:[OrderDetailModel class]])
+            {
+                OrderDetailModel *orderDetailModel=(OrderDetailModel*)obj;
+                [orderNumArray addObject:orderDetailModel.data.order_num];
+            }
+            else{
                 ShenBaoKemuDataModel *keMuModel=(ShenBaoKemuDataModel*)obj;
                 [orderNumArray addObject:keMuModel.order_num];
             }
@@ -79,11 +90,10 @@
             [self payRequet:@"123"];  //待修改....
         }else
         {
-            //weixinzhifu
+            
         }
         return [RACSignal empty];
     }];
-    // Do any additional setup after loading the view.
 }
 -(void)payRequet:(NSString*)orderNum
 {
@@ -151,11 +161,15 @@
             PayControllerCell *cellOne=[tableView dequeueReusableCellWithIdentifier:@"PayControllerCellOne"];
             if ([self.dataArray[0] isKindOfClass:[ShenBaoKemuDataModel class]]) {
                 ShenBaoKemuDataModel *tempModel=self.dataArray[0];
-              cellOne.orderDetailLabel.text=[NSString stringWithFormat:@"%@-%@",tempModel.title,tempModel.intro];
-            }else
+              cellOne.orderDetailLabel.text=[NSString stringWithFormat:@"%@",tempModel.order_title];
+            }else if ([self.dataArray[0] isKindOfClass:[OrderDetailModel class]]){
+                OrderDetailModel *tempModel=self.dataArray[0];
+                cellOne.orderDetailLabel.text=[NSString stringWithFormat:@"%@",tempModel.data.item_title];
+            }
+            else
             {
                 OrderListDataModel  *orderModel=[self.dataArray objectAtIndex:indexPath.row-1];
-                cellOne.orderDetailLabel.text=[NSString stringWithFormat:@"%@-%@",orderModel.object_address,orderModel.item_title];
+                cellOne.orderDetailLabel.text=[NSString stringWithFormat:@"%@",orderModel.item_title];
             }
             return cellOne;
         }

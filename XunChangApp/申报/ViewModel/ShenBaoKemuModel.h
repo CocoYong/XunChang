@@ -20,6 +20,7 @@
 @property(nonatomic,copy)NSString *price;
 @property(nonatomic,copy)NSString *scene_id;
 @property(nonatomic,copy)NSString *title;
+@property(nonatomic,copy)NSString *order_title;
 @property(nonatomic,copy)NSString *type_id;
 @property(nonatomic,copy)NSString *unit;
 @property(nonatomic,assign)BOOL select;

@@ -12,6 +12,7 @@
 #import "ImageObjectModel.h"
 #import "ShenBaoLeiXingCell.h"
 #import "UIImageView+WebCache.h"
+#import "UIImage+ITTAdditions.h"
 @interface UpLoadServiceEvidenceViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     NSMutableArray *imageDataArray;
@@ -55,10 +56,12 @@
             [SVProgressHUD dismiss];
            ImageObjectModel *imageModel=[ImageObjectModel yy_modelWithDictionary:result];
            if (imageModel.code==0) {
-               imageModel.originalImage=[info objectForKey:@"UIImagePickerControllerOriginalImage"];
-               imageModel.editImage=[info objectForKey:@"UIImagePickerControllerEditedImage"];
+               imageModel.originalImage=[[UIImage alloc]initWithData:UIImageJPEGRepresentation([info objectForKey:@"UIImagePickerControllerOriginalImage"], 0.4)];
+               imageModel.editImage=[[info objectForKey:@"UIImagePickerControllerEditedImage"] imageScaleToFillInSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT/2)];
+               ITTDINFO(@"imageModel.originalImageSize====%d",UIImageJPEGRepresentation(imageModel.originalImage, 1).length/1024);
+               ITTDINFO(@"imageModel.edittingImageSize====%d",UIImageJPEGRepresentation(imageModel.editImage, 1).length/1024);
                imageModel.originalImageName=[NSString stringWithFormat:@"%@_original",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
-               imageModel.editImageName=[NSString stringWithFormat:@"%@_editing",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
+               imageModel.editImageName=[NSString stringWithFormat:@"%@",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
                imageModel.data.source.size=[self bytesToMBOrKB:imageModel.data.source.size];
                [imageDataArray addObject:imageModel];//将上传成功的图片模型加入数组
                [self.tableView reloadData];
@@ -100,8 +103,8 @@
 }
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [imageDataArray removeObjectAtIndex:indexPath.row];
-    [self.tableView reloadData];
+    ImageObjectModel *tempModel=[imageDataArray objectAtIndex:indexPath.row];
+    [self deleteImageWithPicName:tempModel.data.savename andIndexPath:indexPath];
 }
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -111,17 +114,37 @@
 {
     return @"删除";
 }
-- (IBAction)submittEvidenceButtAction:(UIButton *)sender {
-  
-    //图片字符串哈
-    NSMutableString *imageString=[NSMutableString string];
-    [imageDataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        ImageObjectModel *tempImageModel=(ImageObjectModel*)obj;
-        [imageString stringByAppendingFormat:@"%@,",tempImageModel.data.savename ];
+
+-(void)deleteImageWithPicName:(NSString*)picName andIndexPath:(NSIndexPath*)indexPath
+{
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:picName,@"savename", nil];
+    [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
+    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/deletePic" params:paramsDic httpMethod:@"POST" block:^(id result) {
+        NSLog(@"result====%@",result);
+        [SVProgressHUD dismiss];
+        LoginModel *model=[LoginModel yy_modelWithDictionary:result];
+        if (model.code==0) {
+            [SVProgressHUD  showSuccessWithStatus:@"删除成功" maskType:SVProgressHUDMaskTypeBlack];
+             [imageDataArray removeObjectAtIndex:indexPath.row];
+             [self.tableView reloadData];
+        }else
+        {
+            [SVProgressHUD showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeClear];
+        }
+    } errorBlock:^(NSError *error) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+    } noNetWorking:^(NSString *noNetWorking) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
-    [imageString substringToIndex:imageString.length-2];
+
+}
+- (IBAction)submittEvidenceButtAction:(UIButton *)sender {
+    //图片字符串哈
+    NSString *picString=[self convertArrayToJsonString:imageDataArray];
     //参数字典
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.placeHolderView.text,@"service_message",self.orderNum,@"order_num",imageString,@"service_pic", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.placeHolderView.text,@"service_message",self.orderNum,@"order_num",picString,@"service_file", nil];
      [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderFinish" params:paramsDic httpMethod:@"POST" block:^(id result) {
         NSLog(@"result====%@",result);
@@ -133,7 +156,6 @@
         {
             [SVProgressHUD showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeClear];
         }
-
     } errorBlock:^(NSError *error) {
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
         [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
@@ -142,7 +164,21 @@
         [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
 }
-
+-(NSString*)convertArrayToJsonString:(NSArray*)imageArray
+{
+    NSMutableArray *tempArray=[NSMutableArray arrayWithCapacity:12];
+    NSMutableDictionary *tempDic=[NSMutableDictionary dictionary];
+    [imageArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        ImageObjectModel *tempImageModel=(ImageObjectModel*)obj;
+        [tempDic setObject:tempImageModel.data.savename forKey:@"filename"];
+        [tempDic setObject:tempImageModel.data.url forKey:@"url"];
+        [tempDic setObject:tempImageModel.editImageName forKey:@"create_time"];
+        [tempDic setObject:tempImageModel.data.source.size forKey:@"size"];
+        [tempArray addObject:tempDic];
+    }];
+    NSString *jsonString=[tempArray yy_modelToJSONString];
+    return jsonString;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
