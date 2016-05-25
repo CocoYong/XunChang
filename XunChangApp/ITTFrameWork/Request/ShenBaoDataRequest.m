@@ -133,7 +133,7 @@
     }];
     [httpManager.reachabilityManager startMonitoring];
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://kcwc.luofei.i.ubolixin.com/api/upload/index" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        NSData *fileData=UIImagePNGRepresentation(updateImage);
+        NSData *fileData=UIImageJPEGRepresentation(updateImage, 0.2);
         [formData appendPartWithFileData:fileData name:@"file" fileName:@"testImage.png" mimeType:@"image/jpeg"];
     } error:nil];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];

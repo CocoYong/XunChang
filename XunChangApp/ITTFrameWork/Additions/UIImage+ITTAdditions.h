@@ -14,5 +14,5 @@
 - (UIImage *)imageCroppedWithRect:(CGRect)rect;
 - (UIImage *)imageFitInSize:(CGSize)viewsize;
 - (UIImage *)imageScaleToFillInSize:(CGSize)viewsize;
-
+- (UIImage*)imageRepresentation:(UIImage*)originalImage;
 @end
