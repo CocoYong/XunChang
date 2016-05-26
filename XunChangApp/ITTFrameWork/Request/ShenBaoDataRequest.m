@@ -86,9 +86,9 @@
  */
 +(void)requestUpLoadImageurl:(NSString *)url params:(NSMutableDictionary*)params httpMethod:(NSString*)httpMethod imageData:(UIImage*)updateImage fileName:(NSString*)fileName iamgeUrlParams:(NSString*)imageUrlParams successCallBackBlock:(CompletionLoad)successBlock errorBlock:(ErrorBlock)errorBlock noNetworkingBlock:(NoNetWork)noNetWorkingBlock
 {
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://kcwc.luofei.i.ubolixin.com/api/upload/index" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:IMAGEUPLOAD parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         NSData *fileData=UIImagePNGRepresentation(updateImage);
-        [formData appendPartWithFileData:fileData name:@"file" fileName:@"testImage.png" mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
     } error:nil];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSURLSessionUploadTask *uploadTask= [manager uploadTaskWithStreamedRequest:request progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
@@ -132,9 +132,9 @@
         }
     }];
     [httpManager.reachabilityManager startMonitoring];
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://kcwc.luofei.i.ubolixin.com/api/upload/index" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:IMAGEUPLOAD parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         NSData *fileData=UIImageJPEGRepresentation(updateImage, 0.2);
-        [formData appendPartWithFileData:fileData name:@"file" fileName:@"testImage.png" mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
     } error:nil];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSURLSessionUploadTask *uploadTask= [manager uploadTaskWithStreamedRequest:request progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {

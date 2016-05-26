@@ -35,7 +35,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"prepay",@"type",object_id==nil?@"":object_id,@"object_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/payLog" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:PAYLOG params:paramsDic httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         yuFuKuanModel=[YuFuKuanModel yy_modelWithDictionary:result];
@@ -72,10 +72,10 @@
 {
     if (indexPath.row==0&&indexPath.section==0) {
       ShenBaoLeiXingCell *cellOne=[tableView dequeueReusableCellWithIdentifier:@"YuFuKuanCellOne"];
-        [cellOne.yuFuKuanRadiumImageView sd_setImageWithURL:[NSURL URLWithString:yuFuKuanModel.data.object_icon] placeholderImage:[UIImage imageNamed:@"icon_"] options:SDWebImageProgressiveDownload];
+        [cellOne.yuFuKuanRadiumImageView sd_setImageWithURL:[NSURL URLWithString:yuFuKuanModel.data.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
         cellOne.yuFuKuanRadiumNameLabel.text=yuFuKuanModel.data.object_title;
         cellOne.moneyLabel.text=[NSString stringWithFormat:@"￥%@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[yuFuKuanModel.data.money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
-        cellOne.useMoneyLabel.text=[NSString stringWithFormat:@"￥%@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[yuFuKuanModel.data.use_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
+        cellOne.useMoneyLabel.text=[NSString stringWithFormat:@"￥%@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[yuFuKuanModel.data.paid_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
         [cellOne.yuFuKuanButt addTarget:self action:@selector(selectChangGuanButtAction) forControlEvents:UIControlEventTouchUpInside];
         return cellOne;
     }else
@@ -83,10 +83,10 @@
        ShenBaoLeiXingCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"YuFuKuanCellTwo"];
         YuFuKuanDataListsModel *tempDataModel=[yuFuKuanModel.data.listsArray objectAtIndex:indexPath.row];
         cellTwo.yuFuKuanTitleLabel.text=tempDataModel.realname;
-        [cellTwo.yuFuKuanObjectImageView sd_setImageWithURL:[NSURL URLWithString:tempDataModel.icon] placeholderImage:[UIImage imageNamed:@"icon-"] options:SDWebImageProgressiveDownload];
+        [cellTwo.yuFuKuanObjectImageView sd_setImageWithURL:[NSURL URLWithString:tempDataModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
         cellTwo.useMoneyDetailLabel.text=tempDataModel.title;
         cellTwo.yuFuKuanTimeLabel.text=tempDataModel.create_time;
-//        cellTwo.moneyNumLabel.text=tempDataModel.
+        cellTwo.moneyNumLabel.text=tempDataModel.money;
         return cellTwo;
     }
  }
