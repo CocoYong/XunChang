@@ -51,7 +51,7 @@
 @property(nonatomic,copy)NSString *staff_realname;
 @property(nonatomic,copy)NSString *staff_tel;
 @property(nonatomic,copy)NSString *staff_user_id;
-@property(nonatomic,assign)NSInteger start;
+@property(nonatomic,assign)NSInteger star;
 @property(nonatomic,copy)NSString *start_time;
 @property(nonatomic,copy)NSString *status;
 @property(nonatomic,copy)NSString *task_status;

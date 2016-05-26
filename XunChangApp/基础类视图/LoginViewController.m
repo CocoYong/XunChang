@@ -48,7 +48,7 @@
         {
             [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
             NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.telephoneNumTextField.text,@"tel", nil];
-            [ShenBaoDataRequest requestAFWithURL:@"api/main/getMobileVerify" params:paramsDic httpMethod:@"POST" block:^(id result) {
+            [ShenBaoDataRequest requestAFWithURL:GETMOBILEVERIFY params:paramsDic httpMethod:@"POST" block:^(id result) {
                  [SVProgressHUD dismiss];
                 LoginModel *model=[LoginModel yy_modelWithDictionary:result];
                 if (model.code==0) {
@@ -75,7 +75,7 @@
     self.loginButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
         NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.telephoneNumTextField.text,@"tel",self.verifyTextField.text,@"code", nil];
         [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-        [ShenBaoDataRequest requestAFWithURL:@"api/main/login" params:paramsDic httpMethod:@"POST" block:^(id result) {
+        [ShenBaoDataRequest requestAFWithURL:LOGINORREGISTER params:paramsDic httpMethod:@"POST" block:^(id result) {
              [SVProgressHUD dismiss];
             NSLog(@"result===%@",result);
             RegistOrLogin *model=[RegistOrLogin yy_modelWithDictionary:result];
@@ -129,7 +129,7 @@
         NSLog(@"设置成功iResCode==%d",iResCode);
     }];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:user_id,@"user_id",@"ios",@"type",register_id,@"reg_id", nil];
-    [ShenBaoDataRequest requestAFWithURL:@"api/api/bindApp" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:BINDAPP params:paramsDic httpMethod:@"POST" block:^(id result) {
         LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
         if (tempModel.code==0) {
             NSLog(@"注册成功");

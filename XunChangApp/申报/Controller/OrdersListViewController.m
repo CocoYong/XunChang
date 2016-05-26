@@ -159,7 +159,7 @@
     self.tableView.height=SCREEN_HEIGHT-104;
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.status,@"task_status", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderList" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERLIST params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         NSDictionary *resultDic=(NSDictionary*)result;
@@ -365,7 +365,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/ordercancel" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERCANCEL params:paramsDic httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
@@ -392,7 +392,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderDelete" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERDELETE params:paramsDic httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
@@ -419,7 +419,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderSign" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERSIGN params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
        LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];

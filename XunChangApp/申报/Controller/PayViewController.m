@@ -48,7 +48,7 @@
         }];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@123,@"object_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/getObjectMoney" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:GETOBJECTMONEY params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         model=[MoneyModel yy_modelWithDictionary:result];
@@ -99,7 +99,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/usePrepayMoney" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:USEPREPAYMONEY params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
        LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];

@@ -22,7 +22,7 @@
 @property(nonatomic,copy)NSString *object_id;
 @property(nonatomic,copy)NSString *object_title;
 @property(nonatomic,strong)NSArray *objectsArray;
-@property(nonatomic,copy)NSString *use_money;
+@property(nonatomic,copy)NSString *paid_money;
 @end
 
 
@@ -35,11 +35,14 @@
 @property(nonatomic,copy)NSString *title;
 @property(nonatomic,copy)NSString *type;
 @property(nonatomic,copy)NSString *user_id;
+@property(nonatomic,copy)NSString *money;
 @end
 
 @interface  YuFuKuanDataObjectsModel: NSObject
 @property(nonatomic,copy)NSString *icon;
 @property(nonatomic,copy)NSString *id;
+@property(nonatomic,copy)NSString *object_title;
 @property(nonatomic,copy)NSString *is_selected;
 @property(nonatomic,copy)NSString *title;
+@property(nonatomic,copy)NSString *money;
 @end

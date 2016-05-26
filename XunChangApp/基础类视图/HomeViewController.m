@@ -14,6 +14,7 @@
 #import "UserCenterModel.h"
 #import "ChangJingViewController.h"
 #import "YuFuKuanManagerViewController.h"
+#import "LoginModel.h"
 @interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
     UserCenterModel *userModel;
@@ -73,7 +74,7 @@
 -(void)requestUserCenterData
 {
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/usercenter" params:nil httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:USERCENTER params:nil httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         userModel=[UserCenterModel yy_modelWithDictionary:result];
@@ -152,35 +153,60 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
    ActionsModel *actionModel=[userModel.data.actions objectAtIndex:indexPath.row];
-    if ([actionModel.title isEqualToString:@"申报"]){
-        if ([actionModel.name isEqualToString:@"apply_guest"]) {
-          [self performSegueWithIdentifier:@"ShenBaoController" sender:self];
+    [self clearMessageCount:actionModel.name];
+    
+}
+-(void)clearMessageCount:(NSString *)objectType
+{
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:objectType,@"type", nil];
+    [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
+    [ShenBaoDataRequest requestAFWithURL:CLEARMESSAGE params:paramsDic httpMethod:@"POST" block:^(id result) {
+        [SVProgressHUD dismiss];
+        NSLog(@"result====%@",result);
+        LoginModel *resultModel=[LoginModel yy_modelWithDictionary:result];
+        if (resultModel.code==0) {
+//            if ([objectType isEqualToString:@"申报"]){
+                if ([objectType isEqualToString:@"apply_guest"]) {
+                    [self performSegueWithIdentifier:@"ShenBaoController" sender:self];
+                }else if([objectType isEqualToString:@"apply_staff"])
+                {
+                    [self performSegueWithIdentifier:@"ZhiXingRenOrderListViewController" sender:self];
+                }
+//            }
+//            else if ([objectType isEqualToString:@"xunchang"]){
+//                [self performSegueWithIdentifier:@"XunChangController" sender:self];
+//            }
+//            else if([objectType isEqualToString:@"stat"]){
+//                [self performSegueWithIdentifier:@"TongJiViewController" sender:self];
+//            }
+//            else if([objectType isEqualToString:@"message"]){
+//                [self performSegueWithIdentifier:@"MessagerViewController" sender:self];
+//            }
+//            else if([objectType isEqualToString:@"xunchang_control"]){
+//                [self performSegueWithIdentifier:@"XunChangManagerViewController" sender:self];
+//            }else if([objectType isEqualToString:@"监管记录"]){
+//                [self performSegueWithIdentifier:@"JianGuanJiluViewController" sender:self];
+//            }
+//            else if([objectType isEqualToString:@"整改管理"]){
+//                [self performSegueWithIdentifier:@"ZhenGaiViewController" sender:self];
+//            }
+                else if([objectType isEqualToString:@"perpay_ctrl"])
+                {
+                [self performSegueWithIdentifier:@"YuFuKuanManagerViewController" sender:self];
+                }
         }else
         {
-         [self performSegueWithIdentifier:@"ZhiXingRenOrderListViewController" sender:self];
+            [SVProgressHUD  showErrorWithStatus:userModel.message maskType:SVProgressHUDMaskTypeBlack];
         }
-    }
-    else if ([actionModel.title isEqualToString:@"巡场"]) {
-        [self performSegueWithIdentifier:@"XunChangController" sender:self];
-    }
-    else if([actionModel.title isEqualToString:@"统计"]){
-        [self performSegueWithIdentifier:@"TongJiViewController" sender:self];
-    }
-    else if([actionModel.title isEqualToString:@"消息"]){
-        [self performSegueWithIdentifier:@"MessagerViewController" sender:self];
-    }
-    else if([actionModel.title isEqualToString:@"巡场管理"]){
-        [self performSegueWithIdentifier:@"XunChangManagerViewController" sender:self];
-    }else if([actionModel.title isEqualToString:@"监管记录"]){
-        [self performSegueWithIdentifier:@"JianGuanJiluViewController" sender:self];
-    }
-    else if([actionModel.title isEqualToString:@"整改管理"]){
-        [self performSegueWithIdentifier:@"ZhenGaiViewController" sender:self];
-    } else if([actionModel.title isEqualToString:@"预存款管理"]){
-        [self performSegueWithIdentifier:@"YuFuKuanManagerViewController" sender:self];
-    }
-}
+    } errorBlock:^(NSError *error) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+    } noNetWorking:^(NSString *noNetWorking) {
+        [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
+        [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
+    }];
 
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

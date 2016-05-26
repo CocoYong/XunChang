@@ -48,7 +48,7 @@
 //    }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.orderNum,@"order_num",self.contentTextView.text==nil?@"":self.contentTextView.text,@"comment",self.scoreLabel.text,@"star", nil];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/comment" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:EVALUATEORDER params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         if ([[result objectForKey:@"code"] integerValue]==0) {

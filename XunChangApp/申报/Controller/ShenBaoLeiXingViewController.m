@@ -27,7 +27,7 @@
     self.title=@"用电类型";
     [self createNavBackButt];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/getObject" params:nil httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:GETOBJECT params:nil httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         objectModel=[ShenBaoWorkObjectModel yy_modelWithDictionary:result];

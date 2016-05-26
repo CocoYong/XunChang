@@ -32,7 +32,7 @@
 {
 //    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"1",@"status", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/staffOrderList" params:nil httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:STAFFORDERLIST params:nil httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         NSDictionary *resultDic=(NSDictionary*)result;
@@ -74,7 +74,7 @@
     
     cell.objectDetailLabel.text=secondModel.item_title;
     cell.objectNumLabel.text=[NSString stringWithFormat:@"x%d",[secondModel.num integerValue]];
-    cell.shenBaoRenLabel.text=[NSString stringWithFormat:@"申报人:%@(%@)",secondModel.guest_realname,secondModel.guest_tel];
+    cell.shenBaoRenLabel.text=[NSString stringWithFormat:@"申报人:%@(%@)",secondModel.realname,secondModel.tel];
     cell.startTimeLabel.text=[NSString stringWithFormat:@"开始使用时间:%@",secondModel.start_time];
     [cell.statusButt addTarget:self action:@selector(statusButtAction:) forControlEvents:UIControlEventTouchUpInside];
     cell.statusButt.tag=indexPath.row*2+1;

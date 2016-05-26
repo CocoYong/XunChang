@@ -91,7 +91,7 @@
 {
     ShenBaoLeiXingCell *uploadImageCell=[tableView dequeueReusableCellWithIdentifier:@"UploadServiceEvidenceCell"];
     ImageObjectModel *tempModel=[imageDataArray objectAtIndex:indexPath.row];
-    [uploadImageCell.uploadServiceImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.data.url] placeholderImage:[UIImage imageNamed:@"icon_"] options:SDWebImageProgressiveDownload];
+    [uploadImageCell.uploadServiceImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.data.url] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
     uploadImageCell.uploadServiceNameLabel.text=tempModel.data.source.name;
     uploadImageCell.uploadServiceTimeLabel.text=[tempModel.originalImageName substringToIndex:16];
     uploadImageCell.uploadServiceSizeLabel.text=tempModel.data.source.size;
@@ -119,7 +119,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:picName,@"savename", nil];
     [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/deletePic" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:DELETEPIC params:paramsDic httpMethod:@"POST" block:^(id result) {
         NSLog(@"result====%@",result);
         [SVProgressHUD dismiss];
         LoginModel *model=[LoginModel yy_modelWithDictionary:result];
@@ -146,7 +146,7 @@
     //参数字典
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.placeHolderView.text,@"service_message",self.orderNum,@"order_num",picString,@"service_file", nil];
      [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderFinish" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERFINISH params:paramsDic httpMethod:@"POST" block:^(id result) {
         NSLog(@"result====%@",result);
         [SVProgressHUD dismiss];
         LoginModel *model=[LoginModel yy_modelWithDictionary:result];

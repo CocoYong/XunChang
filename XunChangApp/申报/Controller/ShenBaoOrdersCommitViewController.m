@@ -45,7 +45,7 @@
     }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.dataModel.id,@"object_id",self.dataModel.type_id,@"item_id",cellTwo.numLabel.text,@"num",cellThree.startTimeTextField.text,@"start_time",cellThree.endTimeTextField.text,@"end_time", nil];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/createOrder" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:CREATEORDER params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
          CreateOrderModel*resultModel=[CreateOrderModel yy_modelWithDictionary:result];

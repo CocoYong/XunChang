@@ -53,7 +53,7 @@
     
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"8fd4bcd74eecfcd96d8b34bba1e7644c",@"user_token",@"11",@"scene_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/applyType" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:APPLYTYPE params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         itemModel=[ShenBaoItemsModel yy_modelWithDictionary:result];
@@ -81,7 +81,7 @@
 -(void)countTimerRequestData
 {
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/newMessage" params:nil httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:NEWMESSAGE params:nil httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         newMessageModel=[ShenBaoNewMessagesModel yy_modelWithDictionary:result];

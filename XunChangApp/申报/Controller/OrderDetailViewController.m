@@ -36,7 +36,7 @@
     payModelDataArray=[NSMutableArray arrayWithCapacity:12];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderDetail" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERDETAIL params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         detailModel=[OrderDetailModel yy_modelWithDictionary:result];
@@ -197,9 +197,9 @@
     else if(indexPath.section==6){
         OrderDetailCell *cellSix=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFive"];
 //        cellFive.starBackView.hidden=
-        cellSix.starView.value=detailModel.data.start;
+        cellSix.starView.value=detailModel.data.star;
         cellSix.starView.enabled=NO;
-        cellSix.scoreLabel.text=[NSString stringWithFormat:@"%d",detailModel.data.start];
+        cellSix.scoreLabel.text=[NSString stringWithFormat:@"%d",detailModel.data.star];
         cellSix.placeHoldViewFive.text=detailModel.data.comment;
         cellSix.placeHoldViewFive.editable=NO;
         if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
@@ -456,7 +456,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/ordercancel" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERCANCEL params:paramsDic httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
@@ -483,7 +483,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderDelete" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERDELETE params:paramsDic httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
@@ -510,7 +510,7 @@
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:@"api/xcapply_mock/orderSign" params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:ORDERSIGN params:paramsDic httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];

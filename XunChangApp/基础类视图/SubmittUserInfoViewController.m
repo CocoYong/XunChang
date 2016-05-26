@@ -94,7 +94,7 @@
     }
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.sex,@"sex",self.nickNameTextField.text,@"nickname", nil];
     [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestUpLoadImageurl:@"api/user/bindUserInfo" params:paramsDic httpMethod:@"POST" imageData:imageModel.originalImage fileName:imageModel.originalImageName iamgeUrlParams:@"avatar" successCallBackBlock:^(id result) {
+    [ShenBaoDataRequest requestUpLoadImageurl:BINDUSERINFO params:paramsDic httpMethod:@"POST" imageData:imageModel.originalImage fileName:imageModel.originalImageName iamgeUrlParams:@"avatar" successCallBackBlock:^(id result) {
         [SVProgressHUD dismiss];
         LoginModel *model=[LoginModel yy_modelWithJSON:result];
         if (model.code==0) {
