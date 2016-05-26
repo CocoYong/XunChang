@@ -44,6 +44,9 @@
     sender.selected=!sender.selected;
     if (sender.selected) {
       self.sex=@"MAN";
+        if (self.womanButt.selected) {
+            self.womanButt.selected=NO;
+        }
     }else
     {
         if (!self.womanButt.selected) {
@@ -55,6 +58,9 @@
     sender.selected=!sender.selected;
     if (sender.selected) {
         self.sex=@"WOMAN";
+        if (self.manButt.selected) {
+            self.manButt.selected=NO;
+        }
     }else
     {
         if (!self.manButt.selected) {

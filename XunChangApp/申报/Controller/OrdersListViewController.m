@@ -42,7 +42,7 @@
     //初始化最后付款的数组
     payModelDataArray=[[NSMutableArray alloc]init];
     //首次进入请求数据
-    self.status=[statusArray objectAtIndex:_index];
+    self.status=[statusArray objectAtIndex:self.index-1];
     [self buttTapedAction:[self.fourButtBackView viewWithTag:self.index]];
     //顶部四个按钮
        self.fourButtBackView.layer.borderColor=[UIColor colorWithHexString:@"#e0e0e0"].CGColor;

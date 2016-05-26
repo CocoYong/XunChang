@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "SettingTableCell.h"
+#import "SubmittUserInfoViewController.h"
 @interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableArray *titleArray;
@@ -62,8 +63,22 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.section==0) {
+        [self performSegueWithIdentifier:@"AboutXunChangViewController" sender:self];
+    }
+    else if (indexPath.section==1)
+    {
+        UIStoryboard *mainStoyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        SubmittUserInfoViewController *userInfoController=[mainStoyboard instantiateViewControllerWithIdentifier:@"SubmittUserInfoViewController"];
+        [self showViewController:userInfoController sender:self];
+    }
 }
+- (IBAction)logoutButtAction:(UIButton *)sender {
+    [USER_DEFAULT setObject:@"" forKey:@"user_token"];
+     [USER_DEFAULT setObject:@"" forKey:@"scene_id"];
+    [self backToFrontViewController];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

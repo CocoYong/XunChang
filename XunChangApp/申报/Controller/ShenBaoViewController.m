@@ -12,6 +12,7 @@
 #import "UIImageView+WebCache.h"
 #import "ShenBaoItemsModel.h"
 #import "ShenBaoNewMessagesModel.h"
+#import "ShenBaoLeiXingViewController.h"
 @interface ShenBaoViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
     NSTimer *countTimer;
@@ -169,6 +170,11 @@
 {
     return 1;
 }
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ShenBaoItemDataModel *tempModel=[itemModel.datas objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"ShenBaoLeiXingViewController" sender:tempModel.title];
+}
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
@@ -194,6 +200,10 @@
         OrdersListViewController *viewController=[segue destinationViewController];
         UIButton *butt=sender;
         viewController.index=butt.tag;
+    }
+    if ([[segue destinationViewController] isKindOfClass:[ShenBaoLeiXingViewController class]]) {
+        ShenBaoLeiXingViewController *viewController=[segue destinationViewController];
+        viewController.title=sender;
     }
 }
 

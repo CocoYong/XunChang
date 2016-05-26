@@ -7,7 +7,6 @@
 //
 
 #import "HomeViewController.h"
-#import "CollectionBaseModel.h"
 #import "HomeCollectionViewItemCell.h"
 #import "UIImageView+WebCache.h"
 #import "ShenBaoViewController.h"
@@ -62,7 +61,7 @@
 {
     [super viewWillAppear:animated];
     NSLog(@"uer_token-====%@",[USER_DEFAULT objectForKey:@"user_token"]);
-    if ([USER_DEFAULT objectForKey:@"user_token"]==nil) {
+    if ([USER_DEFAULT objectForKey:@"user_token"]==nil||[[USER_DEFAULT objectForKey:@"user_token"] isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"LoginViewController" sender:self];
     }
     if ([[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {

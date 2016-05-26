@@ -18,6 +18,7 @@
 		C21498651CE5ECEE00844E0E /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C214985E1CE5ECEE00844E0E /* README.txt */; };
 		C21498661CE5ECEE00844E0E /* WeiXinPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C21498611CE5ECEE00844E0E /* WeiXinPayManager.m */; };
 		C21498681CE5EDD500844E0E /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C21498671CE5EDD500844E0E /* libc++.tbd */; };
+		C21DA7B21CF6EBC600D855A4 /* AboutXunChangViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21DA7B11CF6EBC600D855A4 /* AboutXunChangViewController.m */; };
 		C222FE251CE752C000F1AC7E /* myMd5.m in Sources */ = {isa = PBXBuildFile; fileRef = C222FE211CE752C000F1AC7E /* myMd5.m */; };
 		C222FE291CE756C400F1AC7E /* ShenBaoDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C222FE281CE756C400F1AC7E /* ShenBaoDataRequest.m */; };
 		C222FE2C1CE7603000F1AC7E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C222FE2B1CE7603000F1AC7E /* LoginViewController.m */; };
@@ -102,7 +103,6 @@
 		C2A89C1B1CE8AB65009E32D2 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A89C181CE8AB65009E32D2 /* YYClassInfo.m */; };
 		C2C90AC31CE0CE400023726C /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90AC21CE0CE400023726C /* HomeViewController.m */; };
 		C2C90AC61CE0CE9F0023726C /* ShenBaoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90AC51CE0CE9F0023726C /* ShenBaoViewController.m */; };
-		C2C90AC91CE0E67E0023726C /* ButtonLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90AC81CE0E67E0023726C /* ButtonLabelView.m */; };
 		C2C90ACD1CE189E50023726C /* ChangJingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90ACC1CE189E50023726C /* ChangJingViewController.m */; };
 		C2C90AD01CE18DC00023726C /* ShenBaoLeiXingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90ACF1CE18DC00023726C /* ShenBaoLeiXingViewController.m */; };
 		C2C90AD31CE193CE0023726C /* ShenBaoSelectItemListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90AD21CE193CE0023726C /* ShenBaoSelectItemListViewController.m */; };
@@ -110,7 +110,6 @@
 		C2C90AE71CE1F3660023726C /* OrdersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90AE61CE1F3660023726C /* OrdersListViewController.m */; };
 		C2C9C24F1CF5ACFF008DCC21 /* SettingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C24E1CF5ACFF008DCC21 /* SettingTableCell.m */; };
 		C2C9C2521CF5B434008DCC21 /* AcountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2511CF5B434008DCC21 /* AcountViewController.m */; };
-		C2D1A2831CDC972A00F522FC /* CollectionBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D1A2821CDC972A00F522FC /* CollectionBaseModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,6 +130,8 @@
 		C21498621CE5ECEE00844E0E /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		C21498631CE5ECEE00844E0E /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		C21498671CE5EDD500844E0E /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		C21DA7B01CF6EBC600D855A4 /* AboutXunChangViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutXunChangViewController.h; sourceTree = "<group>"; };
+		C21DA7B11CF6EBC600D855A4 /* AboutXunChangViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutXunChangViewController.m; sourceTree = "<group>"; };
 		C222FE201CE752C000F1AC7E /* myMd5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myMd5.h; sourceTree = "<group>"; };
 		C222FE211CE752C000F1AC7E /* myMd5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myMd5.m; sourceTree = "<group>"; };
 		C222FE271CE756C400F1AC7E /* ShenBaoDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShenBaoDataRequest.h; sourceTree = "<group>"; };
@@ -298,8 +299,6 @@
 		C2C90AC21CE0CE400023726C /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		C2C90AC41CE0CE9F0023726C /* ShenBaoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShenBaoViewController.h; sourceTree = "<group>"; };
 		C2C90AC51CE0CE9F0023726C /* ShenBaoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShenBaoViewController.m; sourceTree = "<group>"; };
-		C2C90AC71CE0E67E0023726C /* ButtonLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonLabelView.h; sourceTree = "<group>"; };
-		C2C90AC81CE0E67E0023726C /* ButtonLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonLabelView.m; sourceTree = "<group>"; };
 		C2C90ACA1CE1686C0023726C /* CommonFuncs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonFuncs.h; sourceTree = "<group>"; };
 		C2C90ACB1CE189E50023726C /* ChangJingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangJingViewController.h; sourceTree = "<group>"; };
 		C2C90ACC1CE189E50023726C /* ChangJingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangJingViewController.m; sourceTree = "<group>"; };
@@ -315,8 +314,6 @@
 		C2C9C24E1CF5ACFF008DCC21 /* SettingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableCell.m; sourceTree = "<group>"; };
 		C2C9C2501CF5B434008DCC21 /* AcountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcountViewController.h; sourceTree = "<group>"; };
 		C2C9C2511CF5B434008DCC21 /* AcountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcountViewController.m; sourceTree = "<group>"; };
-		C2D1A2811CDC972A00F522FC /* CollectionBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBaseModel.h; sourceTree = "<group>"; };
-		C2D1A2821CDC972A00F522FC /* CollectionBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBaseModel.m; sourceTree = "<group>"; };
 		C706946331BD18444B70A5E1 /* Pods-XunChangApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XunChangApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XunChangApp/Pods-XunChangApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -486,8 +483,6 @@
 				C260BB5C1CDAD7FD001AA54B /* BaseViewController.m */,
 				C222FE2D1CE769C800F1AC7E /* BaseViewController+CommonFuncs.h */,
 				C222FE2E1CE769C800F1AC7E /* BaseViewController+CommonFuncs.m */,
-				C2D1A2811CDC972A00F522FC /* CollectionBaseModel.h */,
-				C2D1A2821CDC972A00F522FC /* CollectionBaseModel.m */,
 				C2C90AC11CE0CE400023726C /* HomeViewController.h */,
 				C2C90AC21CE0CE400023726C /* HomeViewController.m */,
 				C2C90ACB1CE189E50023726C /* ChangJingViewController.h */,
@@ -561,6 +556,8 @@
 				C299491E1CE33F860037A595 /* SettingViewController.m */,
 				C2C9C2501CF5B434008DCC21 /* AcountViewController.h */,
 				C2C9C2511CF5B434008DCC21 /* AcountViewController.m */,
+				C21DA7B01CF6EBC600D855A4 /* AboutXunChangViewController.h */,
+				C21DA7B11CF6EBC600D855A4 /* AboutXunChangViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -893,8 +890,6 @@
 		C2D1A2751CDC2AF900F522FC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C2C90AC71CE0E67E0023726C /* ButtonLabelView.h */,
-				C2C90AC81CE0E67E0023726C /* ButtonLabelView.m */,
 				C25DA5E01CEDDABB00E63DEC /* GrayAlertView.h */,
 				C25DA5E11CEDDABB00E63DEC /* GrayAlertView.m */,
 				C29949731CE462EB0037A595 /* HomeCollectionViewItemCell.h */,
@@ -1093,6 +1088,7 @@
 			files = (
 				C299496F1CE425CB0037A595 /* HCSStarRatingView.m in Sources */,
 				C2C90AC61CE0CE9F0023726C /* ShenBaoViewController.m in Sources */,
+				C21DA7B21CF6EBC600D855A4 /* AboutXunChangViewController.m in Sources */,
 				C299493D1CE346DE0037A595 /* ShenBaoLeiXingCell.m in Sources */,
 				C225D0B31CECA2C600FDCB23 /* CreateOrderModel.m in Sources */,
 				C299491F1CE33F860037A595 /* SettingViewController.m in Sources */,
@@ -1118,7 +1114,6 @@
 				C225D0A71CEC3E4C00FDCB23 /* UIPlaceHolderTextView.m in Sources */,
 				C24B729D1CD8979A00DDD55B /* UIFont+ITTAdditions.m in Sources */,
 				C225D0AA1CEC448B00FDCB23 /* UpLoadServiceEvidenceViewController.m in Sources */,
-				C2D1A2831CDC972A00F522FC /* CollectionBaseModel.m in Sources */,
 				C2C9C2521CF5B434008DCC21 /* AcountViewController.m in Sources */,
 				C24B72931CD8979A00DDD55B /* ITTCommonFunctions.m in Sources */,
 				C299493A1CE344930037A595 /* OrderListCell.m in Sources */,
@@ -1132,7 +1127,6 @@
 				C232BC941CE8B6F4005AD551 /* OrderListModel.m in Sources */,
 				C2994AA01CE4BD2C0037A595 /* OrderDetailViewController.m in Sources */,
 				C24B729B1CD8979A00DDD55B /* UIColor-Expanded.m in Sources */,
-				C2C90AC91CE0E67E0023726C /* ButtonLabelView.m in Sources */,
 				C2994AA31CE4C5110037A595 /* OrderDetailCell.m in Sources */,
 				C29949811CE47A7C0037A595 /* TongJiViewController.m in Sources */,
 				C2C90AD01CE18DC00023726C /* ShenBaoLeiXingViewController.m in Sources */,

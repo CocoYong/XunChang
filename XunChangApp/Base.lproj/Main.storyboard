@@ -9,7 +9,7 @@
         <!--Submitt User Info View Controller-->
         <scene sceneID="0Zz-re-u5a">
             <objects>
-                <viewController id="tEX-6I-ely" customClass="SubmittUserInfoViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SubmittUserInfoViewController" id="tEX-6I-ely" customClass="SubmittUserInfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3z3-uF-Rgj"/>
                         <viewControllerLayoutGuide type="bottom" id="EOE-03-Fbm"/>
@@ -83,7 +83,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Qf-Hd-MmF">
-                                                <rect key="frame" x="177" y="162" width="32" height="22"/>
+                                                <rect key="frame" x="84" y="162" width="32" height="22"/>
                                                 <state key="normal" title="男" image="radio_normal">
                                                     <color key="titleColor" red="0.090196078430000007" green="0.094117647060000004" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
@@ -97,7 +97,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="FUp-8K-4NJ"/>
                                                 </constraints>
-                                                <state key="normal" title="Button">
+                                                <state key="normal" title="提交资料">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -105,7 +105,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dg7-xc-Eap">
-                                                <rect key="frame" x="250" y="162" width="32" height="22"/>
+                                                <rect key="frame" x="157" y="162" width="32" height="22"/>
                                                 <state key="normal" title="女" image="radio_normal">
                                                     <color key="titleColor" red="0.090196078430000007" green="0.094117647060000004" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
@@ -117,7 +117,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="2ce-Uf-v0B" firstAttribute="top" secondItem="raS-ae-n8n" secondAttribute="bottom" constant="65" id="8nB-xl-E7H"/>
-                                            <constraint firstItem="6Qf-Hd-MmF" firstAttribute="leading" secondItem="e42-Ii-yEW" secondAttribute="trailing" constant="113" id="Gal-Ng-VtL"/>
+                                            <constraint firstItem="6Qf-Hd-MmF" firstAttribute="leading" secondItem="e42-Ii-yEW" secondAttribute="trailing" constant="20" id="Gal-Ng-VtL"/>
                                             <constraint firstAttribute="trailing" secondItem="raS-ae-n8n" secondAttribute="trailing" id="HHR-Xp-Ck4"/>
                                             <constraint firstItem="jCU-9D-uc5" firstAttribute="leading" secondItem="CQv-wv-nrE" secondAttribute="trailing" constant="18" id="L6f-LU-OJt"/>
                                             <constraint firstAttribute="trailing" secondItem="QWQ-Ey-7X6" secondAttribute="trailing" constant="24" id="OvF-ej-Hie"/>
@@ -176,6 +176,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3gX-cN-HzA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-8998" y="-3296"/>
+        </scene>
+        <!--About Xun Chang View Controller-->
+        <scene sceneID="Zpk-db-TD4">
+            <objects>
+                <viewController id="cFA-x0-xaG" customClass="AboutXunChangViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dQ5-S3-qyb"/>
+                        <viewControllerLayoutGuide type="bottom" id="BHt-QQ-PWM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5WQ-dL-kKQ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FXm-qW-JzD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-8998" y="-2647"/>
         </scene>
         <!--Xun Chang Manager View Controller-->
         <scene sceneID="tqU-5m-uXa">
@@ -947,10 +965,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GtG-Pv-IDO">
-                                <rect key="frame" x="0.0" y="64" width="600" height="300"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="120"/>
                                 <color key="backgroundColor" red="0.92156862745098034" green="0.92549019607843142" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="rBl-GP-x4Q"/>
+                                    <constraint firstAttribute="height" constant="120" id="rBl-GP-x4Q"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SettingTableCellOne" rowHeight="50" id="SR2-Q2-W5a" customClass="SettingTableCell">
@@ -1005,7 +1023,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQH-e8-XJq">
-                                <rect key="frame" x="0.0" y="384" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="204" width="600" height="50"/>
                                 <color key="backgroundColor" red="0.7803921568627451" green="0.33333333333333331" blue="0.14509803921568629" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="vsG-Af-9rq"/>
@@ -1014,9 +1032,12 @@
                                 <state key="normal" title="退出登录">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="logoutButtAction:" destination="lS4-f7-Ypt" eventType="touchUpInside" id="esv-GU-Zhk"/>
+                                </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.87450980392156863" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="GtG-Pv-IDO" firstAttribute="leading" secondItem="qQ5-9a-h89" secondAttribute="leading" id="TAq-zd-StG"/>
                             <constraint firstAttribute="trailing" secondItem="eQH-e8-XJq" secondAttribute="trailing" id="ZYm-ya-B41"/>
@@ -1031,6 +1052,7 @@
                     <connections>
                         <outlet property="logoutButt" destination="eQH-e8-XJq" id="vnU-0z-hAE"/>
                         <outlet property="tableView" destination="GtG-Pv-IDO" id="bda-Oc-LjQ"/>
+                        <segue destination="cFA-x0-xaG" kind="show" id="oRM-02-JlR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hpD-C6-uVM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1661,7 +1683,6 @@
                                         <connections>
                                             <outlet property="shenBaoIconImageView" destination="znE-re-zHI" id="YDf-Zi-eEd"/>
                                             <outlet property="shenBaoNameLabel" destination="77F-Lt-PKw" id="Kv5-7X-RYF"/>
-                                            <segue destination="bqL-WZ-c2f" kind="show" id="U1J-ke-BwV"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -1694,6 +1715,7 @@
                         <outlet property="daiquerenLabel" destination="UTk-oJ-JUQ" id="eZK-Vj-wx1"/>
                         <outlet property="iconImageView" destination="VcM-yi-pLf" id="lnp-cI-Rjz"/>
                         <segue destination="5Bi-ns-JKZ" kind="show" identifier="OrdersListViewController" id="GHs-kr-43Y"/>
+                        <segue destination="bqL-WZ-c2f" kind="show" identifier="ShenBaoLeiXingViewController" id="2bW-Nh-rHo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="acd-gk-nmc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2207,7 +2229,6 @@
                                         <connections>
                                             <outlet property="logoImageView" destination="tqj-QU-149" id="LiR-J8-z4o"/>
                                             <outlet property="nameLabel" destination="gLq-qD-rBa" id="ntY-R4-fNZ"/>
-                                            <segue destination="nmx-0T-Ajm" kind="show" id="YD8-yz-gya"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -2237,6 +2258,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="9Zi-9N-bRK" id="3xH-iK-BuZ"/>
+                        <segue destination="nmx-0T-Ajm" kind="show" identifier="ShenBaoSelectItemListViewController" id="L8W-4s-Yq4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xBQ-fd-QW6" userLabel="First Responder" sceneMemberID="firstResponder"/>

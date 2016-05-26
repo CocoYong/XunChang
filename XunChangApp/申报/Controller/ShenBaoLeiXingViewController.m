@@ -8,10 +8,9 @@
 
 #import "ShenBaoLeiXingViewController.h"
 #import "ShenBaoWorkObjectModel.h"
-#import "YYModel.h"
 #import "ShenBaoLeiXingCell.h"
 #import "UIImageView+WebCache.h"
-#import "YYModel.h"
+#import "ShenBaoSelectItemListViewController.h"
 @interface ShenBaoLeiXingViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     ShenBaoWorkObjectModel *objectModel;
@@ -24,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"用电类型";
     [self createNavBackButt];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:GETOBJECT params:nil httpMethod:@"POST" block:^(id result) {
@@ -100,18 +98,27 @@
 {
     return 10;
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ShenBaoWorkObjectDataModel *tempModel=[objectModel.datas objectAtIndex:indexPath.section];
+    ShenBaoWorkObjectDataObjectsModel *secondModel=[tempModel.objects objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"ShenBaoSelectItemListViewController" sender:secondModel.title];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-/*
-#pragma mark - Navigation
+
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"ShenBaoSelectItemListViewController")]) {
+        ShenBaoSelectItemListViewController *itemViewController=[segue destinationViewController];
+        itemViewController.title=sender;
+    }
 }
-*/
+
 
 @end

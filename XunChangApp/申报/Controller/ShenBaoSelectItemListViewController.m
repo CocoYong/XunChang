@@ -21,7 +21,6 @@
 @implementation ShenBaoSelectItemListViewController
 
 - (void)viewDidLoad {
-    self.title=@"选择用电项目";
     [super viewDidLoad];
     [self createNavBackButt];
     self.tableView.tableFooterView=[UIView new];
