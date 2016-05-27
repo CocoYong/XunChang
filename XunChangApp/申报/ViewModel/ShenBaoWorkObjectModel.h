@@ -15,12 +15,12 @@
 @end
 
 @interface ShenBaoWorkObjectDataModel : NSObject
-@property(nonatomic,copy)NSString *area_title;
+@property(nonatomic,copy)NSString *area_name;
 @property(nonatomic,strong)NSArray *objects;
 @end
 
 @interface ShenBaoWorkObjectDataObjectsModel : NSObject
-@property(nonatomic,copy)NSString *icon;
+@property(nonatomic,copy)NSString *owner_icon;
 @property(nonatomic,copy)NSString *id;
-@property(nonatomic,copy)NSString *title;
+@property(nonatomic,copy)NSString *name;
 @end

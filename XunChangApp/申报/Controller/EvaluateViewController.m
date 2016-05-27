@@ -42,10 +42,6 @@
 }
 
 - (IBAction)submittButtAction:(id)sender {
-    
-//    if (self.contentTextView.text==nil) {
-//      SVProgressHUD showErrorWithStatus:@"" maskType:<#(SVProgressHUDMaskType)#>
-//    }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.orderNum,@"order_num",self.contentTextView.text==nil?@"":self.contentTextView.text,@"comment",self.scoreLabel.text,@"star", nil];
     [ShenBaoDataRequest requestAFWithURL:EVALUATEORDER params:paramsDic httpMethod:@"POST" block:^(id result) {

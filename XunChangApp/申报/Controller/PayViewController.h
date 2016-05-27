@@ -9,4 +9,5 @@
 #import "BaseViewController.h"
 @interface PayViewController : BaseViewController
 @property(nonatomic,strong)NSArray *dataArray;
+@property(nonatomic,copy)NSString *object_id;
 @end

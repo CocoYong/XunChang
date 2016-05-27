@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface ShenBaoLeiXingViewController : BaseViewController
-
+@property(nonatomic,copy)NSString *type_id;
 @end

@@ -24,7 +24,7 @@
     [super viewDidLoad];
     [self createNavBackButt];
     self.tableView.tableFooterView=[UIView new];
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"12",@"type_id", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.type_id,@"type_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:GETITEM params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
@@ -58,7 +58,7 @@
 {
     ShenBaoSelectItemListCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoSelectItemListCell"];
     ShenBaoKemuDataModel *tempModel=[kemuModel.datas objectAtIndex:indexPath.row];
-    cell.nameLabel.text=[NSString stringWithFormat:@"%@ %@ %@",tempModel.title,tempModel.intro,tempModel.deposit];
+    cell.nameLabel.text=[NSString stringWithFormat:@"%@",tempModel.title];
     if (tempModel.select) {
         [cell.selectButt setImage:[UIImage imageNamed:@"icon_gx"] forState:UIControlStateNormal];
     }else
@@ -96,6 +96,7 @@
     // Pass the selected object to the new view controller.
     ShenBaoOrdersCommitViewController *viewController=[segue destinationViewController];
     viewController.dataModel=sender;
+    viewController.object_id=self.objectModel.id;
 }
 
 

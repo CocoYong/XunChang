@@ -39,21 +39,20 @@
     [ShenBaoDataRequest requestAFWithURL:ORDERDETAIL params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
-        detailModel=[OrderDetailModel yy_modelWithDictionary:result];
-        detailModel.data.progressArray=[NSArray yy_modelArrayWithClass:[OrderDetailDataProgressModel class] json:[[result objectForKey:@"data"] objectForKey:@"progress"]];
-        detailModel.data.serviceFileArray=[NSArray yy_modelArrayWithClass:[OrderDetailDataServiceFileModel class] json:[[result objectForKey:@"data"] objectForKey:@"service_file"]];
-        [detailModel.data.serviceFileArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            OrderDetailDataServiceFileModel *tempModel=(OrderDetailDataServiceFileModel *)obj;
-            tempModel.imageUrlArray=[tempModel.url componentsSeparatedByString:@","];
-        }];
-        
-        if (detailModel.code==0) {
+        if ([[result objectForKey:@"code"] integerValue]==0) {
+            detailModel=[OrderDetailModel yy_modelWithDictionary:result];
+            detailModel.data.progressArray=[NSArray yy_modelArrayWithClass:[OrderDetailDataProgressModel class] json:[[result objectForKey:@"data"] objectForKey:@"progress"]];
+            detailModel.data.serviceFileArray=[NSArray yy_modelArrayWithClass:[OrderDetailDataServiceFileModel class] json:[[result objectForKey:@"data"] objectForKey:@"service_file"]];
+            [detailModel.data.serviceFileArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                OrderDetailDataServiceFileModel *tempModel=(OrderDetailDataServiceFileModel *)obj;
+                tempModel.imageUrlArray=[tempModel.url componentsSeparatedByString:@","];
+            }];
             [payModelDataArray addObject:detailModel];
             [self.tableView reloadData];
-        }else if (detailModel.code==9999)
+        }else if ([[result objectForKey:@"code"] integerValue]==9999)
         {
-            [SVProgressHUD  showErrorWithStatus:detailModel.message maskType:SVProgressHUDMaskTypeBlack];
-        }else if(detailModel.code==1001)
+            [SVProgressHUD  showErrorWithStatus:[result objectForKey:@"message"] maskType:SVProgressHUDMaskTypeBlack];
+        }else if([[result objectForKey:@"code"] integerValue]==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];
             [self.navigationController popToRootViewControllerAnimated:YES];
@@ -69,309 +68,305 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==7) {
-        return detailModel.data.progressArray.count;
+    if (section==1) {
+        return detailModel.data.progressArray.count+1;
     }else{
-        if (section==5) {
-            return detailModel.data.serviceFileArray.count+1;
-        }else
-        {
-          return 1;
-        }
+        return detailModel.data.serviceFileArray.count+7;
     }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellOne"];
-        [cell.changGuanIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-        [cell.objectIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-        if ([self.userType isEqualToString:@"apply_guest"]) {
-            if ([detailModel.data.status isEqualToString:@"pending"]) {
-                cell.orderStatusLabel.text=@"待付款";
-                cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#D16A38"];
-            }else if ([detailModel.data.status isEqualToString:@"starting"])
-            {
-                cell.orderStatusLabel.text=@"付款成功";
-                cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
-            }
-            else if ([detailModel.data.status isEqualToString:@"finish"])
-            {
-                cell.orderStatusLabel.text=@"等待确定";
-                cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
-            }else{
-                cell.orderStatusLabel.text=@"交易成功";
-                cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
-            }
-        }else
-        {
-            if ([detailModel.data.task_status isEqualToString:@"starting"]) {
-                cell.orderStatusLabel.text=@"付款成功";
-                cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
-            }else if([detailModel.data.task_status isEqualToString:@"finish"])
-            {
-                cell.orderStatusLabel.text=@"完成服务";
-                cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
+        if (indexPath.row==0) {
+            OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellOne"];
+            [cell.changGuanIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            [cell.objectIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            if ([self.userType isEqualToString:@"apply_guest"]) {
+                if ([detailModel.data.status isEqualToString:@"pending"]) {
+                    cell.orderStatusLabel.text=@"待付款";
+                    cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#D16A38"];
+                }else if ([detailModel.data.status isEqualToString:@"starting"])
+                {
+                    cell.orderStatusLabel.text=@"付款成功";
+                    cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
+                }
+                else if ([detailModel.data.status isEqualToString:@"finish"])
+                {
+                    cell.orderStatusLabel.text=@"等待确定";
+                    cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
+                }else{
+                    cell.orderStatusLabel.text=@"交易成功";
+                    cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
+                }
             }else
             {
-                cell.orderStatusLabel.text=@"交易成功";
-                cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
+                if ([detailModel.data.task_status isEqualToString:@"starting"]) {
+                    cell.orderStatusLabel.text=@"付款成功";
+                    cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
+                }else if([detailModel.data.task_status isEqualToString:@"finish"])
+                {
+                    cell.orderStatusLabel.text=@"完成服务";
+                    cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
+                }else
+                {
+                    cell.orderStatusLabel.text=@"交易成功";
+                    cell.orderStatusLabel.textColor=[UIColor colorWithHexString:@"#8DAE7F"];
+                }
             }
-        }
-        cell.changGuanLabel.text=detailModel.data.object_address;
-        cell.objectCountLabel.text=[NSString stringWithFormat:@"x%@",detailModel.data.num];
-        cell.orderNumLabel.text=detailModel.data.order_num;
-        cell.useMoneyLabel.text=detailModel.data.total_money;
-        cell.dispositMoneyLabel.text=detailModel.data.total_deposit_money;
-        cell.totalMoneyLabel.text=detailModel.data.total_use_money;
-        return cell;
-    }
-    else if(indexPath.section==1){
-        OrderDetailCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellTwo"];
-        cellTwo.startTimeLabel.text=detailModel.data.start_time;
-        cellTwo.endTimeLabel.text=detailModel.data.end_time;
-        return cellTwo;
-    }
-    else if(indexPath.section==2){
-      OrderDetailCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
-        [cellTwo.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-         cellTwo.userTypeLabel.text=@"申请人";
-        cellTwo.clearButt.tag=111;
-        [cellTwo.clearButt addTarget:self action:@selector(telephoneButtAction:) forControlEvents:UIControlEventTouchUpInside];
-        cellTwo.nameLabel.text=detailModel.data.realname;
-        if (![detailModel.data.show_guest isEqualToString:@"Y"]) {
-            cellTwo.hidden=YES;
-        }else
+            cell.changGuanLabel.text=detailModel.data.object_address;
+            cell.objectCountLabel.text=[NSString stringWithFormat:@"x%@",detailModel.data.num];
+            cell.orderNumLabel.text=[detailModel.data.order_num substringFromIndex:detailModel.data.order_num.length-11];
+            cell.useMoneyLabel.text=detailModel.data.total_money;
+            cell.dispositMoneyLabel.text=detailModel.data.total_deposit_money;
+            cell.totalMoneyLabel.text=detailModel.data.total_use_money;
+            return cell;
+        }else if (indexPath.row==1)
         {
-            cellTwo.hidden=NO;
-        }
-        return cellTwo;
-    }
-    else if(indexPath.section==3){
-        OrderDetailCell *cellThree=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
-        [cellThree.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.staff_avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-        cellThree.clearButt.tag=222;
-        [cellThree.clearButt addTarget:self action:@selector(telephoneButtAction:) forControlEvents:UIControlEventTouchUpInside];
-        cellThree.nameLabel.text=detailModel.data.staff_realname;
-        cellThree.userTypeLabel.text=@"服务执行人";
-        if (![detailModel.data.show_staff isEqualToString:@"Y"]) {
-            cellThree.hidden=YES;
-        }else
+            OrderDetailCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellTwo"];
+            cellTwo.startTimeLabel.text=detailModel.data.start_time;
+            cellTwo.endTimeLabel.text=detailModel.data.end_time;
+            return cellTwo;
+        }else if (indexPath.row==2)
         {
-            cellThree.hidden=NO;
-        }
-        return cellThree;
-    }
-    else if(indexPath.section==4){
-        OrderDetailCell *cellFour=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
-        [cellFour.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.checker_avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-        cellFour.clearButt.tag=333;
-        [cellFour.clearButt addTarget:self action:@selector(telephoneButtAction:) forControlEvents:UIControlEventTouchUpInside];
-        cellFour.nameLabel.text=detailModel.data.checker_realname;
-        cellFour.userTypeLabel.text=@"服务检查人";
-        if (![detailModel.data.show_service isEqualToString:@"Y"]) {
-            cellFour.hidden=YES;
-        }else
+            OrderDetailCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
+            [cellTwo.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            cellTwo.userTypeLabel.text=@"申请人";
+            cellTwo.clearButt.tag=111;
+            [cellTwo.clearButt addTarget:self action:@selector(telephoneButtAction:) forControlEvents:UIControlEventTouchUpInside];
+            cellTwo.nameLabel.text=detailModel.data.realname;
+            if (![detailModel.data.show_guest isEqualToString:@"Y"]) {
+                cellTwo.hidden=YES;
+            }else
+            {
+                cellTwo.hidden=NO;
+            }
+            return cellTwo;
+        }else if (indexPath.row==3)
         {
-            cellFour.hidden=NO;
-        }
-        return cellFour;
-    }
-    else if(indexPath.section==5){
-        if (indexPath.row==0) {
+            OrderDetailCell *cellThree=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
+            [cellThree.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.staff_avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            cellThree.clearButt.tag=222;
+            [cellThree.clearButt addTarget:self action:@selector(telephoneButtAction:) forControlEvents:UIControlEventTouchUpInside];
+            cellThree.nameLabel.text=detailModel.data.staff_realname;
+            cellThree.userTypeLabel.text=@"服务执行人";
+            if (![detailModel.data.show_staff isEqualToString:@"Y"]) {
+                cellThree.hidden=YES;
+            }else
+            {
+                cellThree.hidden=NO;
+            }
+            return cellThree;
+        }else if (indexPath.row==4)
+        {
+            OrderDetailCell *cellFour=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
+            [cellFour.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.checker_avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            cellFour.clearButt.tag=333;
+            [cellFour.clearButt addTarget:self action:@selector(telephoneButtAction:) forControlEvents:UIControlEventTouchUpInside];
+            cellFour.nameLabel.text=detailModel.data.checker_realname;
+            cellFour.userTypeLabel.text=@"服务检查人";
+            if (![detailModel.data.show_service isEqualToString:@"Y"]) {
+                cellFour.hidden=YES;
+            }else
+            {
+                cellFour.hidden=NO;
+            }
+            return cellFour;
+        }else if (indexPath.row==5)
+        {
             OrderDetailCell *cellFive=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFour"];
             cellFive.completEvidenceTimeLabel.text=detailModel.data.paid_time;
             cellFive.serviceDetailLabel.text=detailModel.data.service_message;
             return cellFive;
+        }else if (indexPath.row==detailModel.data.serviceFileArray.count+6)
+        {
+            OrderDetailCell *cellSix=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFive"];
+            //        cellFive.starBackView.hidden=
+            cellSix.starView.value=detailModel.data.star;
+            cellSix.starView.enabled=NO;
+            cellSix.scoreLabel.text=[NSString stringWithFormat:@"%d",detailModel.data.star];
+            cellSix.conmentDetailLabel.text=detailModel.data.comment;
+            if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
+                cellSix.hidden=YES;
+            }else
+            {
+                cellSix.hidden=NO;
+            }
+            return cellSix;
         }else
         {
-           OrderDetailCell *cellFiveImage=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellSeven"];
-            OrderDetailDataServiceFileModel *tempModel=[detailModel.data.serviceFileArray objectAtIndex:indexPath.row-1];
-             [cellFiveImage.detailImageView sd_setImageWithURL:[NSURL URLWithString:[tempModel.imageUrlArray objectAtIndex:0]] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-              cellFiveImage.imageNameLabel.text=tempModel.filename;
+            OrderDetailCell *cellFiveImage=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellSeven"];
+            OrderDetailDataServiceFileModel *tempModel=[detailModel.data.serviceFileArray objectAtIndex:indexPath.row-6];
+            [cellFiveImage.detailImageView sd_setImageWithURL:[NSURL URLWithString:[tempModel.imageUrlArray objectAtIndex:0]] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            cellFiveImage.imageNameLabel.text=tempModel.filename;
             cellFiveImage.imageSizeLabel.text=[self bytesToMBOrKB:tempModel.size];
             cellFiveImage.imageCreatTimeLabel.text=tempModel.create_time;
             return cellFiveImage;
         }
-    }
-    else if(indexPath.section==6){
-        OrderDetailCell *cellSix=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFive"];
-//        cellFive.starBackView.hidden=
-        cellSix.starView.value=detailModel.data.star;
-        cellSix.starView.enabled=NO;
-        cellSix.scoreLabel.text=[NSString stringWithFormat:@"%d",detailModel.data.star];
-        cellSix.placeHoldViewFive.text=detailModel.data.comment;
-        cellSix.placeHoldViewFive.editable=NO;
-        if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
-            cellSix.hidden=YES;
-        }else
-        {
-            cellSix.hidden=NO;
-        }
-        return cellSix;
-    }
-    else if(indexPath.section==7){
-        OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellSix"];
-        OrderDetailDataProgressModel *progressModel=[detailModel.data.progressArray objectAtIndex:indexPath.row];
-        cell.orderActionLabel.text=progressModel.title;
-        cell.orderActionTimeLabel.text=progressModel.create_time;
-        cell.orderActionInfoLabel.text=progressModel.message;
-        if (indexPath.row==detailModel.data.progressArray.count-1) {
-            cell.radioImageView.image=[UIImage imageNamed:@"icon_ld"];
-        }else
-        {
-           cell.radioImageView.image=[UIImage imageNamed:@"icon_hd"]; 
-        }
-        return cell;
     }else
     {
-        OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellEight"];
-        [cell.buttonThree addTarget:self action:@selector(payButtAction:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.buttOne addTarget:self action:@selector(deletButtAction:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.buttonTwo addTarget:self action:@selector(cancelButtAction:) forControlEvents:UIControlEventTouchUpInside];
-        cell.buttOne.tag=indexPath.row*3;
-        cell.buttonTwo.tag=indexPath.row*3+1;
-        cell.buttonThree.tag=indexPath.row*3+2;
-        if ([self.userType isEqualToString:@"apply_guest"]) {  //申报人
-            if ([detailModel.data.status isEqualToString:@"pending"]) {
-                cell.buttOne.hidden=YES;
-                [cell.buttonTwo setTitle:@"取消订单" forState:UIControlStateNormal];
-                [cell.buttonTwo setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-                [cell.buttonTwo setBackgroundColor:[UIColor whiteColor]];
-                [cell.buttonThree setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];
-                [cell.buttonThree setTitle:@"付款" forState:UIControlStateNormal];
-                [cell.buttonThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            }else if ([detailModel.data.status isEqualToString:@"starting"])
-            {
-                cell.buttOne.hidden=YES;
-                [cell.buttonThree setTitle:@"投诉" forState:UIControlStateNormal];
-                [cell.buttonThree setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];
-                [cell.buttonThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [cell.buttonTwo setTitle:@"联系服务" forState:UIControlStateNormal];
-                [cell.buttonTwo setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-                [cell.buttonTwo setBackgroundColor:[UIColor whiteColor]];
-            }
-            else if ([detailModel.data.status isEqualToString:@"finish"])
-            {
-                cell.buttOne.hidden=YES;
-                [cell.buttonThree setTitle:@"签收" forState:UIControlStateNormal];
-                [cell.buttonThree setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];
-                [cell.buttonThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [cell.buttonTwo setTitle:@"投诉" forState:UIControlStateNormal];
-                [cell.buttonTwo setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-                [cell.buttonTwo setBackgroundColor:[UIColor whiteColor]];
-            }else{
-                if ([detailModel.data.show_comment isEqualToString:@"Y"]) {
-                    [cell.buttonThree setBackgroundColor:[UIColor whiteColor]];
-                    [cell.buttonThree setTitle:@"投诉" forState:UIControlStateNormal];
-                    [cell.buttonThree setTitleColor:[UIColor colorWithHexString:@"#A5A6A7"] forState:UIControlStateNormal];
-                    cell.buttonThree.layer.borderColor=[UIColor colorWithHexString:@"#DCDDDD"].CGColor;
-                    cell.buttonThree.layer.borderWidth=1.0f;
-                    [cell.buttonTwo setTitle:@"删除订单" forState:UIControlStateNormal];
+        if (indexPath.row==detailModel.data.progressArray.count) {
+            OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellEight"];
+            [cell.buttonThree addTarget:self action:@selector(payButtAction:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.buttOne addTarget:self action:@selector(deletButtAction:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.buttonTwo addTarget:self action:@selector(cancelButtAction:) forControlEvents:UIControlEventTouchUpInside];
+            cell.buttOne.tag=indexPath.row*3;
+            cell.buttonTwo.tag=indexPath.row*3+1;
+            cell.buttonThree.tag=indexPath.row*3+2;
+            if ([self.userType isEqualToString:@"apply_guest"]) {  //最后一行三按钮状态
+                if ([detailModel.data.task_status isEqualToString:@"pending"]){
+                    cell.buttOne.hidden=YES;
+                    [cell.buttonTwo setTitle:@"取消订单" forState:UIControlStateNormal];
                     [cell.buttonTwo setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
                     [cell.buttonTwo setBackgroundColor:[UIColor whiteColor]];
-                    
-                }else
+                    [cell.buttonThree setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];
+                    [cell.buttonThree setTitle:@"付款" forState:UIControlStateNormal];
+                    [cell.buttonThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                }else if ([detailModel.data.task_status isEqualToString:@"starting"])
                 {
-                    [cell.buttonThree setBackgroundColor:[UIColor colorWithHexString:@"#8AAC7B"]];
-                    [cell.buttonThree setTitle:@"评价" forState:UIControlStateNormal];
+                    cell.buttOne.hidden=YES;
+                    [cell.buttonThree setTitle:@"投诉" forState:UIControlStateNormal];
+                    [cell.buttonThree setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];
+                    [cell.buttonThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    [cell.buttonTwo setTitle:@"联系服务" forState:UIControlStateNormal];
+                    [cell.buttonTwo setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+                    [cell.buttonTwo setBackgroundColor:[UIColor whiteColor]];
+                }
+                else if ([detailModel.data.task_status isEqualToString:@"finish"])
+                {
+                    cell.buttOne.hidden=YES;
+                    [cell.buttonThree setTitle:@"签收" forState:UIControlStateNormal];
+                    [cell.buttonThree setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];
+                    [cell.buttonThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     [cell.buttonTwo setTitle:@"投诉" forState:UIControlStateNormal];
                     [cell.buttonTwo setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
                     [cell.buttonTwo setBackgroundColor:[UIColor whiteColor]];
-                    cell.buttOne.hidden=NO;
+                }else{
+                    if ([detailModel.data.show_comment isEqualToString:@"Y"]) {
+                        cell.buttOne.hidden=YES;
+                        [cell.buttonThree setBackgroundColor:[UIColor whiteColor]];
+                        [cell.buttonThree setTitle:@"投诉" forState:UIControlStateNormal];
+                        [cell.buttonThree setTitleColor:[UIColor colorWithHexString:@"#A5A6A7"] forState:UIControlStateNormal];
+                        cell.buttonThree.layer.borderColor=[UIColor colorWithHexString:@"#DCDDDD"].CGColor;
+                        cell.buttonThree.layer.borderWidth=1.0f;
+                        [cell.buttonTwo setTitle:@"删除订单" forState:UIControlStateNormal];
+                        [cell.buttonTwo setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+                        [cell.buttonTwo setBackgroundColor:[UIColor whiteColor]];
+                        
+                    }else
+                    {
+                        [cell.buttonThree setBackgroundColor:[UIColor colorWithHexString:@"#8AAC7B"]];
+                        [cell.buttonThree setTitle:@"评价" forState:UIControlStateNormal];
+                        [cell.buttonTwo setTitle:@"投诉" forState:UIControlStateNormal];
+                        [cell.buttonTwo setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+                        [cell.buttonTwo setBackgroundColor:[UIColor whiteColor]];
+                        cell.buttOne.hidden=NO;
+                        [cell.buttOne setTitle:@"删除订单" forState:UIControlStateNormal];
+                        
+                    }
+                }
+            }else     //服务人
+            {
+                cell.buttOne.hidden=YES;
+                cell.buttonTwo.hidden=YES;
+                if ([detailModel.data.task_status isEqualToString:@"starting"]) {
+                    [cell.buttonThree setTitle:@"完成服务" forState:UIControlStateNormal];
+                    cell.buttonThree.backgroundColor=[UIColor colorWithHexString:@"#CE6836"];
+                    [cell.buttonThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                }
+                else if ([detailModel.data.task_status isEqualToString:@"finish"]) {
+                    [cell.buttonThree setTitle:@"等待签收" forState:UIControlStateNormal];
+                    cell.buttonThree.backgroundColor=[UIColor whiteColor];
+                    [cell.buttonThree setTitleColor:[UIColor colorWithHexString:@"#CE6836"] forState:UIControlStateNormal];
+                }else
+                {
+                    cell.hidden=YES;
                 }
             }
-        }else     //服务人
+            return cell;
+        }else   //服务进度cell
         {
-            cell.buttOne.hidden=YES;
-            cell.buttonTwo.hidden=YES;
-            if ([detailModel.data.task_status isEqualToString:@"starting"]) {
-                [cell.buttonThree setTitle:@"完成服务" forState:UIControlStateNormal];
-                cell.buttonThree.backgroundColor=[UIColor colorWithHexString:@"#CE6836"];
-                [cell.buttonThree setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            }
-           else if ([detailModel.data.task_status isEqualToString:@"finish"]) {
-               [cell.buttonThree setTitle:@"等待签收" forState:UIControlStateNormal];
-               cell.buttonThree.backgroundColor=[UIColor whiteColor];
-               [cell.buttonThree setTitleColor:[UIColor colorWithHexString:@"#CE6836"] forState:UIControlStateNormal];
+            OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellSix"];
+            OrderDetailDataProgressModel *progressModel=[detailModel.data.progressArray objectAtIndex:indexPath.row];
+            cell.orderActionLabel.text=progressModel.title;
+            cell.orderActionTimeLabel.text=progressModel.create_time;
+            cell.orderActionInfoLabel.text=progressModel.message;
+            if (indexPath.row==detailModel.data.progressArray.count-1) {
+                cell.radioImageView.image=[UIImage imageNamed:@"icon_ld"];
             }else
             {
-                cell.hidden=YES;
+                cell.radioImageView.image=[UIImage imageNamed:@"icon_hd"];
             }
+            return cell;
         }
-        return cell;
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (indexPath.section==0) {
-        return 202;
-    }else if (indexPath.section==1)
-    {
-        return 67;
-    }else if (indexPath.section==2)
-    {
-        return 89;
-    }else if (indexPath.section==3)
-    {
-        return 89;
-    }else if (indexPath.section==4)
-    {
-        return 89;
-    }else if (indexPath.section==5)
-    {
         if (indexPath.row==0) {
+            return 202;
+        }else if (indexPath.row==1)
+        {
+            return 85;
+        }else if (indexPath.row==2)
+        {
+            if (![detailModel.data.show_guest isEqualToString:@"Y"]) {
+                return 0;
+            }
+            return 90;
+        }else if (indexPath.row==3)
+        {
+            if (![detailModel.data.show_staff isEqualToString:@"Y"]) {
+               return 0;
+            }
+            return 90;
+        }else if (indexPath.row==4)
+        {
+            if (![detailModel.data.show_service isEqualToString:@"Y"]) {
+                 return 0;
+            }
+            return 90;
+        }else if (indexPath.row==5)
+        {
+            return 80;
+        }else if (indexPath.row==indexPath.row==detailModel.data.serviceFileArray.count+6)
+        {
+            if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
+                return 0;
+            }
             return 120;
         }else
         {
+            if (detailModel.data.serviceFileArray.count==0) {
+                return 0;
+            }
             return 60;
         }
-    }else if (indexPath.section==6)
-    {
-        if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
-            return 0;
-        }
-        return 224;
-    }else if (indexPath.section==7)
-    {
-        return 73;
     }else
     {
-        if ([self.userType isEqualToString:@"apply_staff"]&&[detailModel.data.task_status isEqualToString:@"sign"]) {
-            return 0;
+        if (indexPath.row==detailModel.data.progressArray.count) {
+            if ([self.userType isEqualToString:@"apply_staff"]&&[detailModel.data.task_status isEqualToString:@"sign"])
+            {
+                return 0;
+            }
+            return 50;
         }else
         {
-           return 50;
+            return 88;
         }
     }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 9;
+    return 2;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
         return 0;
     }else{
-        if (section==2&&![detailModel.data.show_guest isEqualToString:@"Y"]) {
-            return 0;
-        }else if (section==3&&![detailModel.data.show_staff isEqualToString:@"Y"])
-        {
-            return 0;
-        }else if (section==4&&![detailModel.data.show_service isEqualToString:@"Y"])
-        {
-            return 0;
-        }else if (section==6&&![detailModel.data.show_comment isEqualToString:@"Y"])
-        {
-            return 0;
-        }else if(section==8&&[detailModel.data.task_status isEqualToString:@"signin"])
-        {
-            return 0;
-        }else
-        {
-           return 10;
-        }
+        return 10;
     }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

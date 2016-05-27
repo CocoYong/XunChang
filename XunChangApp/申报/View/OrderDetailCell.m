@@ -18,6 +18,7 @@
     self.buttonTwo.layer.borderWidth=1.0f;
     self.buttOne.layer.borderColor=[UIColor colorWithHexString:@"#DADBDC"].CGColor;
     self.buttOne.layer.borderWidth=1.0f;
+    self.buttOne.layer.cornerRadius=3.0f;
     self.buttonThree.layer.cornerRadius=3.0f;
 }
 

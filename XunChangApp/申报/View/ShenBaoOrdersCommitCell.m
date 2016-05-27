@@ -21,7 +21,7 @@
 - (IBAction)shenBaoAddNumButtAction:(UIButton *)sender {
     NSInteger objectNum=[self.numLabel.text integerValue];
     CGFloat price=[self.dataModel.price floatValue];
-    CGFloat dispost=[self.dataModel.deposit floatValue];
+    CGFloat dispost=[self.dataModel.deposit_money floatValue];
     objectNum++;
     self.numLabel.text=[NSString stringWithFormat:@"%d",objectNum];
     self.feiyongLabel.text=[NSString stringWithFormat:@"￥%.2f",objectNum*price];
@@ -35,7 +35,7 @@
         return;
     }
     CGFloat price=[self.dataModel.price floatValue];
-    CGFloat dispost=[self.dataModel.deposit floatValue];
+    CGFloat dispost=[self.dataModel.deposit_money floatValue];
     objectNum--;
     self.numLabel.text=[NSString stringWithFormat:@"%d",objectNum];
     self.feiyongLabel.text=[NSString stringWithFormat:@"￥%.2f",objectNum*price];

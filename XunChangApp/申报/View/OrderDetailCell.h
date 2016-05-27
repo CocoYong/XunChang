@@ -39,7 +39,9 @@
 @property (weak, nonatomic) IBOutlet UIView *starBackView;
 @property (weak, nonatomic) IBOutlet HCSStarRatingView *starView;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *placeHoldViewFive;
+@property (weak, nonatomic) IBOutlet UILabel *conmentDetailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *contentTimeLabel;
+
 //six
 @property (weak, nonatomic) IBOutlet UILabel *orderActionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *orderActionTimeLabel;

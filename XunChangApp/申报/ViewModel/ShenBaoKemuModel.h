@@ -14,7 +14,7 @@
 @property(nonatomic,strong)NSArray *datas;
 @end
 @interface ShenBaoKemuDataModel : NSObject
-@property(nonatomic,copy)NSString *deposit;
+@property(nonatomic,copy)NSString *deposit_money;
 @property(nonatomic,copy)NSString *id;
 @property(nonatomic,copy)NSString *intro;
 @property(nonatomic,copy)NSString *price;

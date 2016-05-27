@@ -18,6 +18,7 @@
 {
     MoneyModel *model;
     __block CGFloat totalMoney;
+    BOOL canUsePrepayMoney;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *payButt;
@@ -43,17 +44,22 @@
             }
             else{
                 ShenBaoKemuDataModel *keMuModel=(ShenBaoKemuDataModel*)obj;
-              totalMoney=([keMuModel.price floatValue]+[keMuModel.deposit floatValue])*[keMuModel.object_num integerValue];
+              totalMoney=([keMuModel.price floatValue]+[keMuModel.deposit_money floatValue])*[keMuModel.object_num integerValue];
             }
         }];
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@123,@"object_id", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.object_id,@"object_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:GETOBJECTMONEY params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         model=[MoneyModel yy_modelWithDictionary:result];
         if (model.code==0) {
+            canUsePrepayMoney=YES;
             [self.tableView reloadData];
+        }
+        else if (model.code==8002)
+        {
+            canUsePrepayMoney=NO;
         }else if (model.code==9999)
         {
           [SVProgressHUD  showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeBlack];
@@ -87,7 +93,7 @@
         }];
         PayControllerCell *cellTwo=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
         if (cellTwo.yuFuKuanButt.selected) {
-            [self payRequet:@"123"];  //待修改....
+            [self payRequet:[orderNumArray objectAtIndex:0]];  //待修改....
         }else
         {
             
@@ -176,7 +182,7 @@
     }else{
         PayControllerCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"PayControllerCellTwo"];
         cellTwo.moneyLabel.attributedText=[self createAttributStringWithString:[NSString stringWithFormat:@"(还剩￥%.2f)",[model.data.money floatValue]] changeString:[NSString stringWithFormat:@"￥%.2f",[model.data.money floatValue]] andAttributDic:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#E9554B"]}];
-        if ([model.data.money floatValue]>=totalMoney) {
+        if ([model.data.money floatValue]>=totalMoney&&canUsePrepayMoney) {
             cellTwo.yuFuKuanButt.selected=YES;
             cellTwo.yuFuKuanButt.enabled=YES;
             cellTwo.weiXinButt.selected=NO;

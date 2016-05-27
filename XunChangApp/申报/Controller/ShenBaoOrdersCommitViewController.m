@@ -44,7 +44,7 @@
         return;
     }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.dataModel.id,@"object_id",self.dataModel.type_id,@"item_id",cellTwo.numLabel.text,@"num",cellThree.startTimeTextField.text,@"start_time",cellThree.endTimeTextField.text,@"end_time", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.object_id,@"object_id",self.dataModel.id,@"item_id",cellTwo.numLabel.text,@"num",cellThree.startTimeTextField.text,@"start_time",cellThree.endTimeTextField.text,@"end_time", nil];
     [ShenBaoDataRequest requestAFWithURL:CREATEORDER params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
@@ -100,7 +100,7 @@
         }else if (indexPath.row==3)
         {
             cellOne.itemTitleLabel.text=@"押金";
-            cellOne.itemDetailLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit floatValue]];
+            cellOne.itemDetailLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]];
         }else
         {
             if (self.dataModel.intro==nil||[self.dataModel.intro isEqualToString:@""]) {
@@ -120,8 +120,8 @@
         cellTwo.dataModel=self.dataModel;
         cellTwo.numLabel.text=@"1";
         cellTwo.feiyongLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
-        cellTwo.yajinTwoLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit floatValue]];
-        cellTwo.hejiLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit floatValue]+[self.dataModel.price floatValue]];
+        cellTwo.yajinTwoLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]];
+        cellTwo.hejiLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]+[self.dataModel.price floatValue]];
         return cellTwo;
     }else
     {
@@ -318,6 +318,7 @@
     // Pass the selected object to the new view controller.
     PayViewController *payController=[segue destinationViewController];
     payController.dataArray=[dataArray copy];
+    payController.object_id=self.object_id;
    
 }
 

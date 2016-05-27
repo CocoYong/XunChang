@@ -32,6 +32,7 @@
     [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
     self.manButt.selected=YES;
+    self.sex=@"MAN";
    
 }
 -(void)backToFrontViewController
@@ -86,7 +87,7 @@
         imageModel=[[ImageObjectModel alloc]init];
         imageModel.originalImage=[info objectForKey:@"UIImagePickerControllerOriginalImage"];
         imageModel.editImage=[info objectForKey:@"UIImagePickerControllerEditedImage"];
-        imageModel.originalImageName=[NSString stringWithFormat:@"%@_original",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
+        imageModel.originalImageName=[NSString stringWithFormat:@"%@_original.png",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
         imageModel.editImageName=[NSString stringWithFormat:@"%@_editing",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
     }
     self.photoImageView.image=imageModel.originalImage;

@@ -86,36 +86,32 @@
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         newMessageModel=[ShenBaoNewMessagesModel yy_modelWithDictionary:result];
-        if (newMessageModel.code==0) {
-            if ([newMessageModel.data.pending_pay_count integerValue]>0) {
-              self.daifukuanLabel.text=newMessageModel.data.pending_pay_count;
-              self.daifukuanLabel.hidden=NO;
+        if ([[result objectForKey:@"code"] integerValue]==0) {
+            if (newMessageModel.data.pending_pay_count>0) {
+                self.daifukuanLabel.hidden=NO;
+              self.daifukuanLabel.text=[NSString stringWithFormat:@"%d",newMessageModel.data.pending_pay_count];
             }else
             {
                 self.daifukuanLabel.hidden=YES;
             }
-             if ([newMessageModel.data.pending_confirm_count integerValue]>0) {
-                 
-                 self.daiquerenLabel.text=newMessageModel.data.pending_confirm_count;
+             if (newMessageModel.data.pending_confirm_count>0) {
                  self.daiquerenLabel.hidden=NO;
+                 self.daiquerenLabel.text=[NSString stringWithFormat:@"%d",newMessageModel.data.pending_confirm_count];
              }else
              {
                  self.daiquerenLabel.hidden=YES;
              }
-             if ([newMessageModel.data.pending_server_count integerValue]>0) {
-                 
-                 self.daifuwuLabel.text=newMessageModel.data.pending_server_count;
-                 self.daifuwuLabel.hidden=NO;
+             if (newMessageModel.data.pending_server_count>0) {
+                  self.daifuwuLabel.hidden=NO;
+                 self.daifuwuLabel.text=[NSString stringWithFormat:@"%d",newMessageModel.data.pending_server_count];
              }else
              {
                  self.daifuwuLabel.hidden=YES;
              }
-             if ([newMessageModel.data.pending_comment_count integerValue]>0) {
-                 
-                 self.daipingjiaLabel.text=newMessageModel.data.pending_comment_count;
-              
+             if (newMessageModel.data.pending_comment_count>0) {
                  self.daipingjiaLabel.hidden=NO;
-             }else
+                 self.daipingjiaLabel.text=[NSString stringWithFormat:@"%d",newMessageModel.data.pending_comment_count];
+               }else
              {
                  self.daipingjiaLabel.hidden=YES;
              }
@@ -173,7 +169,7 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ShenBaoItemDataModel *tempModel=[itemModel.datas objectAtIndex:indexPath.row];
-    [self performSegueWithIdentifier:@"ShenBaoLeiXingViewController" sender:tempModel.title];
+    [self performSegueWithIdentifier:@"ShenBaoLeiXingViewController" sender:tempModel];
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -202,8 +198,10 @@
         viewController.index=butt.tag;
     }
     if ([[segue destinationViewController] isKindOfClass:[ShenBaoLeiXingViewController class]]) {
+        ShenBaoItemDataModel *tempModel=(ShenBaoItemDataModel*)sender;
         ShenBaoLeiXingViewController *viewController=[segue destinationViewController];
-        viewController.title=sender;
+        viewController.title=tempModel.title;
+        viewController.type_id=tempModel.id;
     }
 }
 

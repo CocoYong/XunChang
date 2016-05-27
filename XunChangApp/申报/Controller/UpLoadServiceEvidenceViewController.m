@@ -50,7 +50,7 @@
 {
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:@"public.image"]) {
-        NSString *fileName=[NSString stringWithFormat:@"%@_original",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
+        NSString *fileName=[NSString stringWithFormat:@"%@.png",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
         [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
        [ShenBaoDataRequest requestUpLoadImageData:[info objectForKey:@"UIImagePickerControllerOriginalImage"] fileName:fileName successCallBackBlock:^(id result) {
             [SVProgressHUD dismiss];
@@ -152,6 +152,7 @@
         LoginModel *model=[LoginModel yy_modelWithDictionary:result];
         if (model.code==0) {
             [SVProgressHUD  showSuccessWithStatus:@"上传成功" maskType:SVProgressHUDMaskTypeBlack];
+            [self backToFrontViewController];
         }else
         {
             [SVProgressHUD showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeClear];

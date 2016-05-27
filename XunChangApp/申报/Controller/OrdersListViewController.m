@@ -38,7 +38,8 @@
     [super viewDidLoad];
     self.title=@"申报订单";
     [self createNavBackButt];
-    statusArray=@[@"pending",@"start",@"finish",@"signin"];
+    self.tableView.tableFooterView=[UIView new];
+    statusArray=@[@"pending",@"starting",@"finish",@"signin"];
     //初始化最后付款的数组
     payModelDataArray=[[NSMutableArray alloc]init];
     //首次进入请求数据
@@ -122,6 +123,7 @@
 {
     [super viewWillAppear:animated];
     self.view.backgroundColor=[UIColor colorWithHexString:@"#EFF0F1"];
+     [self requestOrderListData];
     [payModelDataArray removeAllObjects];
 }
 - (IBAction)buttTapedAction:(UIButton *)sender {
@@ -165,9 +167,7 @@
         NSDictionary *resultDic=(NSDictionary*)result;
         model=[OrderListModel yy_modelWithDictionary:resultDic];
         model.datas=[NSArray yy_modelArrayWithClass:[OrderListDataModel class] json:[resultDic objectForKey:@"data"]];
-        OrderListDataModel *secondModel=[model.datas objectAtIndex:0];
         self.totalMoneyLabel.text=[NSString stringWithFormat:@"￥%.2f",model.totalPayMoney];
-        NSLog(@"secondModel=====%@",secondModel.checker_realname);
         if (model.code==0) {
             [self.tableView reloadData];
         }else if (model.code==9999)
@@ -196,7 +196,7 @@
     OrderListCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderListCell"];
     tableView.separatorInset=UIEdgeInsetsZero;
     OrderListDataModel *secondModel=[model.datas objectAtIndex:indexPath.row];
-    cell.orderNumLabel.text=secondModel.order_num;
+    cell.orderNumLabel.text=[secondModel.order_num substringFromIndex:secondModel.order_num.length-11];
     [cell.stadiumImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
     [cell.goodsImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
     cell.stadiumNameLabel.text=secondModel.object_address;
@@ -249,7 +249,7 @@
         [cell.payButt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         cell.statusLabel.textColor=[UIColor colorWithHexString:@"#D16A38"];
         cell.statusLabel.text=@"待付款";
-    }else if ([self.status isEqualToString:@"start"])
+    }else if ([self.status isEqualToString:@"starting"])
     {
         cell.radioButt.hidden=YES;
         cell.startTimeLabel.hidden=NO;

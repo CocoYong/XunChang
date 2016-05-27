@@ -26,6 +26,11 @@
     [super viewDidLoad];
     self.title=@"申报";
     [self createNavBackButt];
+    self.tableView.tableFooterView=[UIView new];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self requestOrderListData];
 }
 -(void)requestOrderListData

@@ -20,6 +20,7 @@
 @property(nonatomic,copy)NSString *scene_title;
 @property(nonatomic,strong)NSArray *scenes;
 @property(nonatomic,copy)NSString *status;
+@property(nonatomic,copy)NSString *message;
 @property(nonatomic,strong)UserInfo *userinfo;
 
 @end

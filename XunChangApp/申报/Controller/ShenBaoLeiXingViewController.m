@@ -71,8 +71,8 @@
     ShenBaoLeiXingCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoLeiXingCell"];
     ShenBaoWorkObjectDataModel *tempModel=[objectModel.datas objectAtIndex:indexPath.section];
     ShenBaoWorkObjectDataObjectsModel *secondModel=[tempModel.objects objectAtIndex:indexPath.row];
-    [cell.logoImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-     cell.nameLabel.text=secondModel.title;
+    [cell.logoImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.owner_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+     cell.nameLabel.text=secondModel.name;
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,7 +90,7 @@
     UILabel *headerLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 5, SCREEN_WIDTH-40, 30)];
     headerLabel.textColor=[UIColor whiteColor];
     ShenBaoWorkObjectDataModel *tempModel=[objectModel.datas objectAtIndex:section];
-    headerLabel.text=tempModel.area_title;
+    headerLabel.text=tempModel.area_name;
     [headerView addSubview:headerLabel];
     return headerView;
 }
@@ -102,7 +102,7 @@
 {
     ShenBaoWorkObjectDataModel *tempModel=[objectModel.datas objectAtIndex:indexPath.section];
     ShenBaoWorkObjectDataObjectsModel *secondModel=[tempModel.objects objectAtIndex:indexPath.row];
-    [self performSegueWithIdentifier:@"ShenBaoSelectItemListViewController" sender:secondModel.title];
+    [self performSegueWithIdentifier:@"ShenBaoSelectItemListViewController" sender:secondModel];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -115,8 +115,11 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"ShenBaoSelectItemListViewController")]) {
+        ShenBaoWorkObjectDataObjectsModel *secondModel=(ShenBaoWorkObjectDataObjectsModel*)sender;
         ShenBaoSelectItemListViewController *itemViewController=[segue destinationViewController];
-        itemViewController.title=sender;
+        itemViewController.type_id=self.type_id;
+        itemViewController.objectModel=secondModel;
+        itemViewController.title=secondModel.name;
     }
 }
 

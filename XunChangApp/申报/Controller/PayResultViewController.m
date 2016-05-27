@@ -56,7 +56,7 @@
         }else{
             UIStoryboard *mainStoryboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
             OrdersListViewController *orderListController=[mainStoryboard instantiateViewControllerWithIdentifier:@"OrdersListViewController"];
-            orderListController.index=1;
+            orderListController.index=2;
             [self showViewController:orderListController sender:self];
         }
         return [RACSignal empty];

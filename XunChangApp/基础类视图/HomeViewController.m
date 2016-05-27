@@ -44,13 +44,15 @@
     self.userPhotoImageView.layer.borderWidth=1.0f;
     
     UIImageView *logoImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 28, 28)];
-    logoImageView.image=[UIImage imageNamed:@"img_czlogo"];
+    logoImageView.clipsToBounds=YES;
+    logoImageView.layer.cornerRadius=14.0f;
+    logoImageView.image=[UIImage imageNamed:@"logo"];
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:logoImageView];
     
     //测试专用
-    [USER_DEFAULT setObject:@"8fd4bcd74eecfcd96d8b34bba1e7644c" forKey:@"user_token"];
-    [USER_DEFAULT setObject:@"12" forKey:@"scene_id"];
-    [USER_DEFAULT setObject:@"app" forKey:@"request_from"];
+//    [USER_DEFAULT setObject:@"8fd4bcd74eecfcd96d8b34bba1e7644c" forKey:@"user_token"];
+//    [USER_DEFAULT setObject:@"12" forKey:@"scene_id"];
+//    [USER_DEFAULT setObject:@"app" forKey:@"request_from"];
     
     requestTimer=[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(requestUserCenterData) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:requestTimer forMode:NSRunLoopCommonModes];
@@ -64,10 +66,9 @@
     if ([USER_DEFAULT objectForKey:@"user_token"]==nil||[[USER_DEFAULT objectForKey:@"user_token"] isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"LoginViewController" sender:self];
     }
-    if ([[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {
-        [self performSegueWithIdentifier:@"SubmittUserInfoViewController" sender:self];
-    }
-    
+//    if ([[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {
+//        [self performSegueWithIdentifier:@"SubmittUserInfoViewController" sender:self];
+//    }
     [requestTimer setFireDate:[NSDate distantPast]];
 }
 -(void)requestUserCenterData
@@ -80,6 +81,7 @@
         userModel.data.actions=[NSArray yy_modelArrayWithClass:[ActionsModel class] json:[[result objectForKey:@"data"] objectForKey:@"actions"]];
         userModel.data.scenes=[NSArray yy_modelArrayWithClass:[ScenesModel class] json:[[result objectForKey:@"data"] objectForKey:@"scenes"]];
             if (userModel.code==0) {
+            [USER_DEFAULT setObject:userModel.data.scene_id forKey:@"scene_id"];
             [self configeUIData];
             [self.itemCollectionView reloadData];
         }else
@@ -98,10 +100,17 @@
 {
     [self.userPhotoImageView sd_setImageWithURL:[NSURL URLWithString:userModel.data.userinfo.avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
     self.nickNameLabel.text=[NSString stringWithFormat:@"昵称:%@",userModel.data.userinfo.nickname];
-    self.userCompanyLabel.text=[NSString stringWithFormat:@"手机号:%@",userModel.data.userinfo.tel];
-    [self.changJingLogoImageView sd_setImageWithURL:[NSURL URLWithString:userModel.data.scene_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-    self.changJingNameLabel.text=userModel.data.scene_title;
-    
+    self.userCompanyLabel.text=userModel.data.userinfo.tel;
+    if ([userModel.data.status isEqualToString:@"no_scene"]) {
+        self.changJIngView.hidden=YES;
+        self.remindLabel.hidden=NO;
+        self.remindLabel.text=userModel.data.message;
+    }else
+    {
+        self.changJIngView.hidden=NO;
+       [self.changJingLogoImageView sd_setImageWithURL:[NSURL URLWithString:userModel.data.scene_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+        self.changJingNameLabel.text=userModel.data.scene_title;
+    }
     self.userInfoButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
         [self performSegueWithIdentifier:@"SubmittUserInfoViewController" sender:self];
         return [RACSignal empty];
@@ -189,7 +198,7 @@
 //            else if([objectType isEqualToString:@"整改管理"]){
 //                [self performSegueWithIdentifier:@"ZhenGaiViewController" sender:self];
 //            }
-                else if([objectType isEqualToString:@"perpay_ctrl"])
+                else if([objectType isEqualToString:@"prepay_ctrl"])
                 {
                 [self performSegueWithIdentifier:@"YuFuKuanManagerViewController" sender:self];
                 }

@@ -10,4 +10,5 @@
 #import "ShenBaoKemuModel.h"
 @interface ShenBaoOrdersCommitViewController : BaseViewController
 @property(nonatomic,strong)ShenBaoKemuDataModel *dataModel;
+@property(nonatomic,copy)NSString *object_id;
 @end

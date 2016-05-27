@@ -7,7 +7,8 @@
 //  选择项列表
 
 #import "BaseViewController.h"
-
+#import "ShenBaoWorkObjectModel.h"
 @interface ShenBaoSelectItemListViewController : BaseViewController
-
+@property(nonatomic,copy)NSString *type_id;
+@property(nonatomic,strong)ShenBaoWorkObjectDataObjectsModel *objectModel;
 @end
