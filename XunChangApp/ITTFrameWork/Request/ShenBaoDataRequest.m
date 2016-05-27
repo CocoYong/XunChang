@@ -87,7 +87,7 @@
 +(void)requestUpLoadImageurl:(NSString *)url params:(NSMutableDictionary*)params httpMethod:(NSString*)httpMethod imageData:(UIImage*)updateImage fileName:(NSString*)fileName iamgeUrlParams:(NSString*)imageUrlParams successCallBackBlock:(CompletionLoad)successBlock errorBlock:(ErrorBlock)errorBlock noNetworkingBlock:(NoNetWork)noNetWorkingBlock
 {
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:IMAGEUPLOAD parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        NSData *fileData=UIImagePNGRepresentation(updateImage);
+        NSData *fileData=UIImageJPEGRepresentation(updateImage, 0.2);
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
     } error:nil];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -132,18 +132,25 @@
         }
     }];
     [httpManager.reachabilityManager startMonitoring];
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:IMAGEUPLOAD parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//       [params setObject:@"slog_beb3be" forKey:@"slog_force_client_id"];
+    NSDictionary *tepDic=@{@"slog_force_client_id":@"slog_beb3be"};
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:IMAGEUPLOAD parameters:tepDic constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         NSData *fileData=UIImageJPEGRepresentation(updateImage, 0.2);
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
     } error:nil];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     NSURLSessionUploadTask *uploadTask= [manager uploadTaskWithStreamedRequest:request progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         if (error) {
             errorBlock(error);
         }else
         {
-            ITTAssert([responseObject isKindOfClass:[NSDictionary class]],@"上传图片接口返回的不是字典数据");
-            successBlock(responseObject);
+            NSString *tempString=[[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
+            NSError *tempError;
+            id tempObject=[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&tempError];
+            NSLog(@"tempString====%@",tempString);
+            ITTAssert([tempObject isKindOfClass:[NSDictionary class]],@"上传图片接口返回的不是字典数据");
+            successBlock(tempObject);
         }
     }];
     [uploadTask resume];
@@ -174,6 +181,7 @@
     if ([USER_DEFAULT objectForKey:@"scene_id"] !=nil) {
         [params setObject:[USER_DEFAULT objectForKey:@"scene_id"] forKey:@"scene_id"];
     }
+    [params setObject:@"slog_beb3be" forKey:@"slog_force_client_id"];
     [params setObject:@"app" forKey:@"request_from"];
 //    [params setObject:httpMethod forKey:@"HTTP_X_HTTP_METHOD_OVERRIDE"];
     NSString  *baseURLString=[self getSigntureRequestURL:url params:params];
@@ -205,6 +213,7 @@
             errorBlock(error);
         }
     }];
+    operation.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     operation.responseSerializer =[AFJSONResponseSerializer serializer];
 }
 + (NSString *)getSigntureRequestURL:(NSString *)api params:(NSMutableDictionary *)params{
