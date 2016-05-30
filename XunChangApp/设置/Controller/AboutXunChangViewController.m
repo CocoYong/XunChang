@@ -9,18 +9,32 @@
 #import "AboutXunChangViewController.h"
 
 @interface AboutXunChangViewController ()
-
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
 @end
 
 @implementation AboutXunChangViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"关于巡场";
     [self createNavBackButt];
-    // Do any additional setup after loading the view.
+    if ([self.title isEqualToString:@"关于巡场"]) {
+        NSURLRequest *resquest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.51kcwc.com/index/about/index"]];
+        [self.webView loadRequest:resquest];
+    }else
+    {
+        NSURLRequest *resquest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.51kcwc.com/index/about/userAgreementr"]];
+        [self.webView loadRequest:resquest];
+    }
 }
-
+-(void)backToFrontViewController
+{
+    if ([self.title isEqualToString:@"关于巡场"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
