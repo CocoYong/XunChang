@@ -9,6 +9,7 @@
 #import "SettingViewController.h"
 #import "SettingTableCell.h"
 #import "SubmittUserInfoViewController.h"
+#import "AboutXunChangViewController.h"
 @interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableArray *titleArray;
@@ -87,14 +88,15 @@
     [super viewWillAppear:animated];
     
 }
-/*
-#pragma mark - Navigation
+
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.destinationViewController isKindOfClass:[AboutXunChangViewController class]]) {
+        AboutXunChangViewController *aboutController=[segue destinationViewController];
+        aboutController.title=@"关于巡场";
+    }
 }
-*/
+
 
 @end
