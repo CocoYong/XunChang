@@ -96,6 +96,11 @@
         AboutXunChangViewController *aboutController=[segue destinationViewController];
         aboutController.title=@"关于巡场";
     }
+    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"SubmittUserInfoViewController")]) {
+        SubmittUserInfoViewController *userInfoController=[segue destinationViewController];
+        userInfoController.userInfoDic=self.userInfoDic;
+    }
+
 }
 
 
