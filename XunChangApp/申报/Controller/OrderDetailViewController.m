@@ -116,9 +116,10 @@
             cell.changGuanLabel.text=detailModel.data.object_address;
             cell.objectCountLabel.text=[NSString stringWithFormat:@"x%@",detailModel.data.num];
             cell.orderNumLabel.text=[detailModel.data.order_num substringFromIndex:detailModel.data.order_num.length-11];
-            cell.useMoneyLabel.text=detailModel.data.total_money;
-            cell.dispositMoneyLabel.text=detailModel.data.total_deposit_money;
-            cell.totalMoneyLabel.text=detailModel.data.total_use_money;
+           
+            cell.useMoneyLabel.text= [NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
+            cell.dispositMoneyLabel.text=[NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_deposit_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
+            cell.totalMoneyLabel.text=[NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_use_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
             return cell;
         }else if (indexPath.row==1)
         {

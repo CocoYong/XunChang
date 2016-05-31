@@ -109,7 +109,6 @@
 		C2C90AD61CE194720023726C /* ShenBaoOrdersCommitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90AD51CE194720023726C /* ShenBaoOrdersCommitViewController.m */; };
 		C2C90AE71CE1F3660023726C /* OrdersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C90AE61CE1F3660023726C /* OrdersListViewController.m */; };
 		C2C9C24F1CF5ACFF008DCC21 /* SettingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C24E1CF5ACFF008DCC21 /* SettingTableCell.m */; };
-		C2C9C2521CF5B434008DCC21 /* AcountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2511CF5B434008DCC21 /* AcountViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -312,8 +311,6 @@
 		C2C90AE61CE1F3660023726C /* OrdersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersListViewController.m; sourceTree = "<group>"; };
 		C2C9C24D1CF5ACFF008DCC21 /* SettingTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTableCell.h; sourceTree = "<group>"; };
 		C2C9C24E1CF5ACFF008DCC21 /* SettingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableCell.m; sourceTree = "<group>"; };
-		C2C9C2501CF5B434008DCC21 /* AcountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcountViewController.h; sourceTree = "<group>"; };
-		C2C9C2511CF5B434008DCC21 /* AcountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcountViewController.m; sourceTree = "<group>"; };
 		C706946331BD18444B70A5E1 /* Pods-XunChangApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XunChangApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XunChangApp/Pods-XunChangApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -554,8 +551,6 @@
 			children = (
 				C299491D1CE33F860037A595 /* SettingViewController.h */,
 				C299491E1CE33F860037A595 /* SettingViewController.m */,
-				C2C9C2501CF5B434008DCC21 /* AcountViewController.h */,
-				C2C9C2511CF5B434008DCC21 /* AcountViewController.m */,
 				C21DA7B01CF6EBC600D855A4 /* AboutXunChangViewController.h */,
 				C21DA7B11CF6EBC600D855A4 /* AboutXunChangViewController.m */,
 			);
@@ -1114,7 +1109,6 @@
 				C225D0A71CEC3E4C00FDCB23 /* UIPlaceHolderTextView.m in Sources */,
 				C24B729D1CD8979A00DDD55B /* UIFont+ITTAdditions.m in Sources */,
 				C225D0AA1CEC448B00FDCB23 /* UpLoadServiceEvidenceViewController.m in Sources */,
-				C2C9C2521CF5B434008DCC21 /* AcountViewController.m in Sources */,
 				C24B72931CD8979A00DDD55B /* ITTCommonFunctions.m in Sources */,
 				C299493A1CE344930037A595 /* OrderListCell.m in Sources */,
 				C25DA5D41CED882600E63DEC /* PayControllerCell.m in Sources */,

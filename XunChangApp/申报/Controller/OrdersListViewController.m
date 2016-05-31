@@ -283,6 +283,7 @@
             [cell.payButt setTitleColor:[UIColor colorWithHexString:@"#A5A6A7"] forState:UIControlStateNormal];
             cell.payButt.layer.borderColor=[UIColor colorWithHexString:@"#DCDDDD"].CGColor;
             cell.payButt.layer.borderWidth=1.0f;
+            cell.deletButt.hidden=YES;
             [cell.cancelButt setTitle:@"删除订单" forState:UIControlStateNormal];
         }else
         {

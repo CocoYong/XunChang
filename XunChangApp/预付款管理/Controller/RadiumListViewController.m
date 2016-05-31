@@ -32,7 +32,7 @@
     ShenBaoLeiXingCell *changJingCell=[tableView dequeueReusableCellWithIdentifier:@"ChangJingTableCell"];
     YuFuKuanDataObjectsModel *objectModel=[self.objectsArray objectAtIndex:indexPath.row];
     [changJingCell.changJingImageView sd_setImageWithURL:[NSURL URLWithString:objectModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-    changJingCell.changJIngNameLabel.text=objectModel.title;
+    changJingCell.changJIngNameLabel.text=objectModel.object_title;
     return changJingCell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

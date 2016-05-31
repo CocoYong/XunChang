@@ -181,7 +181,6 @@
     if ([USER_DEFAULT objectForKey:@"scene_id"] !=nil) {
         [params setObject:[USER_DEFAULT objectForKey:@"scene_id"] forKey:@"scene_id"];
     }
-    [params setObject:@"slog_beb3be" forKey:@"slog_force_client_id"];
     [params setObject:@"app" forKey:@"request_from"];
 //    [params setObject:httpMethod forKey:@"HTTP_X_HTTP_METHOD_OVERRIDE"];
     NSString  *baseURLString=[self getSigntureRequestURL:url params:params];
@@ -213,7 +212,7 @@
             errorBlock(error);
         }
     }];
-    operation.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
+//    operation.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     operation.responseSerializer =[AFJSONResponseSerializer serializer];
 }
 + (NSString *)getSigntureRequestURL:(NSString *)api params:(NSMutableDictionary *)params{

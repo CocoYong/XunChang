@@ -11,17 +11,23 @@
 #import "LoginModel.h"
 #import "RegistOrLogin.h"
 #import "JPUSHService.h"
+#import "AboutXunChangViewController.h"
 @interface LoginViewController ()
 {
     NSInteger seconds;
     NSTimer *timer;
 }
+@property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
+
+@property (weak, nonatomic) IBOutlet UIView *textFieldBackView;
+
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (weak, nonatomic) IBOutlet UITextField *telephoneNumTextField;
 @property (weak, nonatomic) IBOutlet UITextField *verifyTextField;
 @property (weak, nonatomic) IBOutlet UIButton *getVerifyCodeButt;
 @property (weak, nonatomic) IBOutlet UILabel *verifySecondLabel;
 @property (weak, nonatomic) IBOutlet UIButton *loginButt;
+@property (weak, nonatomic) IBOutlet UIButton *protocolButt;
 
 @end
 
@@ -29,6 +35,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.logoImageView.layer.masksToBounds=YES;
+    self.logoImageView.layer.cornerRadius=25.0f;
+    self.textFieldBackView.layer.borderColor=[UIColor colorWithHexString:@"#E6E7EA"].CGColor;
+    self.textFieldBackView.layer.borderWidth=1.0f;
+    [self.protocolButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
+    [self.protocolButt setImage:[UIImage imageNamed:@"icon_green"] forState:UIControlStateSelected];
+    self.protocolButt.selected=YES;
     seconds=60;
     [[self.telephoneNumTextField.rac_textSignal filter:^BOOL(id value) {
         return ![self.telephoneNumTextField isFirstResponder];
@@ -73,6 +86,10 @@
     }];
     //登录按钮
     self.loginButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
+        if (!self.protocolButt.selected) {
+            [SVProgressHUD showErrorWithStatus:@"未勾选协议" maskType:SVProgressHUDMaskTypeBlack];
+            return [RACSignal empty];
+        }
         NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.telephoneNumTextField.text,@"tel",self.verifyTextField.text,@"code", nil];
         [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
         [ShenBaoDataRequest requestAFWithURL:LOGINORREGISTER params:paramsDic httpMethod:@"POST" block:^(id result) {
@@ -140,10 +157,21 @@
         
     }];
 }
--(void)callBackSelector:(NSNotification*)notifition
-{
-    NSLog(@"hello coco");
+
+- (IBAction)userProtocolButtAction:(UIButton *)sender {
+    UIStoryboard *mainStoryBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    AboutXunChangViewController *aboutController=[mainStoryBoard instantiateViewControllerWithIdentifier:@"AboutXunChangViewController"];
+    aboutController.title=@"用户协议";
+    UINavigationController *navigationController=[[UINavigationController alloc]
+        initWithRootViewController:aboutController];
+    navigationController.navigationBar.tintColor=[UIColor colorWithHexString:@"#F5F6F7"];
+    [self showViewController:navigationController sender:self];
 }
+- (IBAction)protocolButtAction:(UIButton *)sender {
+    sender.selected=!sender.selected;
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

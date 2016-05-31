@@ -28,7 +28,7 @@
     self.title=@"预付款管理";
     [self createNavBackButt];
     self.tableView.tableFooterView=[UIView new];
-    [self requestDataSource:@"123"];
+    [self requestDataSource:nil];
 }
 
 -(void)requestDataSource:(NSString*)object_id
@@ -38,15 +38,15 @@
     [ShenBaoDataRequest requestAFWithURL:PAYLOG params:paramsDic httpMethod:@"POST" block:^(id result) {
         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
-        yuFuKuanModel=[YuFuKuanModel yy_modelWithDictionary:result];
-        yuFuKuanModel.data.listsArray=[NSArray yy_modelArrayWithClass:[YuFuKuanDataListsModel class] json:[[result objectForKey:@"data"] objectForKey:@"lists"]];
-        yuFuKuanModel.data.objectsArray=[NSArray yy_modelArrayWithClass:[YuFuKuanDataObjectsModel class] json:[[result objectForKey:@"data"] objectForKey:@"objects"]];
-        if (yuFuKuanModel.code==0) {
+        if ([[result objectForKey:@"code"]integerValue]==0) {
+            yuFuKuanModel=[YuFuKuanModel yy_modelWithDictionary:result];
+            yuFuKuanModel.data.listsArray=[NSArray yy_modelArrayWithClass:[YuFuKuanDataListsModel class] json:[[result objectForKey:@"data"] objectForKey:@"lists"]];
+            yuFuKuanModel.data.objectsArray=[NSArray yy_modelArrayWithClass:[YuFuKuanDataObjectsModel class] json:[[result objectForKey:@"data"] objectForKey:@"objects"]];
             [self.tableView reloadData];
-        }else if (yuFuKuanModel.code==9999)
+        }else if ([[result objectForKey:@"code"]integerValue]==9999)
         {
             [SVProgressHUD  showErrorWithStatus:yuFuKuanModel.message maskType:SVProgressHUDMaskTypeBlack];
-        }else if(yuFuKuanModel.code==1001)
+        }else if([[result objectForKey:@"code"]integerValue]==1001)
         {
             [USER_DEFAULT removeObjectForKey:@"user_token"];
             [self.navigationController popToRootViewControllerAnimated:YES];
@@ -77,6 +77,12 @@
         cellOne.moneyLabel.text=[NSString stringWithFormat:@"￥%@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[yuFuKuanModel.data.money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
         cellOne.useMoneyLabel.text=[NSString stringWithFormat:@"￥%@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[yuFuKuanModel.data.paid_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
         [cellOne.yuFuKuanButt addTarget:self action:@selector(selectChangGuanButtAction) forControlEvents:UIControlEventTouchUpInside];
+        if (yuFuKuanModel.data.objectsArray.count<=1) {
+            cellOne.yuFuKuanButt.hidden=YES;
+        }else
+        {
+            cellOne.yuFuKuanButt.hidden=NO;
+        }
         return cellOne;
     }else
     {
@@ -86,7 +92,13 @@
         [cellTwo.yuFuKuanObjectImageView sd_setImageWithURL:[NSURL URLWithString:tempDataModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
         cellTwo.useMoneyDetailLabel.text=tempDataModel.title;
         cellTwo.yuFuKuanTimeLabel.text=tempDataModel.create_time;
-        cellTwo.moneyNumLabel.text=tempDataModel.money;
+        if ([tempDataModel.money hasPrefix:@"+"]) {
+            cellTwo.moneyNumLabel.textColor=[UIColor colorWithHexString:@"#D26A2B"];
+        }else
+        {
+            cellTwo.moneyNumLabel.textColor=[UIColor blackColor];
+        }
+        cellTwo.moneyNumLabel.text=[NSString stringWithFormat:@"￥%@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[tempDataModel.money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
         return cellTwo;
     }
  }
@@ -128,6 +140,12 @@
     }else
     {
         return nil;
+    }
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0&&indexPath.row==0&&yuFuKuanModel.data.objectsArray.count>1) {
+       [self performSegueWithIdentifier:@"RadiumListViewController" sender:self];
     }
 }
 -(void)selectChangGuanButtAction

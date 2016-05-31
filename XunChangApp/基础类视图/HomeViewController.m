@@ -21,11 +21,13 @@
     NSString *sceneID;
 }
 @property (weak, nonatomic) IBOutlet UILabel *remindLabel;
-@property (weak, nonatomic) IBOutlet UIButton *userInfoButt;
+@property(weak,nonatomic) IBOutlet UIButton *userInfoButt;
 
 @property (weak, nonatomic) IBOutlet UILabel *nickNameLabel;
 @property (weak, nonatomic) IBOutlet UIView *userInfoView;
 @property (weak, nonatomic) IBOutlet UIView *changJIngView;
+@property (weak, nonatomic) IBOutlet UIButton *changJingButt;
+@property (weak, nonatomic) IBOutlet UIButton *changJineNextButt;
 @property (weak, nonatomic) IBOutlet UICollectionView *itemCollectionView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *userPhotoImageView;
@@ -42,7 +44,7 @@
     self.userPhotoImageView.layer.cornerRadius=20;
     self.userPhotoImageView.layer.borderColor=[UIColor whiteColor].CGColor;
     self.userPhotoImageView.layer.borderWidth=1.0f;
-    
+//    self.userInfoButt.hidden=YES;
     UIImageView *logoImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 28, 28)];
     logoImageView.clipsToBounds=YES;
     logoImageView.layer.cornerRadius=14.0f;
@@ -65,12 +67,18 @@
     NSLog(@"uer_token-====%@",[USER_DEFAULT objectForKey:@"user_token"]);
     if ([USER_DEFAULT objectForKey:@"user_token"]==nil||[[USER_DEFAULT objectForKey:@"user_token"] isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"LoginViewController" sender:self];
+    }else
+    {
+      [requestTimer setFireDate:[NSDate distantPast]];
     }
-//    if ([[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {
-//        [self performSegueWithIdentifier:@"SubmittUserInfoViewController" sender:self];
-//    }
-    [requestTimer setFireDate:[NSDate distantPast]];
+    if ([[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {
+        [self performSegueWithIdentifier:@"SubmittUserInfoViewController" sender:self];
+    }
 }
+- (IBAction)submitUserInfoAction:(UIButton *)sender {
+    [self performSegueWithIdentifier:@"SubmittUserInfoViewController" sender:self];
+}
+
 -(void)requestUserCenterData
 {
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
@@ -82,6 +90,14 @@
         userModel.data.scenes=[NSArray yy_modelArrayWithClass:[ScenesModel class] json:[[result objectForKey:@"data"] objectForKey:@"scenes"]];
             if (userModel.code==0) {
             [USER_DEFAULT setObject:userModel.data.scene_id forKey:@"scene_id"];
+                if (userModel.data.scenes.count<=1) {
+                    self.changJingButt.hidden=YES;
+                    self.changJineNextButt.hidden=YES;
+                }else
+                {
+                    self.changJingButt.hidden=NO;
+                    self.changJineNextButt.hidden=NO;
+                }
             [self configeUIData];
             [self.itemCollectionView reloadData];
         }else
@@ -219,13 +235,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)viewDidDisappear:(BOOL)animated
+-(void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [requestTimer setFireDate:[NSDate distantFuture]];
-}
--(void)viewDidLayoutSubviews
-{
-    
 }
 #pragma mark - Navigation
 

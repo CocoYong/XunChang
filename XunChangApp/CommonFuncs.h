@@ -23,8 +23,8 @@
 
 
 //接口地址
-#define BASICURL @"http://kcwc.zhongming.i.ubolixin.com/"
-#define IMAGEUPLOAD @"http://kcwc.zhongming.i.ubolixin.com/api/upload/index"
+#define BASICURL @"http://www.51kcwc.com/"
+#define IMAGEUPLOAD @"http://www.51kcwc.com/api/upload/index"
 #define EVALUATEORDER @"api/xcapply/comment"
 #define USERCENTER @"api/xcapply/usercenter"
 #define GETMOBILEVERIFY @"api/main/getMobileVerify"
