@@ -15,7 +15,7 @@
 {
     NSMutableArray *dataArray;
 }
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @property(nonatomic,strong)UIDatePicker *datePickView;
 @property(nonatomic,copy)NSString *datePickType;
 @property(nonatomic,strong)NSDate *startDate;
@@ -28,6 +28,17 @@
     [super viewDidLoad];
     self.title=@"提交申报订单";
     [self createNavBackButt];
+    if (self.objectModel.square>0) {
+        self.dataModel.hasSquare=YES;
+        self.dataModel.squareNum=self.objectModel.square;
+    }else
+    {
+        self.dataModel.hasSquare=NO;
+    }
+    self.dataModel.object_num=@"1";
+    self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
+    self.dataModel.yajin_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]];
+    self.dataModel.total_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]+[self.dataModel.deposit_money floatValue]];
     dataArray=[NSMutableArray array];
 
 }
@@ -72,11 +83,11 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==1||section==2) {
-        return 1;
+    if (section==0||section==1) {
+        return 5;
     }else
     {
-        return 5;
+        return 1;
     }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -116,13 +127,37 @@
         return cellOne;
     }else if (indexPath.section==1)
     {
-        ShenBaoOrdersCommitCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellTwo"];
-        cellTwo.dataModel=self.dataModel;
-        cellTwo.numLabel.text=@"1";
-        cellTwo.feiyongLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
-        cellTwo.yajinTwoLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]];
-        cellTwo.hejiLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]+[self.dataModel.price floatValue]];
-        return cellTwo;
+        if (indexPath.row==0) {
+            ShenBaoOrdersCommitCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellTwo"];
+            cellTwo.dataModel=self.dataModel;
+            cellTwo.superController=self;
+            cellTwo.numLabel.text=self.dataModel.object_num;
+            return cellTwo;
+        }else
+        {
+            ShenBaoOrdersCommitCell *sectionTwoCell=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellThree"];
+            if (indexPath.row==1) {
+                sectionTwoCell.mainTextLabel.text=@"使用面积";
+                sectionTwoCell.moneyLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
+                if (self.objectModel.square==0) {
+                    sectionTwoCell.hidden=YES;
+                }
+            }else if (indexPath.row==2)
+            {
+                sectionTwoCell.mainTextLabel.text=@"费用金额";
+                sectionTwoCell.moneyLabel.text=self.dataModel.feiyong_money;
+            }else if (indexPath.row==3)
+            {
+                sectionTwoCell.mainTextLabel.text=@"押金金额";
+                sectionTwoCell.moneyLabel.text=self.dataModel.yajin_money;
+            }else
+            {
+                sectionTwoCell.mainTextLabel.text=@"合计";
+                sectionTwoCell.moneyLabel.textColor=[UIColor colorWithHexString:@"#E4271B"];
+                sectionTwoCell.moneyLabel.text=self.dataModel.total_money;
+            }
+            return sectionTwoCell;
+        }
     }else
     {
         ShenBaoOrdersCommitCell *cellThree=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellFive"];
@@ -158,7 +193,21 @@
         }
     }else if(indexPath.section==1)
     {
-       return 145;
+        if (indexPath.row==0) {
+            return 44;
+        }else if (indexPath.row==1)
+        {
+            if (self.objectModel.square==0) {
+                return 0;
+            }
+            return 44;
+        }else if (indexPath.row==2)
+        {
+            return 44;
+        }else
+        {
+            return 44;
+        }
     }else
     {
         return 102;

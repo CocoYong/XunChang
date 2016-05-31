@@ -8,7 +8,10 @@
 
 #import "BaseViewController.h"
 #import "ShenBaoKemuModel.h"
+#import "ShenBaoWorkObjectModel.h"
 @interface ShenBaoOrdersCommitViewController : BaseViewController
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(nonatomic,strong)ShenBaoKemuDataModel *dataModel;
+@property(nonatomic,strong)ShenBaoWorkObjectDataObjectsModel *objectModel;
 @property(nonatomic,copy)NSString *object_id;
 @end

@@ -96,6 +96,7 @@
     // Pass the selected object to the new view controller.
     ShenBaoOrdersCommitViewController *viewController=[segue destinationViewController];
     viewController.dataModel=sender;
+    viewController.objectModel=self.objectModel;
     viewController.object_id=self.objectModel.id;
 }
 
