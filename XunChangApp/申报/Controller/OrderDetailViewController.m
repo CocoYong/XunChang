@@ -199,7 +199,7 @@
         }else if (indexPath.row==9)
         {
             OrderDetailCell *cellFive=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFour"];
-            cellFive.completEvidenceTimeLabel.text=detailModel.data.paid_time;
+            cellFive.completEvidenceTimeLabel.text=detailModel.data.finish_time;
             cellFive.serviceDetailLabel.text=detailModel.data.service_message;
             return cellFive;
         }else if (indexPath.row==detailModel.data.serviceFileArray.count+10)
@@ -321,6 +321,9 @@
             {
                 cell.radioImageView.image=[UIImage imageNamed:@"icon_hd"];
             }
+            if ([detailModel.data.show_progress isEqualToString:@"N"]) {
+                cell.hidden=YES;
+            }
             return cell;
         }
     }
@@ -371,13 +374,13 @@
         }else if (indexPath.row==9)
         {
             CGRect calculatRect=[detailModel.data.service_message boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18]} context:nil];
-            return calculatRect.size.height+40;
+            return calculatRect.size.height+50;
         }else if (indexPath.row==detailModel.data.serviceFileArray.count+10)
         {
             if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
                 return 0;
             }
-            CGRect calculatRect=[detailModel.data.service_message boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18]} context:nil];
+            CGRect calculatRect=[detailModel.data.comment boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18]} context:nil];
             return calculatRect.size.height+76;
         }else
         {
@@ -396,7 +399,10 @@
             return 50;
         }else
         {
-            return 88;
+            if ([detailModel.data.show_progress isEqualToString:@"Y"]) {
+             return 88;
+            }
+            return 0;
         }
     }
 }
