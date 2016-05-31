@@ -63,6 +63,7 @@
 @property(nonatomic,copy)NSString *type_icon;
 @property(nonatomic,copy)NSString *update_time;
 @property(nonatomic,copy)NSString *user_id;
+@property(nonatomic,assign)CGFloat square;
 @property(nonatomic,strong)NSArray *progressArray;
 @end
 
