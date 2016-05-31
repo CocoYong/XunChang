@@ -114,7 +114,10 @@
 {
     return @"删除";
 }
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.view endEditing:YES];
+}
 -(void)deleteImageWithPicName:(NSString*)picName andIndexPath:(NSIndexPath*)indexPath
 {
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:picName,@"savename", nil];

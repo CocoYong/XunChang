@@ -1291,7 +1291,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ubolixin.xunchang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c00a6999-b1bf-47f4-94d2-312bfd9134a0";
+				PROVISIONING_PROFILE = "b3f63214-a901-4f3c-92f4-4eef53db0e14";
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -1316,7 +1316,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ubolixin.xunchang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c00a6999-b1bf-47f4-94d2-312bfd9134a0";
+				PROVISIONING_PROFILE = "b3f63214-a901-4f3c-92f4-4eef53db0e14";
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};

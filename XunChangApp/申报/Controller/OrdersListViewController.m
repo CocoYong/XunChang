@@ -196,9 +196,9 @@
     OrderListCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderListCell"];
     tableView.separatorInset=UIEdgeInsetsZero;
     OrderListDataModel *secondModel=[model.datas objectAtIndex:indexPath.row];
-    cell.orderNumLabel.text=[secondModel.order_num substringFromIndex:secondModel.order_num.length-11];
-    [cell.stadiumImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-    [cell.goodsImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    cell.orderNumLabel.text=[secondModel.order_num substringFromIndex:secondModel.order_num.length-9];
+    [cell.stadiumImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    [cell.goodsImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
     cell.stadiumNameLabel.text=secondModel.object_address;
     cell.goodsNameLabel.text=secondModel.item_title;
     cell.goodsNumLabel.text=[NSString stringWithFormat:@"x%d",[secondModel.num integerValue]];

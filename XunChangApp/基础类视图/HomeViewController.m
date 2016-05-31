@@ -14,6 +14,8 @@
 #import "ChangJingViewController.h"
 #import "YuFuKuanManagerViewController.h"
 #import "LoginModel.h"
+#import "SubmittUserInfoViewController.h"
+#import "SettingViewController.h"
 @interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
     UserCenterModel *userModel;
@@ -115,7 +117,7 @@
 -(void)configeUIData
 {
     [self.userPhotoImageView sd_setImageWithURL:[NSURL URLWithString:userModel.data.userinfo.avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-    self.nickNameLabel.text=[NSString stringWithFormat:@"昵称:%@",userModel.data.userinfo.nickname];
+    self.nickNameLabel.text=[NSString stringWithFormat:@"姓名:%@",userModel.data.userinfo.nickname];
     self.userCompanyLabel.text=userModel.data.userinfo.tel;
     if ([userModel.data.status isEqualToString:@"no_scene"]) {
         self.changJIngView.hidden=YES;
@@ -257,9 +259,14 @@
             [self requestUserCenterData];
         };
     }
-//    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"YuFuKuanManagerViewController")]) {
-//        YuFuKuanManagerViewController *viewController=[segue destinationViewController];
-//    }
+    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"SubmittUserInfoViewController")]) {
+        SubmittUserInfoViewController *userInfoController=[segue destinationViewController];
+        userInfoController.userInfoDic=@{@"avatar":userModel.data.userinfo.avatar,@"nickName":userModel.data.userinfo.nickname,@"sex":userModel.data.userinfo.sex};
+    }
+    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"SettingViewController")]) {
+        SettingViewController *settingController=[segue destinationViewController];
+        settingController.userInfoDic=@{@"avatar":userModel.data.userinfo.avatar,@"nickName":userModel.data.userinfo.nickname,@"sex":userModel.data.userinfo.sex};
+    }
     NSLog(@"sender  =%@",sender);
     NSLog(@"distinationViewcontroller=%@",NSStringFromClass([[segue destinationViewController] class]));
 }

@@ -73,8 +73,8 @@
 {
     ZhiXingRenOrderCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ZhiXingRenOrderCell"];
     OrderListDataModel *secondModel=[model.datas objectAtIndex:indexPath.row];
-    [cell.changGuanImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-    [cell.objectImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    [cell.changGuanImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    [cell.objectImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
     cell.changGuanNameLabel.text=secondModel.object_address;
     
     cell.objectDetailLabel.text=secondModel.item_title;

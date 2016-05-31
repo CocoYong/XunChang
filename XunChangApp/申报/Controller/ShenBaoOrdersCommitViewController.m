@@ -31,14 +31,17 @@
     if (self.objectModel.square>0) {
         self.dataModel.hasSquare=YES;
         self.dataModel.squareNum=self.objectModel.square;
+        self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]*self.dataModel.squareNum];
+        self.dataModel.yajin_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]];
+        self.dataModel.total_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]*self.dataModel.squareNum+[self.dataModel.deposit_money floatValue]];
     }else
     {
+        self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
+        self.dataModel.yajin_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]];
+        self.dataModel.total_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]+[self.dataModel.deposit_money floatValue]];
         self.dataModel.hasSquare=NO;
     }
     self.dataModel.object_num=@"1";
-    self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
-    self.dataModel.yajin_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.deposit_money floatValue]];
-    self.dataModel.total_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]+[self.dataModel.deposit_money floatValue]];
     dataArray=[NSMutableArray array];
 
 }
@@ -52,6 +55,10 @@
     }
     if ([cellThree.endTimeTextField.text isEqualToString:@""]||cellThree.endTimeTextField.text==nil) {
         [SVProgressHUD showErrorWithStatus:@"请选择结束使用时间" maskType:SVProgressHUDMaskTypeBlack];
+        return;
+    }
+    if ([self.startDate compare:self.endDate]==NSOrderedDescending||[self.startDate compare:self.endDate]==NSOrderedSame) {
+        [SVProgressHUD showErrorWithStatus:@"结束使用时间不能早于或等于开始使用时间" maskType:SVProgressHUDMaskTypeBlack];
         return;
     }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
@@ -118,9 +125,8 @@
                 cellOne.hidden=YES;
             }else
             {
-                
                 cellOne.hidden=NO;
-                cellOne.itemTitleLabel.text=@"押金";
+                cellOne.itemTitleLabel.text=@"说明";
                 cellOne.itemDetailLabel.text=self.dataModel.intro;
             }
         }
@@ -138,7 +144,7 @@
             ShenBaoOrdersCommitCell *sectionTwoCell=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellThree"];
             if (indexPath.row==1) {
                 sectionTwoCell.mainTextLabel.text=@"使用面积";
-                sectionTwoCell.moneyLabel.text=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]];
+                sectionTwoCell.moneyLabel.text=[NSString stringWithFormat:@"%.2f㎡",self.dataModel.squareNum];
                 if (self.objectModel.square==0) {
                     sectionTwoCell.hidden=YES;
                 }
@@ -187,8 +193,8 @@
                 return 0;
             }else
             {
-                UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
-                return cell.height;
+            CGRect calculatRect=[self.dataModel.intro boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-120, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18]} context:nil];
+                 return calculatRect.size.height+22;
             }
         }
     }else if(indexPath.section==1)
@@ -200,26 +206,17 @@
             if (self.objectModel.square==0) {
                 return 0;
             }
-            return 44;
+            return 30;
         }else if (indexPath.row==2)
         {
-            return 44;
+            return 30;
         }else
         {
-            return 44;
+            return 30;
         }
     }else
     {
         return 102;
-    }
-}
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section==0&&indexPath.row==4) {
-        return 100;
-    }else
-    {
-        return 44;
     }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

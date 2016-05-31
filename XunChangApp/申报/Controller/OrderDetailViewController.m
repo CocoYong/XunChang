@@ -79,8 +79,8 @@
     if (indexPath.section==0) {
         if (indexPath.row==0) {
             OrderDetailCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellOne"];
-            [cell.changGuanIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-            [cell.objectIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            [cell.changGuanIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.object_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+            [cell.objectIconImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
             if ([self.userType isEqualToString:@"apply_guest"]) {
                 if ([detailModel.data.status isEqualToString:@"pending"]) {
                     cell.orderStatusLabel.text=@"待付款";
@@ -116,7 +116,7 @@
             cell.changGuanLabel.text=detailModel.data.object_address;
             cell.objectCountLabel.text=[NSString stringWithFormat:@"x%@",detailModel.data.num];
             cell.objectDetailLabel.text=detailModel.data.title;
-            cell.orderNumLabel.text=[detailModel.data.order_num substringFromIndex:detailModel.data.order_num.length-11];
+            cell.orderNumLabel.text=[detailModel.data.order_num substringFromIndex:detailModel.data.order_num.length-9];
             return cell;
         }else if (indexPath.row>0&&indexPath.row<5)
         {
@@ -220,7 +220,7 @@
         }else
         {
             OrderDetailCell *cellFiveImage=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellSeven"];
-            OrderDetailDataServiceFileModel *tempModel=[detailModel.data.serviceFileArray objectAtIndex:indexPath.row-6];
+            OrderDetailDataServiceFileModel *tempModel=[detailModel.data.serviceFileArray objectAtIndex:indexPath.row-10];
             [cellFiveImage.detailImageView sd_setImageWithURL:[NSURL URLWithString:[tempModel.imageUrlArray objectAtIndex:0]] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
             cellFiveImage.imageNameLabel.text=tempModel.filename;
             cellFiveImage.imageSizeLabel.text=[self bytesToMBOrKB:tempModel.size];
@@ -370,13 +370,15 @@
             return 90;
         }else if (indexPath.row==9)
         {
-            return 80;
+            CGRect calculatRect=[detailModel.data.service_message boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18]} context:nil];
+            return calculatRect.size.height+40;
         }else if (indexPath.row==detailModel.data.serviceFileArray.count+10)
         {
             if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
                 return 0;
             }
-            return 120;
+            CGRect calculatRect=[detailModel.data.service_message boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18]} context:nil];
+            return calculatRect.size.height+76;
         }else
         {
             if (detailModel.data.serviceFileArray.count==0) {
@@ -413,8 +415,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section==5&&indexPath.row>0) {
-        OrderDetailDataServiceFileModel *tempModel=[detailModel.data.serviceFileArray objectAtIndex:indexPath.row-1];
+    if (indexPath.section==0&&indexPath.row>=10) {
+        OrderDetailDataServiceFileModel *tempModel=[detailModel.data.serviceFileArray objectAtIndex:indexPath.row-10];
         [self browerPhoto:tempModel.imageUrlArray];
     }
 }

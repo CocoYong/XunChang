@@ -9,6 +9,7 @@
 #import "SubmittUserInfoViewController.h"
 #import "ImageObjectModel.h"
 #import "LoginModel.h"
+#import "UIImageView+WebCache.h"
 @interface SubmittUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     ImageObjectModel *imageModel;
@@ -31,9 +32,20 @@
     [self.manButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
-    self.manButt.selected=YES;
-    self.sex=@"MAN";
-   
+    if ([self.userInfoDic objectForKey:@"avatar"]!=nil&&![[self.userInfoDic objectForKey:@"avatar"] isEqualToString:@""]) {
+        [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:[self.userInfoDic objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    }
+    if ([self.userInfoDic objectForKey:@"nickName"]!=nil) {
+        self.nickNameTextField.text=[self.userInfoDic objectForKey:@"nickName"];
+    }
+    if ([[self.userInfoDic objectForKey:@"nickName"] isEqualToString:@"MAN"]) {
+        self.manButt.selected=YES;
+        self.sex=[self.userInfoDic objectForKey:@"nickName"];
+    }else if ([[self.userInfoDic objectForKey:@"nickName"] isEqualToString:@"WOMAN"])
+    {
+        self.womanButt.selected=YES;
+        self.sex=[self.userInfoDic objectForKey:@"nickName"];
+    }
 }
 -(void)backToFrontViewController
 {
@@ -97,6 +109,10 @@
     
     if ([self.nickNameTextField.text isEqualToString:@""]||self.nickNameTextField.text==nil) {
         [SVProgressHUD showErrorWithStatus:@"昵称没填呢.." maskType:SVProgressHUDMaskTypeBlack];
+        return;
+    }
+    if (imageModel.originalImage==nil) {
+        [SVProgressHUD showErrorWithStatus:@"图像没选择..请选择图像" maskType:SVProgressHUDMaskTypeBlack];
         return;
     }
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.sex,@"sex",self.nickNameTextField.text,@"nickname", nil];
