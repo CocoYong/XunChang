@@ -21,7 +21,11 @@
     self.buttOne.layer.cornerRadius=3.0f;
     self.buttonThree.layer.cornerRadius=3.0f;
 }
-
+-(void)updateConstraints
+{
+    [super updateConstraints];
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

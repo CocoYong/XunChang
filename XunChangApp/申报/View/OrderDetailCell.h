@@ -17,9 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *objectDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *changGuanLabel;
 @property (weak, nonatomic) IBOutlet UILabel *objectCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *useMoneyLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dispositMoneyLabel;
-@property (weak, nonatomic) IBOutlet UILabel *totalMoneyLabel;
+
 //two
 @property (weak, nonatomic) IBOutlet UILabel *startTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endTimeLabel;
@@ -58,5 +56,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonTwo;
 @property (weak, nonatomic) IBOutlet UIButton *buttonThree;
 
+
+@property (weak, nonatomic) IBOutlet UILabel *mainTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *moneyNumLabel;
 
 @end
