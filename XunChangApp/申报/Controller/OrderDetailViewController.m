@@ -71,7 +71,7 @@
     if (section==1) {
         return detailModel.data.progressArray.count+1;
     }else{
-        return detailModel.data.serviceFileArray.count+7;
+        return detailModel.data.serviceFileArray.count+11;
     }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -115,19 +115,43 @@
             }
             cell.changGuanLabel.text=detailModel.data.object_address;
             cell.objectCountLabel.text=[NSString stringWithFormat:@"x%@",detailModel.data.num];
+            cell.objectDetailLabel.text=detailModel.data.title;
             cell.orderNumLabel.text=[detailModel.data.order_num substringFromIndex:detailModel.data.order_num.length-11];
-           
-            cell.useMoneyLabel.text= [NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
-            cell.dispositMoneyLabel.text=[NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_deposit_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
-            cell.totalMoneyLabel.text=[NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_use_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
             return cell;
-        }else if (indexPath.row==1)
+        }else if (indexPath.row>0&&indexPath.row<5)
+        {
+            OrderDetailCell *twoLabelCell=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellNine"];
+            if (indexPath.row==1) {
+                if (detailModel.data.square==0) {
+                    twoLabelCell.hidden=YES;
+                }else
+                {
+                    twoLabelCell.mainTitleLabel.text=@"使用面积";
+                    twoLabelCell.moneyNumLabel.text=[NSString stringWithFormat:@"%.2f㎡",detailModel.data.square];
+                }
+            }else if (indexPath.row==2)
+            {
+                twoLabelCell.mainTitleLabel.text=@"费用金额";
+                twoLabelCell.moneyNumLabel.text=[NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
+            }else if (indexPath.row==3)
+            {
+                twoLabelCell.mainTitleLabel.text=@"押金金额";
+                twoLabelCell.moneyNumLabel.text=[NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_deposit_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
+            }else
+            {
+                twoLabelCell.mainTitleLabel.text=@"实付款";
+                twoLabelCell.moneyNumLabel.textColor=[UIColor colorWithHexString:@"#E4271B"];
+                twoLabelCell.moneyNumLabel.text=[NSString stringWithFormat:@"￥%@",[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[detailModel.data.total_use_money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
+            }
+            return twoLabelCell;
+        }
+        else if (indexPath.row==5)
         {
             OrderDetailCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellTwo"];
             cellTwo.startTimeLabel.text=detailModel.data.start_time;
             cellTwo.endTimeLabel.text=detailModel.data.end_time;
             return cellTwo;
-        }else if (indexPath.row==2)
+        }else if (indexPath.row==6)
         {
             OrderDetailCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
             [cellTwo.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
@@ -142,7 +166,7 @@
                 cellTwo.hidden=NO;
             }
             return cellTwo;
-        }else if (indexPath.row==3)
+        }else if (indexPath.row==7)
         {
             OrderDetailCell *cellThree=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
             [cellThree.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.staff_avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
@@ -157,7 +181,7 @@
                 cellThree.hidden=NO;
             }
             return cellThree;
-        }else if (indexPath.row==4)
+        }else if (indexPath.row==8)
         {
             OrderDetailCell *cellFour=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellThree"];
             [cellFour.photoImageView sd_setImageWithURL:[NSURL URLWithString:detailModel.data.checker_avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
@@ -172,13 +196,13 @@
                 cellFour.hidden=NO;
             }
             return cellFour;
-        }else if (indexPath.row==5)
+        }else if (indexPath.row==9)
         {
             OrderDetailCell *cellFive=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFour"];
             cellFive.completEvidenceTimeLabel.text=detailModel.data.paid_time;
             cellFive.serviceDetailLabel.text=detailModel.data.service_message;
             return cellFive;
-        }else if (indexPath.row==detailModel.data.serviceFileArray.count+6)
+        }else if (indexPath.row==detailModel.data.serviceFileArray.count+10)
         {
             OrderDetailCell *cellSix=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFive"];
             //        cellFive.starBackView.hidden=
@@ -306,32 +330,48 @@
     
     if (indexPath.section==0) {
         if (indexPath.row==0) {
-            return 202;
-        }else if (indexPath.row==1)
+            return 123;
+        }
+        else if (indexPath.row==1)
+        {
+            if (detailModel.data.square==0) {
+                return 0;
+            }
+            return 30;
+        }else if (indexPath.row==2)
+        {
+            return 30;
+        }else if (indexPath.row==3)
+        {
+            return 30;
+        }else if (indexPath.row==4)
+        {
+            return 30;
+        }else if (indexPath.row==5)
         {
             return 85;
-        }else if (indexPath.row==2)
+        }else if (indexPath.row==6)
         {
             if (![detailModel.data.show_guest isEqualToString:@"Y"]) {
                 return 0;
             }
             return 90;
-        }else if (indexPath.row==3)
+        }else if (indexPath.row==7)
         {
             if (![detailModel.data.show_staff isEqualToString:@"Y"]) {
                return 0;
             }
             return 90;
-        }else if (indexPath.row==4)
+        }else if (indexPath.row==8)
         {
             if (![detailModel.data.show_service isEqualToString:@"Y"]) {
                  return 0;
             }
             return 90;
-        }else if (indexPath.row==5)
+        }else if (indexPath.row==9)
         {
             return 80;
-        }else if (indexPath.row==indexPath.row==detailModel.data.serviceFileArray.count+6)
+        }else if (indexPath.row==detailModel.data.serviceFileArray.count+10)
         {
             if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
                 return 0;
