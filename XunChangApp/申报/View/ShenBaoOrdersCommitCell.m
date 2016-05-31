@@ -25,7 +25,7 @@
     if (self.dataModel.hasSquare) {
         self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",self.dataModel.squareNum*objectNum*price];
         self.dataModel.yajin_money=[NSString stringWithFormat:@"￥%.2f",objectNum*dispost];
-        self.dataModel.total_money=[NSString stringWithFormat:@"￥%.2f",(self.dataModel.squareNum*price+dispost)*objectNum];
+        self.dataModel.total_money=[NSString stringWithFormat:@"￥%.2f",self.dataModel.squareNum*price*objectNum+dispost*objectNum];
     }else
     {
         self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",objectNum*price];
@@ -48,7 +48,7 @@
     if (self.dataModel.hasSquare) {
         self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",self.dataModel.squareNum*objectNum*price];
         self.dataModel.yajin_money=[NSString stringWithFormat:@"￥%.2f",objectNum*dispost];
-        self.dataModel.total_money=[NSString stringWithFormat:@"￥%.2f",(self.dataModel.squareNum*price+dispost)*objectNum];
+        self.dataModel.total_money=[NSString stringWithFormat:@"￥%.2f",self.dataModel.squareNum*price*objectNum+dispost*objectNum];
     }else
     {
         self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",objectNum*price];
