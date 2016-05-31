@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ShenBaoKemuModel.h"
+#import "ShenBaoOrdersCommitViewController.h"
 @interface ShenBaoOrdersCommitCell : UITableViewCell
 //one
 @property (weak, nonatomic) IBOutlet UIView *backView;
@@ -19,30 +20,21 @@
 
 //two
 @property(nonatomic,strong)ShenBaoKemuDataModel *dataModel;
+@property(nonatomic,strong)ShenBaoOrdersCommitViewController *superController;
 @property (weak, nonatomic) IBOutlet UILabel *numLabel;
-@property (weak, nonatomic) IBOutlet UILabel *feiyongLabel;
-@property (weak, nonatomic) IBOutlet UILabel *yajinTwoLabel;
-@property (weak, nonatomic) IBOutlet UILabel *hejiLabel;
 @property (weak, nonatomic) IBOutlet UIButton *minusButt;
 @property (weak, nonatomic) IBOutlet UIButton *addButt;
 
 //three
-@property (weak, nonatomic) IBOutlet UITextField *timeTextField;
-//four
-@property (weak, nonatomic) IBOutlet UITextField *nameTextfield;
+@property (weak, nonatomic) IBOutlet UILabel *mainTextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *moneyLabel;
+
 //five
 @property (weak, nonatomic) IBOutlet UITextField *startTimeTextField;
 @property (weak, nonatomic) IBOutlet UITextField *endTimeTextField;
 @property (weak, nonatomic) IBOutlet UIButton *startTimeButt;
 @property (weak, nonatomic) IBOutlet UIButton *endTimeButt;
 
-//six
-@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *telephoneNumTextfield;
-//seven
-@property (weak, nonatomic) IBOutlet UITextField *carNumTextField;
-@property (weak, nonatomic) IBOutlet UITextField *sendGoodsTextfield;
-@property (weak, nonatomic) IBOutlet UITextField *goinTimeTextfield;
 //eight
 @property (weak, nonatomic) IBOutlet UILabel *itemTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *itemDetailLabel;
