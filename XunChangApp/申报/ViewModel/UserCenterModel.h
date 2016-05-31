@@ -29,6 +29,7 @@
 @property(nonatomic,copy)NSString *avatar;
 @property(nonatomic,copy)NSString *nickname;
 @property(nonatomic,copy)NSString *tel;
+@property(nonatomic,copy)NSString *sex;
 @end
 
 @interface ScenesModel : NSObject
