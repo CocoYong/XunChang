@@ -240,7 +240,7 @@
     cell.payButt.tag=indexPath.row*4+3;
     
     if ([self.status isEqualToString:@"pending"]){
-        cell.radioButt.hidden=NO;
+        cell.radioButt.hidden=YES;
         cell.startTimeLabel.hidden=NO;
         cell.deletButt.hidden=YES;
         [cell.payButt setBackgroundColor:[UIColor colorWithHexString:@"#D16A38"]];

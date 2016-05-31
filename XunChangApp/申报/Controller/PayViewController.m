@@ -37,14 +37,21 @@
             if ([obj isKindOfClass:[OrderListDataModel class]]) {
                 OrderListDataModel *orderModel=(OrderListDataModel*)obj;
                 totalMoney +=[orderModel.total_money floatValue];
+                self.object_id=orderModel.object_id;
             }else if ([obj isKindOfClass:[OrderDetailModel class]])
             {
                 OrderDetailModel *orderDetailModel=(OrderDetailModel*)obj;
                 totalMoney=[orderDetailModel.data.total_money floatValue];
+                self.object_id=orderDetailModel.data.object_id;
             }
             else{
                 ShenBaoKemuDataModel *keMuModel=(ShenBaoKemuDataModel*)obj;
-              totalMoney=([keMuModel.price floatValue]+[keMuModel.deposit_money floatValue])*[keMuModel.object_num integerValue];
+                if (keMuModel.hasSquare) {
+                 totalMoney=([keMuModel.price floatValue]*keMuModel.squareNum+[keMuModel.deposit_money floatValue])*[keMuModel.object_num integerValue];
+                }else
+                {
+                    totalMoney=([keMuModel.price floatValue]+[keMuModel.deposit_money floatValue])*[keMuModel.object_num integerValue];
+                }
             }
         }];
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.object_id,@"object_id", nil];
@@ -107,7 +114,7 @@
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:USEPREPAYMONEY params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
-        NSLog(@"result====%@",result);
+       NSLog(@"result====%@",result);
        LoginModel *tempModel=[LoginModel yy_modelWithDictionary:result];
         if (tempModel.code==0) {
             [self performSegueWithIdentifier:@"PayResultViewController" sender:tempModel];
