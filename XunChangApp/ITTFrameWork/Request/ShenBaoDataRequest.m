@@ -212,7 +212,7 @@
             errorBlock(error);
         }
     }];
-//    operation.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
+    operation.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
     operation.responseSerializer =[AFJSONResponseSerializer serializer];
 }
 + (NSString *)getSigntureRequestURL:(NSString *)api params:(NSMutableDictionary *)params{
