@@ -26,4 +26,9 @@
 @property(nonatomic,assign)BOOL select;
 @property(nonatomic,copy)NSString *object_num; //物品数量临时存储用 非url返回字段
 @property(nonatomic,copy)NSString *order_num; //订单号临时存储用...非url返回字段
+@property(nonatomic,copy)NSString *feiyong_money;
+@property(nonatomic,copy)NSString *yajin_money;
+@property(nonatomic,copy)NSString *total_money;
+@property(nonatomic,assign)BOOL hasSquare;
+@property(nonatomic,assign)CGFloat squareNum;
 @end

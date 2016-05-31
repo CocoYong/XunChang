@@ -23,4 +23,8 @@
 @property(nonatomic,copy)NSString *owner_icon;
 @property(nonatomic,copy)NSString *id;
 @property(nonatomic,copy)NSString *name;
+@property(nonatomic,copy)NSString *area_id;
+@property(nonatomic,copy)NSString *owner_type;
+@property(nonatomic,copy)NSString *owner_title;
+@property(nonatomic,assign)CGFloat square;
 @end
