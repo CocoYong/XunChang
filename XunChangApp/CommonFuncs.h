@@ -21,10 +21,13 @@
 
 #define PHPNOTICEURL @""
 
+//test
+#define BASICURL @"http://kcwc.luofei.i.ubolixin.com/"
+#define IMAGEUPLOAD @"http://kcwc.luofei.i.ubolixin.com/api/upload/index"
 
 //接口地址
-#define BASICURL @"http://www.51kcwc.com/"
-#define IMAGEUPLOAD @"http://www.51kcwc.com/api/upload/index"
+//#define BASICURL @"http://www.51kcwc.com/"
+//#define IMAGEUPLOAD @"http://www.51kcwc.com/api/upload/index"
 #define EVALUATEORDER @"api/xcapply/comment"
 #define USERCENTER @"api/xcapply/usercenter"
 #define GETMOBILEVERIFY @"api/main/getMobileVerify"
