@@ -3315,6 +3315,7 @@
                                                         <constraint firstItem="VlW-wb-ydI" firstAttribute="leading" secondItem="vA4-40-8Jg" secondAttribute="leading" constant="10" id="1Pi-dc-8fN"/>
                                                         <constraint firstAttribute="trailing" secondItem="nfb-f0-lKD" secondAttribute="trailing" constant="10" id="5Bz-RO-CLy"/>
                                                         <constraint firstItem="MOL-gc-JdW" firstAttribute="top" secondItem="VlW-wb-ydI" secondAttribute="bottom" constant="24" id="Bq8-Wt-qAx"/>
+                                                        <constraint firstItem="MOL-gc-JdW" firstAttribute="top" secondItem="WGr-oe-y8k" secondAttribute="bottom" constant="5" id="KhD-Mx-cgb"/>
                                                         <constraint firstItem="6bi-tg-fUk" firstAttribute="top" secondItem="VlW-wb-ydI" secondAttribute="bottom" constant="5" id="N0P-Qe-jVC"/>
                                                         <constraint firstItem="nfb-f0-lKD" firstAttribute="centerY" secondItem="VlW-wb-ydI" secondAttribute="centerY" id="SNv-kK-vYE"/>
                                                         <constraint firstItem="nfb-f0-lKD" firstAttribute="leading" secondItem="VlW-wb-ydI" secondAttribute="trailing" constant="21" id="Ulc-A6-cZy"/>
@@ -3331,6 +3332,7 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="Bq8-Wt-qAx"/>
+                                                            <exclude reference="KhD-Mx-cgb"/>
                                                         </mask>
                                                     </variation>
                                                 </view>
@@ -3419,7 +3421,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKO-Ax-PGu">
-                                                            <rect key="frame" x="521" y="84" width="42" height="21"/>
+                                                            <rect key="frame" x="10" y="84" width="553" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
@@ -3429,6 +3431,7 @@
                                                     <constraints>
                                                         <constraint firstItem="79Z-Zo-RMh" firstAttribute="top" secondItem="hSi-Wm-11h" secondAttribute="bottom" id="4v0-WL-JT0"/>
                                                         <constraint firstItem="i8W-w4-Pod" firstAttribute="leading" secondItem="0pB-7U-8k0" secondAttribute="leading" constant="10" id="9ud-Wj-q4S"/>
+                                                        <constraint firstItem="jKO-Ax-PGu" firstAttribute="leading" secondItem="0pB-7U-8k0" secondAttribute="leading" constant="10" id="PBf-Uc-MhM"/>
                                                         <constraint firstAttribute="trailing" secondItem="jKO-Ax-PGu" secondAttribute="trailing" constant="37" id="R0v-n8-bcj"/>
                                                         <constraint firstItem="hSi-Wm-11h" firstAttribute="top" secondItem="0pB-7U-8k0" secondAttribute="top" id="Y02-tb-NVx"/>
                                                         <constraint firstItem="79Z-Zo-RMh" firstAttribute="leading" secondItem="0pB-7U-8k0" secondAttribute="leading" id="Yez-ue-jRK"/>
@@ -5431,6 +5434,9 @@
                             <constraint firstItem="FbF-NH-Gyb" firstAttribute="leading" secondItem="MxK-YX-dZu" secondAttribute="leading" id="aji-gn-PX6"/>
                             <constraint firstItem="FbF-NH-Gyb" firstAttribute="top" secondItem="S0B-rx-HQ8" secondAttribute="bottom" id="udh-bj-Omw"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="AGn-BM-FM9" appends="YES" id="Ldl-d2-BCG"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="contentTextView" destination="vRn-wY-mwP" id="adr-7H-0yn"/>

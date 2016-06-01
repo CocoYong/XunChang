@@ -210,6 +210,7 @@
             cellSix.starView.enabled=NO;
             cellSix.scoreLabel.text=[NSString stringWithFormat:@"%d",detailModel.data.star];
             cellSix.conmentDetailLabel.text=detailModel.data.comment;
+            cellSix.contentTimeLabel.text=detailModel.data.end_time;
             if (![detailModel.data.show_comment isEqualToString:@"Y"]) {
                 cellSix.hidden=YES;
             }else
@@ -421,9 +422,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section==0&&indexPath.row>=10) {
-        OrderDetailDataServiceFileModel *tempModel=[detailModel.data.serviceFileArray objectAtIndex:indexPath.row-10];
-        [self browerPhoto:tempModel.imageUrlArray];
+    if (indexPath.section==0&&[[[tableView cellForRowAtIndexPath:indexPath] reuseIdentifier] isEqualToString:@"OrderDetailCellSeven"]) {
+        NSMutableArray *imageArray=[NSMutableArray array];
+        [detailModel.data.serviceFileArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            OrderDetailDataServiceFileModel *tempModel=(OrderDetailDataServiceFileModel *)obj;
+            [imageArray addObjectsFromArray:tempModel.imageUrlArray];
+        }];
+        [self browerPhoto:imageArray];
     }
 }
 -(void)telephoneButtAction:(UIButton*)sender

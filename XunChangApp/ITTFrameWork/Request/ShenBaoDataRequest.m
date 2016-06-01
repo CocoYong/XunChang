@@ -87,7 +87,7 @@
 +(void)requestUpLoadImageurl:(NSString *)url params:(NSMutableDictionary*)params httpMethod:(NSString*)httpMethod imageData:(UIImage*)updateImage fileName:(NSString*)fileName iamgeUrlParams:(NSString*)imageUrlParams successCallBackBlock:(CompletionLoad)successBlock errorBlock:(ErrorBlock)errorBlock noNetworkingBlock:(NoNetWork)noNetWorkingBlock
 {
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:IMAGEUPLOAD parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        NSData *fileData=UIImageJPEGRepresentation(updateImage, 0.2);
+        NSData *fileData=UIImageJPEGRepresentation(updateImage, 0.1);
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
     } error:nil];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];

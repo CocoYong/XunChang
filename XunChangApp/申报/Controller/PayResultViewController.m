@@ -24,7 +24,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=self.model.message;
+    if (self.model.code==0&&[self.model.message isEqualToString:@"success"]) {
+      self.title=@"支付成功";
+    }else
+    {
+      self.title=@"支付失败";
+    }
     [self createNavBackButt];
     self.stateButt.layer.cornerRadius=3.0f;
     self.backButt.layer.cornerRadius=3.0f;

@@ -81,9 +81,8 @@
 }
 -(void)countTimerRequestData
 {
-    [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
+
     [ShenBaoDataRequest requestAFWithURL:NEWMESSAGE params:nil httpMethod:@"POST" block:^(id result) {
-         [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         newMessageModel=[ShenBaoNewMessagesModel yy_modelWithDictionary:result];
         if ([[result objectForKey:@"code"] integerValue]==0) {

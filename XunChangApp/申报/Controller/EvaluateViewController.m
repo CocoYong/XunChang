@@ -38,7 +38,7 @@
     
 }
 - (IBAction)starValueChanged:(HCSStarRatingView *)sender {
-    self.scoreLabel.text=[NSString stringWithFormat:@"%.0f",sender.value];
+    self.scoreLabel.text=[NSString stringWithFormat:@"%.1f",sender.value];
 }
 
 - (IBAction)submittButtAction:(id)sender {
@@ -63,7 +63,7 @@
     }];
 }
 - (IBAction)resignKeyBoard:(UITapGestureRecognizer *)sender {
-    [self.contentTextView resignFirstResponder];
+    [self.view endEditing:YES];
 }
 
 

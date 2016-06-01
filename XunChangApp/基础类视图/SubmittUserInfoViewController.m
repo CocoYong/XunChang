@@ -28,23 +28,26 @@
     [super viewDidLoad];
     [self createNavBackButt];
     self.title=@"基本资料";
+    imageModel=[[ImageObjectModel alloc]init];
+    imageModel.data=[[ImageObjectDataModel alloc]init];
     [self.manButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
     [self.manButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
     if ([self.userInfoDic objectForKey:@"avatar"]!=nil&&![[self.userInfoDic objectForKey:@"avatar"] isEqualToString:@""]) {
         [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:[self.userInfoDic objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+        imageModel.originalImage=self.photoImageView.image;
     }
     if ([self.userInfoDic objectForKey:@"nickName"]!=nil) {
         self.nickNameTextField.text=[self.userInfoDic objectForKey:@"nickName"];
     }
-    if ([[self.userInfoDic objectForKey:@"nickName"] isEqualToString:@"MAN"]) {
+    if ([[self.userInfoDic objectForKey:@"sex"] isEqualToString:@"MAN"]) {
         self.manButt.selected=YES;
-        self.sex=[self.userInfoDic objectForKey:@"nickName"];
-    }else if ([[self.userInfoDic objectForKey:@"nickName"] isEqualToString:@"WOMAN"])
+        self.sex=[self.userInfoDic objectForKey:@"sex"];
+    }else if ([[self.userInfoDic objectForKey:@"sex"] isEqualToString:@"WOMAN"])
     {
         self.womanButt.selected=YES;
-        self.sex=[self.userInfoDic objectForKey:@"nickName"];
+        self.sex=[self.userInfoDic objectForKey:@"sex"];
     }
 }
 -(void)backToFrontViewController
@@ -96,11 +99,10 @@
 {
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:@"public.image"]) {
-        imageModel=[[ImageObjectModel alloc]init];
         imageModel.originalImage=[info objectForKey:@"UIImagePickerControllerOriginalImage"];
         imageModel.editImage=[info objectForKey:@"UIImagePickerControllerEditedImage"];
         imageModel.originalImageName=[NSString stringWithFormat:@"%@_original.png",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
-        imageModel.editImageName=[NSString stringWithFormat:@"%@_editing",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
+        imageModel.editImageName=[NSString stringWithFormat:@"%@_editing.png",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
     }
     self.photoImageView.image=imageModel.originalImage;
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -112,13 +114,13 @@
         return;
     }
     if (imageModel.originalImage==nil) {
-        [SVProgressHUD showErrorWithStatus:@"图像没选择..请选择图像" maskType:SVProgressHUDMaskTypeBlack];
+        [SVProgressHUD showErrorWithStatus:@"图像没选呢.." maskType:SVProgressHUDMaskTypeBlack];
         return;
     }
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.sex,@"sex",self.nickNameTextField.text,@"nickname", nil];
     [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestUpLoadImageurl:BINDUSERINFO params:paramsDic httpMethod:@"POST" imageData:imageModel.originalImage fileName:imageModel.originalImageName iamgeUrlParams:@"avatar" successCallBackBlock:^(id result) {
-        [SVProgressHUD dismiss];
+         [SVProgressHUD dismiss];
         LoginModel *model=[LoginModel yy_modelWithJSON:result];
         if (model.code==0) {
             [SVProgressHUD showSuccessWithStatus:@"更新资料成功" maskType:SVProgressHUDMaskTypeBlack];
@@ -126,6 +128,10 @@
         }else if(model.code==9999)
         {
             [SVProgressHUD  showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeBlack];
+        }else if(imageModel.code==1001)
+        {
+            [USER_DEFAULT removeObjectForKey:@"user_token"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
     } errorBlock:^(NSError *error) {
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];

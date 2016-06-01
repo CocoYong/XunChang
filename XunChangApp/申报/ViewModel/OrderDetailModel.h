@@ -44,6 +44,7 @@
 @property(nonatomic,strong)NSArray *serviceFileArray;//
 @property(nonatomic,copy)NSString *show_comment;
 @property(nonatomic,copy)NSString *show_guest;
+@property(nonatomic,copy)NSString *show_progress;
 @property(nonatomic,copy)NSString *show_service;
 @property(nonatomic,copy)NSString *show_staff;
 @property(nonatomic,copy)NSString *sign_time;
@@ -83,3 +84,14 @@
 @property(nonatomic,copy)NSString *size;
 @property(nonatomic,strong)NSArray *imageUrlArray;
 @end
+
+
+//finish_time  执行方确认服务完成时间
+//sign_time  签收时间
+//start_time 提交订单时填写的开始使用时间
+//end_time  提交订单时填写的结束使用时间
+//cancel_time 取消订单时间
+//paid_time  订单支付时间
+//update_time 订单更新时间 （好像没什么用）
+//create_time  订单创建时间
+//client_delete_time  客户端删除订单时间（已完成的才能删除）
