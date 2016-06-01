@@ -83,9 +83,7 @@
 
 -(void)requestUserCenterData
 {
-    [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:USERCENTER params:nil httpMethod:@"POST" block:^(id result) {
-        [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         userModel=[UserCenterModel yy_modelWithDictionary:result];
         userModel.data.actions=[NSArray yy_modelArrayWithClass:[ActionsModel class] json:[[result objectForKey:@"data"] objectForKey:@"actions"]];
@@ -261,11 +259,15 @@
     }
     if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"SubmittUserInfoViewController")]) {
         SubmittUserInfoViewController *userInfoController=[segue destinationViewController];
-        userInfoController.userInfoDic=@{@"avatar":userModel.data.userinfo.avatar,@"nickName":userModel.data.userinfo.nickname,@"sex":userModel.data.userinfo.sex};
+        if (userModel!=nil) {
+          userInfoController.userInfoDic=@{@"avatar":userModel.data.userinfo.avatar,@"nickName":userModel.data.userinfo.nickname,@"sex":userModel.data.userinfo.sex};
+        }
     }
     if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"SettingViewController")]) {
         SettingViewController *settingController=[segue destinationViewController];
+        if (userModel!=nil) {
         settingController.userInfoDic=@{@"avatar":userModel.data.userinfo.avatar,@"nickName":userModel.data.userinfo.nickname,@"sex":userModel.data.userinfo.sex};
+        }
     }
     NSLog(@"sender  =%@",sender);
     NSLog(@"distinationViewcontroller=%@",NSStringFromClass([[segue destinationViewController] class]));
