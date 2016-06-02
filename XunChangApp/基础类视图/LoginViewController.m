@@ -35,13 +35,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.logoImageView.layer.masksToBounds=YES;
-    self.logoImageView.layer.cornerRadius=25.0f;
     self.textFieldBackView.layer.borderColor=[UIColor colorWithHexString:@"#E6E7EA"].CGColor;
     self.textFieldBackView.layer.borderWidth=1.0f;
     [self.protocolButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
     [self.protocolButt setImage:[UIImage imageNamed:@"icon_green"] forState:UIControlStateSelected];
     self.protocolButt.selected=YES;
+    self.loginButt.layer.cornerRadius=4.0f;
     seconds=60;
     [[self.telephoneNumTextField.rac_textSignal filter:^BOOL(id value) {
         return ![self.telephoneNumTextField isFirstResponder];

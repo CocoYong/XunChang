@@ -10,12 +10,12 @@
 #import "ImageObjectModel.h"
 #import "LoginModel.h"
 #import "UIImageView+WebCache.h"
+#import "SDWebImageDownloader.h"
 @interface SubmittUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     ImageObjectModel *imageModel;
 }
 @property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
-@property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (weak, nonatomic) IBOutlet UIButton *addPhotoButt;
 @property (weak, nonatomic) IBOutlet UIButton *manButt;
 @property (weak, nonatomic) IBOutlet UIButton *womanButt;
@@ -35,8 +35,10 @@
     [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
     if ([self.userInfoDic objectForKey:@"avatar"]!=nil&&![[self.userInfoDic objectForKey:@"avatar"] isEqualToString:@""]) {
-        [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:[self.userInfoDic objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-        imageModel.originalImage=self.photoImageView.image;
+        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[self.userInfoDic objectForKey:@"avatar"]] options:SDWebImageDownloaderProgressiveDownload progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+            [self.addPhotoButt setImage:image forState:UIControlStateNormal];
+            imageModel.originalImage=image;
+        }];
     }
     if ([self.userInfoDic objectForKey:@"nickName"]!=nil) {
         self.nickNameTextField.text=[self.userInfoDic objectForKey:@"nickName"];
@@ -111,7 +113,7 @@
         imageModel.originalImageName=[NSString stringWithFormat:@"%@_original.png",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
         imageModel.editImageName=[NSString stringWithFormat:@"%@_editing.png",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
     }
-    self.photoImageView.image=imageModel.originalImage;
+    [self.addPhotoButt setImage:imageModel.originalImage forState:UIControlStateNormal];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)submittUserInfoAction:(UIButton *)sender {

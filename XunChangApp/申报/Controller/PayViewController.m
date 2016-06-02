@@ -205,13 +205,20 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1&&indexPath.row==0) {
-        return 124;
+        return 83;
     }else
     {
         return 44;
     }
 }
-
+-(void)backToFrontViewController
+{
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:NSClassFromString(@"ShenBaoViewController")]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
