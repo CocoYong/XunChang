@@ -201,6 +201,12 @@
             OrderDetailCell *cellFive=[tableView dequeueReusableCellWithIdentifier:@"OrderDetailCellFour"];
             cellFive.completEvidenceTimeLabel.text=detailModel.data.finish_time;
             cellFive.serviceDetailLabel.text=detailModel.data.service_message;
+            if ([detailModel.data.show_service isEqualToString:@"Y"]) {
+                cellFive.hidden=NO;
+            }else
+            {
+                cellFive.hidden=YES;
+            }
             return cellFive;
         }else if (indexPath.row==detailModel.data.serviceFileArray.count+10)
         {
@@ -374,8 +380,13 @@
             return 90;
         }else if (indexPath.row==9)
         {
-            CGRect calculatRect=[detailModel.data.service_message boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18]} context:nil];
-            return calculatRect.size.height+50;
+            if (![detailModel.data.show_service isEqualToString:@"Y"]) {
+                return 0;
+            }else
+            {
+                CGRect calculatRect=[detailModel.data.service_message boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18]} context:nil];
+                return calculatRect.size.height+50;
+            }
         }else if (indexPath.row==detailModel.data.serviceFileArray.count+10)
         {
             if (![detailModel.data.show_comment isEqualToString:@"Y"]) {

@@ -48,6 +48,13 @@
     {
         self.womanButt.selected=YES;
         self.sex=[self.userInfoDic objectForKey:@"sex"];
+    }else
+    {
+        self.sex=[self.userInfoDic objectForKey:@"sex"];
+    }
+    if (![[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {
+        self.manButt.enabled=NO;
+        self.womanButt.enabled=NO;
     }
 }
 -(void)backToFrontViewController

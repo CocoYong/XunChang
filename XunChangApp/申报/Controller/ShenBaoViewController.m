@@ -199,8 +199,7 @@
     if ([[segue destinationViewController] isKindOfClass:[ShenBaoLeiXingViewController class]]) {
         ShenBaoItemDataModel *tempModel=(ShenBaoItemDataModel*)sender;
         ShenBaoLeiXingViewController *viewController=[segue destinationViewController];
-        viewController.title=tempModel.title;
-        viewController.type_id=tempModel.id;
+        viewController.itemDataModel=tempModel;
     }
 }
 

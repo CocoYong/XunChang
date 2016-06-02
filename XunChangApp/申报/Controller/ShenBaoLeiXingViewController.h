@@ -7,7 +7,7 @@
 //  类型选择列表
 
 #import "BaseViewController.h"
-
+#import "ShenBaoItemsModel.h"
 @interface ShenBaoLeiXingViewController : BaseViewController
-@property(nonatomic,copy)NSString *type_id;
+@property(nonatomic,strong)ShenBaoItemDataModel *itemDataModel;
 @end

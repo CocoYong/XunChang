@@ -17,7 +17,7 @@
 {
     NSMutableArray *imageDataArray;
 }
-@property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *placeHolderView;
+@property (weak, nonatomic) IBOutlet UITextView *placeHolderView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

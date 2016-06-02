@@ -8,7 +8,8 @@
 
 #import "BaseViewController.h"
 #import "ShenBaoWorkObjectModel.h"
+#import "ShenBaoItemsModel.h"
 @interface ShenBaoSelectItemListViewController : BaseViewController
-@property(nonatomic,copy)NSString *type_id;
+@property(nonatomic,strong)ShenBaoItemDataModel *itemObjectModel;
 @property(nonatomic,strong)ShenBaoWorkObjectDataObjectsModel *objectModel;
 @end

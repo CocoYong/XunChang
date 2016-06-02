@@ -22,9 +22,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title=self.objectModel.name;
     [self createNavBackButt];
     self.tableView.tableFooterView=[UIView new];
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.type_id,@"type_id", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.itemObjectModel.id,@"type_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:GETITEM params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
@@ -97,7 +98,7 @@
     ShenBaoOrdersCommitViewController *viewController=[segue destinationViewController];
     viewController.dataModel=sender;
     viewController.objectModel=self.objectModel;
-    viewController.object_id=self.objectModel.id;
+    viewController.itemObjectModel=self.itemObjectModel;
 }
 
 

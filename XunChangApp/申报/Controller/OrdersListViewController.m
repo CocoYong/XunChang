@@ -202,7 +202,6 @@
     cell.stadiumNameLabel.text=secondModel.object_address;
     cell.goodsNameLabel.text=secondModel.item_title;
     cell.goodsNumLabel.text=[NSString stringWithFormat:@"x%d",[secondModel.num integerValue]];
-    cell.stadiumNameLabel.text=secondModel.item_title;
     cell.startTimeLabel.text=[NSString stringWithFormat:@"开始使用时间:%@",secondModel.start_time];
     cell.moneyLabel.text=[NSString stringWithFormat:@"￥%.2f",[secondModel.total_money floatValue]];
     ITTDINFO(@"indexpathrow===%d,secondeModel.radioselect==%d",indexPath.row,secondModel.radioButtSelect);

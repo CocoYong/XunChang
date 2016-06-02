@@ -28,7 +28,7 @@
     [super viewDidLoad];
     self.title=@"提交申报订单";
     [self createNavBackButt];
-    if (self.objectModel.square>0) {
+    if ([self.itemObjectModel.count_type isEqualToString:@"2"]) {
         self.dataModel.hasSquare=YES;
         self.dataModel.squareNum=self.objectModel.square;
         self.dataModel.feiyong_money=[NSString stringWithFormat:@"￥%.2f",[self.dataModel.price floatValue]*self.dataModel.squareNum];
@@ -62,7 +62,7 @@
         return;
     }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.object_id,@"object_id",self.dataModel.id,@"item_id",cellTwo.numLabel.text,@"num",cellThree.startTimeTextField.text,@"start_time",cellThree.endTimeTextField.text,@"end_time", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.objectModel.id,@"object_id",self.dataModel.id,@"item_id",cellTwo.numLabel.text,@"num",cellThree.startTimeTextField.text,@"start_time",cellThree.endTimeTextField.text,@"end_time", nil];
     [ShenBaoDataRequest requestAFWithURL:CREATEORDER params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
@@ -145,8 +145,11 @@
             if (indexPath.row==1) {
                 sectionTwoCell.mainTextLabel.text=@"使用面积";
                 sectionTwoCell.moneyLabel.text=[NSString stringWithFormat:@"%.2f㎡",self.dataModel.squareNum];
-                if (self.objectModel.square==0) {
-                    sectionTwoCell.hidden=YES;
+            if ([self.itemObjectModel.count_type isEqualToString:@"1"]) {
+                   sectionTwoCell.hidden=YES;
+                }else
+                {
+                   sectionTwoCell.hidden=NO;
                 }
             }else if (indexPath.row==2)
             {
@@ -203,7 +206,7 @@
             return 44;
         }else if (indexPath.row==1)
         {
-            if (self.objectModel.square==0) {
+            if ([self.itemObjectModel.count_type isEqualToString:@"1"]) {
                 return 0;
             }
             return 30;
@@ -364,8 +367,7 @@
     // Pass the selected object to the new view controller.
     PayViewController *payController=[segue destinationViewController];
     payController.dataArray=[dataArray copy];
-    payController.object_id=self.object_id;
-   
+    payController.object_id=self.objectModel.id;
 }
 
 

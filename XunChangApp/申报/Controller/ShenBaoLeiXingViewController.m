@@ -23,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title=self.itemDataModel.title;
     [self createNavBackButt];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:GETOBJECT params:nil httpMethod:@"POST" block:^(id result) {
@@ -117,9 +118,8 @@
     if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"ShenBaoSelectItemListViewController")]) {
         ShenBaoWorkObjectDataObjectsModel *secondModel=(ShenBaoWorkObjectDataObjectsModel*)sender;
         ShenBaoSelectItemListViewController *itemViewController=[segue destinationViewController];
-        itemViewController.type_id=self.type_id;
+        itemViewController.itemObjectModel=self.itemDataModel;
         itemViewController.objectModel=secondModel;
-        itemViewController.title=secondModel.name;
     }
 }
 
