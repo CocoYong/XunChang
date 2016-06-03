@@ -34,10 +34,19 @@
     alertView.layer.borderColor=[UIColor colorWithHexString:@"#E4E4E4"].CGColor;
     alertView.layer.cornerRadius=3.0f;
     
+    
+    UIView *horiLineView=[[UIView alloc]initWithFrame:CGRectMake(0, 119, SCREEN_WIDTH-60, 1)];
+    horiLineView.backgroundColor=[UIColor colorWithHexString:@"#e0e0e0"];
+    [alertView addSubview:horiLineView];
+    
+    UIView *vetaLineView=[[UIView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-60)/2-0.5, 120, 1, 40)];
+    vetaLineView.backgroundColor=[UIColor colorWithHexString:@"#e0e0e0"];
+    [alertView addSubview:vetaLineView];
+    
     //第一个按钮
     UIButton *buttOne=[UIButton buttonWithType:UIButtonTypeCustom];
-    buttOne.frame=CGRectMake(20, 110, 80, 30);
-    buttOne.titleLabel.font=[UIFont systemFontOfSize:13];
+    buttOne.frame=CGRectMake(0, 120, (SCREEN_WIDTH-60)/2-0.5, 40);
+    buttOne.titleLabel.font=[UIFont systemFontOfSize:18];
     buttOne.tag=1;
     buttOne.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
         [alertView removeFromSuperview];
@@ -51,10 +60,11 @@
     [alertView addSubview:buttOne];
     //第二个按钮
     UIButton *buttTwo=[UIButton buttonWithType:UIButtonTypeCustom];
-    buttTwo.frame=CGRectMake(SCREEN_WIDTH-160, 110, 80, 30);
-    buttTwo.titleLabel.font=[UIFont systemFontOfSize:13];
+    buttTwo.frame=CGRectMake((SCREEN_WIDTH-60)/2+0.5, 120, (SCREEN_WIDTH-60)/2, 40);
+    buttTwo.titleLabel.font=[UIFont systemFontOfSize:18];
     [buttTwo setTitle:secondTitle forState:UIControlStateNormal];
     [buttTwo setTitleColor:buttTwoTitleColor forState:UIControlStateNormal];
+    
     buttTwo.backgroundColor=buttTwoBackColor;
     buttTwo.tag=2;
     buttTwo.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {

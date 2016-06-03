@@ -17,6 +17,7 @@
     self.cancelButt.layer.borderWidth=1.0f;
     self.deletButt.layer.borderColor=[UIColor colorWithHexString:@"#DADBDC"].CGColor;
     self.deletButt.layer.borderWidth=1.0f;
+    self.deletButt.layer.cornerRadius=3.0f;
     self.payButt.layer.cornerRadius=3.0f;
     self.contentBackView.layer.borderColor=[UIColor colorWithHexString:@"#F4F5F6"].CGColor;
     self.contentBackView.layer.borderWidth=1.0f;

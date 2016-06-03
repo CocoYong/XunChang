@@ -12,7 +12,9 @@
 @interface EvaluateViewController ()
 @property (weak, nonatomic) IBOutlet HCSStarRatingView *starView;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIView *textViewBackView;
+
+@property (strong, nonatomic)UIPlaceHolderTextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UILabel *wordNumLabel;
 @property (weak, nonatomic) IBOutlet UIButton *submittButt;
 
@@ -25,7 +27,8 @@
     [super viewDidLoad];
     self.title=@"服务评价";
     [self createNavBackButt];
-    self.contentTextView.placeholder=@"请输入评价";
+    _contentTextView=[[UIPlaceHolderTextView alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-20, 131) andPlaceholder:@"请输入评价" andLayerRadius:3.0f andBorderColor:[UIColor whiteColor] andBorderWidth:1.0f];
+    [self.textViewBackView addSubview:_contentTextView];
     [self.contentTextView.rac_textSignal subscribeNext:^(id x) {
         NSString *inputWord=x;
         self.wordNumLabel.text=[NSString stringWithFormat:@"%d",inputWord.length];

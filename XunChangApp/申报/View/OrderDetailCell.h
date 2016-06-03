@@ -45,6 +45,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderActionTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *orderActionInfoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *radioImageView;
+@property (weak, nonatomic) IBOutlet UIView *topLineView;
+@property (weak, nonatomic) IBOutlet UIView *bottomLineView;
 
 //seven
 @property (weak, nonatomic) IBOutlet UIImageView *detailImageView;
