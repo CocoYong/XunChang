@@ -26,6 +26,7 @@
     self.title=@"设置";
     [self createNavBackButt];
     titleArray=[NSMutableArray array];
+    self.logoutButt.layer.cornerRadius=4.0f;
 //    [titleArray addObject:@[@"帐号与安全"]];
 //    [titleArray addObject:@[@"消息设置",@"关于巡场",@"帮助与反馈"]];
 //    [titleArray addObject:@[@"清除缓存"]];
@@ -96,11 +97,6 @@
         AboutXunChangViewController *aboutController=[segue destinationViewController];
         aboutController.title=@"关于巡场";
     }
-    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"SubmittUserInfoViewController")]) {
-        SubmittUserInfoViewController *userInfoController=[segue destinationViewController];
-        userInfoController.userInfoDic=self.userInfoDic;
-    }
-
 }
 
 

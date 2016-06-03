@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface SettingViewController : BaseViewController
-@property(nonatomic,strong)NSDictionary *userInfoDic;
+
 @end

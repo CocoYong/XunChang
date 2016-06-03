@@ -8,7 +8,7 @@
 
 #import "AboutXunChangViewController.h"
 
-@interface AboutXunChangViewController ()
+@interface AboutXunChangViewController ()<UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @end
 
@@ -17,14 +17,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createNavBackButt];
+    NSURLRequest *resquest;
     if ([self.title isEqualToString:@"关于巡场"]) {
-        NSURLRequest *resquest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.51kcwc.com/index/about/index"]];
-        [self.webView loadRequest:resquest];
+        resquest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.51kcwc.com/index/about/index"]];
     }else
     {
-        NSURLRequest *resquest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.51kcwc.com/index/about/userAgreementr"]];
-        [self.webView loadRequest:resquest];
+        resquest=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.51kcwc.com/index/about/userAgreementr"]];
+       
     }
+     [self.webView loadRequest:resquest];
 }
 -(void)backToFrontViewController
 {
@@ -34,6 +35,14 @@
     {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+}
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+      [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
+}
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+      [SVProgressHUD dismiss];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
