@@ -82,6 +82,14 @@
    
     
 }
+-(void)backToFrontViewController
+{
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:NSClassFromString(@"ShenBaoViewController")]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

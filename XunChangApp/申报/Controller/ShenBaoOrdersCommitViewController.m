@@ -16,6 +16,7 @@
     NSMutableArray *dataArray;
 }
 
+@property (weak, nonatomic) IBOutlet UIButton *submitButt;
 @property(nonatomic,strong)UIDatePicker *datePickView;
 @property(nonatomic,copy)NSString *datePickType;
 @property(nonatomic,strong)NSDate *startDate;
@@ -28,6 +29,7 @@
     [super viewDidLoad];
     self.title=@"提交申报订单";
     [self createNavBackButt];
+    self.submitButt.layer.cornerRadius=4.0f;
     if ([self.itemObjectModel.count_type isEqualToString:@"2"]) {
         self.dataModel.hasSquare=YES;
         self.dataModel.squareNum=self.objectModel.square;
@@ -162,6 +164,7 @@
             }else
             {
                 sectionTwoCell.mainTextLabel.text=@"合计";
+                sectionTwoCell.mainTextLabel.font=[UIFont systemFontOfSize:16];
                 sectionTwoCell.moneyLabel.textColor=[UIColor colorWithHexString:@"#E4271B"];
                 sectionTwoCell.moneyLabel.text=self.dataModel.total_money;
             }
@@ -231,7 +234,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section==0||section==1) {
+    if (section==0) {
         return 10;
     }else
     {

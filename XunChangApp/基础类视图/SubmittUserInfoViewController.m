@@ -11,14 +11,18 @@
 #import "LoginModel.h"
 #import "UIImageView+WebCache.h"
 #import "SDWebImageDownloader.h"
+#import "UserCenterModel.h"
 @interface SubmittUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     ImageObjectModel *imageModel;
+    UserInfo *userinfo;
 }
 @property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
 @property (weak, nonatomic) IBOutlet UIButton *addPhotoButt;
 @property (weak, nonatomic) IBOutlet UIButton *manButt;
 @property (weak, nonatomic) IBOutlet UIButton *womanButt;
+@property (weak, nonatomic) IBOutlet UIButton *submitButt;
+
 @property(nonatomic,copy)NSString *sex;
 @end
 
@@ -28,31 +32,35 @@
     [super viewDidLoad];
     [self createNavBackButt];
     self.title=@"基本资料";
+    self.submitButt.layer.cornerRadius=4.0f;
     imageModel=[[ImageObjectModel alloc]init];
     imageModel.data=[[ImageObjectDataModel alloc]init];
+    userinfo=[UserInfo yy_modelWithDictionary:[USER_DEFAULT objectForKey:@"userinfo"]];//字典转为数组..
     [self.manButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
     [self.manButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
-    if ([self.userInfoDic objectForKey:@"avatar"]!=nil&&![[self.userInfoDic objectForKey:@"avatar"] isEqualToString:@""]) {
-        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[self.userInfoDic objectForKey:@"avatar"]] options:SDWebImageDownloaderProgressiveDownload progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-            [self.addPhotoButt setImage:image forState:UIControlStateNormal];
+    if (userinfo.avatar!=nil&&![userinfo.avatar isEqualToString:@""]) {
+        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:userinfo.avatar] options:SDWebImageDownloaderProgressiveDownload progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+        [self.addPhotoButt setImage:image forState:UIControlStateNormal];
+            });
             imageModel.originalImage=image;
         }];
     }
-    if ([self.userInfoDic objectForKey:@"nickName"]!=nil) {
-        self.nickNameTextField.text=[self.userInfoDic objectForKey:@"nickName"];
+    if (userinfo.nickname!=nil) {
+        self.nickNameTextField.text=userinfo.nickname;
     }
-    if ([[self.userInfoDic objectForKey:@"sex"] isEqualToString:@"MAN"]) {
+    if ([userinfo.sex isEqualToString:@"MAN"]) {
         self.manButt.selected=YES;
-        self.sex=[self.userInfoDic objectForKey:@"sex"];
-    }else if ([[self.userInfoDic objectForKey:@"sex"] isEqualToString:@"WOMAN"])
+        self.sex=userinfo.sex;
+    }else if ([userinfo.sex isEqualToString:@"WOMAN"])
     {
         self.womanButt.selected=YES;
-        self.sex=[self.userInfoDic objectForKey:@"sex"];
+        self.sex=userinfo.sex;
     }else
     {
-        self.sex=[self.userInfoDic objectForKey:@"sex"];
+        self.sex=userinfo.sex;
     }
     if (![[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {
         self.manButt.enabled=NO;

@@ -89,6 +89,8 @@
         userModel.data.actions=[NSArray yy_modelArrayWithClass:[ActionsModel class] json:[[result objectForKey:@"data"] objectForKey:@"actions"]];
         userModel.data.scenes=[NSArray yy_modelArrayWithClass:[ScenesModel class] json:[[result objectForKey:@"data"] objectForKey:@"scenes"]];
             if (userModel.code==0) {
+            NSDictionary *tempDic=@{@"avatar": userModel.data.userinfo.avatar,@"sex":userModel.data.userinfo.sex,@"nickname":userModel.data.userinfo.nickname};
+            [USER_DEFAULT setObject:tempDic forKey:@"userinfo"];
             [USER_DEFAULT setObject:userModel.data.scene_id forKey:@"scene_id"];
                 if (userModel.data.scenes.count<=1) {
                     self.changJingButt.hidden=YES;
@@ -115,16 +117,18 @@
 -(void)configeUIData
 {
     [self.userPhotoImageView sd_setImageWithURL:[NSURL URLWithString:userModel.data.userinfo.avatar] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
-    self.nickNameLabel.text=[NSString stringWithFormat:@"姓名:%@",userModel.data.userinfo.nickname];
-    self.userCompanyLabel.text=userModel.data.userinfo.tel;
+    self.nickNameLabel.text=[NSString stringWithFormat:@"%@ %@",userModel.data.userinfo.realname,userModel.data.userinfo.tel];
+//    self.userCompanyLabel.text=userModel.data.userinfo.tel;
     if ([userModel.data.status isEqualToString:@"no_scene"]) {
         self.changJIngView.hidden=YES;
+        self.itemCollectionView.hidden=YES;
         self.remindLabel.hidden=NO;
         self.remindLabel.text=userModel.data.message;
     }else
     {
         self.changJIngView.hidden=NO;
-       [self.changJingLogoImageView sd_setImageWithURL:[NSURL URLWithString:userModel.data.scene_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+        self.itemCollectionView.hidden=NO;
+       [self.changJingLogoImageView sd_setImageWithURL:[NSURL URLWithString:userModel.data.scene_icon] placeholderImage:[UIImage imageNamed:@"img_czlogo"] options:SDWebImageProgressiveDownload];
         self.changJingNameLabel.text=userModel.data.scene_title;
     }
     self.userInfoButt.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
@@ -256,18 +260,6 @@
             [USER_DEFAULT setObject:sceneID forKey:@"scene_id"];
             [self requestUserCenterData];
         };
-    }
-    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"SubmittUserInfoViewController")]) {
-        SubmittUserInfoViewController *userInfoController=[segue destinationViewController];
-        if (userModel!=nil) {
-          userInfoController.userInfoDic=@{@"avatar":userModel.data.userinfo.avatar,@"nickName":userModel.data.userinfo.nickname,@"sex":userModel.data.userinfo.sex};
-        }
-    }
-    if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"SettingViewController")]) {
-        SettingViewController *settingController=[segue destinationViewController];
-        if (userModel!=nil) {
-        settingController.userInfoDic=@{@"avatar":userModel.data.userinfo.avatar,@"nickName":userModel.data.userinfo.nickname,@"sex":userModel.data.userinfo.sex};
-        }
     }
     NSLog(@"sender  =%@",sender);
     NSLog(@"distinationViewcontroller=%@",NSStringFromClass([[segue destinationViewController] class]));

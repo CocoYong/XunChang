@@ -36,7 +36,7 @@
     self.title=@"申报";
     [self createNavBackButt];
     
-    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:self.dataModel.scene_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:self.dataModel.scene_icon] placeholderImage:[UIImage imageNamed:@"img_czlogo"] options:SDWebImageProgressiveDownload];
     self.activityTitleLabel.text=self.dataModel.scene_title;
     
     self.daifukuanLabel.layer.cornerRadius=6.0f;
@@ -52,9 +52,8 @@
     countTimer=[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(countTimerRequestData) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:countTimer forMode:NSRunLoopCommonModes];
     
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"8fd4bcd74eecfcd96d8b34bba1e7644c",@"user_token",@"11",@"scene_id", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    [ShenBaoDataRequest requestAFWithURL:APPLYTYPE params:paramsDic httpMethod:@"POST" block:^(id result) {
+    [ShenBaoDataRequest requestAFWithURL:APPLYTYPE params:nil httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         itemModel=[ShenBaoItemsModel yy_modelWithDictionary:result];

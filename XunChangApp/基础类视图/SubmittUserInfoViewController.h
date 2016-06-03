@@ -9,5 +9,4 @@
 #import "BaseViewController.h"
 
 @interface SubmittUserInfoViewController : BaseViewController
-@property(nonatomic,strong)NSDictionary *userInfoDic;
 @end

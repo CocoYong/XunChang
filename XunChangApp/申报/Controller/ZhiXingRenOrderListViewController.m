@@ -79,8 +79,8 @@
     
     cell.objectDetailLabel.text=secondModel.item_title;
     cell.objectNumLabel.text=[NSString stringWithFormat:@"x%d",[secondModel.num integerValue]];
-    cell.shenBaoRenLabel.text=[NSString stringWithFormat:@"申报人:%@(%@)",secondModel.realname,secondModel.tel];
-    cell.startTimeLabel.text=[NSString stringWithFormat:@"开始使用时间:%@",secondModel.start_time];
+    cell.shenBaoRenLabel.text=[NSString stringWithFormat:@"申报人: %@(%@)",secondModel.realname,secondModel.tel];
+    cell.startTimeLabel.text=[NSString stringWithFormat:@"开始使用时间: %@",secondModel.start_time];
     [cell.statusButt addTarget:self action:@selector(statusButtAction:) forControlEvents:UIControlEventTouchUpInside];
     cell.statusButt.tag=indexPath.row*2+1;
     if ([secondModel.task_status isEqualToString:@"starting"]) {
@@ -106,9 +106,9 @@
             cell.starBackView.hidden=NO;
             cell.statusButt.hidden=YES;
             cell.telephoneButt.hidden=YES;
-            cell.starView.value=[secondModel.star integerValue];
+            cell.starView.value=[secondModel.star floatValue];
             cell.starView.enabled=NO;
-            cell.scoreLabel.text=secondModel.star;
+            cell.scoreLabel.text=[NSString stringWithFormat:@"%@",secondModel.star];
         }else
         {
             cell.starBackView.hidden=YES;
@@ -123,7 +123,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 224;
+    return 240;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

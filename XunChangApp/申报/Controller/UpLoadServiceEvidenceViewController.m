@@ -13,12 +13,14 @@
 #import "ShenBaoLeiXingCell.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+ITTAdditions.h"
-@interface UpLoadServiceEvidenceViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface UpLoadServiceEvidenceViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 {
     NSMutableArray *imageDataArray;
+  UIImagePickerController *imagePicker;
 }
 @property (weak, nonatomic) IBOutlet UITextView *placeHolderView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *submitButt;
 
 @end
 
@@ -28,6 +30,7 @@
     [super viewDidLoad];
     self.title=@"完成服务凭证";
     [self createNavBackButt];
+    self.submitButt.layer.cornerRadius=4.0f;
     self.tableView.tableFooterView=[UIView new];
     //初始化imageDataArray
     imageDataArray=[NSMutableArray arrayWithCapacity:12];
@@ -37,14 +40,32 @@
 }
 
 - (IBAction)takePhotoButtAction:(UIButton *)sender {
-    UIImagePickerController *imagePicker=[[UIImagePickerController alloc]init];
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
-        imagePicker.mediaTypes=[UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
+    
+         imagePicker=[[UIImagePickerController alloc]init];
+         imagePicker.delegate=self;
+    if (IOS8_OR_LATER) {
+        UIAlertController *actionView=[UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+       [actionView addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+           imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
+           imagePicker.mediaTypes=[UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
+           [self presentViewController:imagePicker animated:YES completion:nil];
+        }]];
+        [actionView addAction:[UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            imagePicker.allowsEditing=YES;
+            imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            imagePicker.mediaTypes=[UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
+            [self presentViewController:imagePicker animated:YES completion:nil];
+        }]];
+        [actionView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }]];
+        [self presentViewController:actionView animated:YES completion:nil];
+    }else
+    {
+        UIActionSheet *actionSheet=[[UIActionSheet alloc]initWithTitle:@"拍照" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册", nil];
+        [actionSheet showInView:self.view];
     }
-    imagePicker.delegate=self;
-    imagePicker.allowsEditing=YES;
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    
 }
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
@@ -146,6 +167,11 @@
 - (IBAction)submittEvidenceButtAction:(UIButton *)sender {
     //图片字符串哈
     NSString *picString=[self convertArrayToJsonString:imageDataArray];
+    
+    if (picString==nil&&self.placeHolderView.text==nil) {
+        [SVProgressHUD showErrorWithStatus:@"请输入文字或选择图片" maskType:SVProgressHUDMaskTypeBlack];
+        return;
+    }
     //参数字典
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.placeHolderView.text,@"service_message",self.orderNum,@"order_num",picString,@"service_file", nil];
      [SVProgressHUD showWithStatus:@"正在上传数据..." maskType:SVProgressHUDMaskTypeBlack];
@@ -183,7 +209,22 @@
     NSString *jsonString=[tempArray yy_modelToJSONString];
     return jsonString;
 }
-
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==0) {
+        imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
+        imagePicker.mediaTypes=[UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
+         [actionSheet dismissWithClickedButtonIndex:buttonIndex animated:YES];
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }else if (buttonIndex==1)
+    {
+        imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePicker.mediaTypes=[UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
+        [actionSheet dismissWithClickedButtonIndex:buttonIndex animated:YES];
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
