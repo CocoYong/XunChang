@@ -19,4 +19,5 @@
 @property(nonatomic,copy)NSString *icon;
 @property(nonatomic,copy)NSString *id;
 @property(nonatomic,copy)NSString *title;
+@property(nonatomic,copy)NSString *count_type;
 @end

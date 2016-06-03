@@ -30,6 +30,7 @@
 @property(nonatomic,copy)NSString *nickname;
 @property(nonatomic,copy)NSString *tel;
 @property(nonatomic,copy)NSString *sex;
+@property(nonatomic,copy)NSString *realname;
 @end
 
 @interface ScenesModel : NSObject
