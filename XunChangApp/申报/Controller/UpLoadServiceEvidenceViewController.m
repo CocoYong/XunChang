@@ -18,7 +18,9 @@
     NSMutableArray *imageDataArray;
   UIImagePickerController *imagePicker;
 }
-@property (weak, nonatomic) IBOutlet UITextView *placeHolderView;
+
+@property (weak, nonatomic) IBOutlet UIView *textViewBackView;
+@property (strong, nonatomic) UIPlaceHolderTextView *placeHolderView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *submitButt;
 
@@ -32,6 +34,10 @@
     [self createNavBackButt];
     self.submitButt.layer.cornerRadius=4.0f;
     self.tableView.tableFooterView=[UIView new];
+    
+    _placeHolderView=[[UIPlaceHolderTextView alloc]initWithFrame:CGRectMake(10, 37, SCREEN_WIDTH-20, 137) andPlaceholder:@"请输入说明" andLayerRadius:3.0f andBorderColor:[UIColor whiteColor] andBorderWidth:1.0f];
+    [self.textViewBackView addSubview:_placeHolderView];
+    
     //初始化imageDataArray
     imageDataArray=[NSMutableArray arrayWithCapacity:12];
 }
