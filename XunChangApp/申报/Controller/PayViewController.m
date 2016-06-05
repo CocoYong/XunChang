@@ -14,6 +14,7 @@
 #import "LoginModel.h"
 #import "ShenBaoKemuModel.h"
 #import "OrderDetailModel.h"
+#import "GrayAlertView.h"
 @interface PayViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     MoneyModel *model;
@@ -100,7 +101,11 @@
         }];
         PayControllerCell *cellTwo=[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
         if (cellTwo.yuFuKuanButt.selected) {
-            [self payRequet:[orderNumArray objectAtIndex:0]];  //待修改....
+            [GrayAlertView showAlertViewWithFirstButtTitle:@"取消" secondButtTitle:@"确认支付" andAlertText:@"是否确认支付?" remindTitleColor:[UIColor colorWithHexString:@"#333333"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
+                if (butt.tag==2) {
+                  [self payRequet:[orderNumArray objectAtIndex:0]];  //待修改....
+                }
+            }];
         }else
         {
             
