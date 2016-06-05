@@ -201,7 +201,7 @@
     [cell.goodsImageView sd_setImageWithURL:[NSURL URLWithString:secondModel.type_icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
     cell.stadiumNameLabel.text=secondModel.object_address;
     cell.goodsNameLabel.text=secondModel.item_title;
-    cell.goodsNumLabel.text=[NSString stringWithFormat:@"x%d",[secondModel.num integerValue]];
+    cell.goodsNumLabel.text=[NSString stringWithFormat:@"x%.2f",[secondModel.num floatValue]];
     cell.startTimeLabel.text=[NSString stringWithFormat:@"开始使用时间:%@",secondModel.start_time];
     cell.moneyLabel.text=[NSString stringWithFormat:@"￥%.2f",[secondModel.total_money floatValue]];
     ITTDINFO(@"indexpathrow===%d,secondeModel.radioselect==%d",indexPath.row,secondModel.radioButtSelect);
@@ -280,8 +280,6 @@
             [cell.payButt setBackgroundColor:[UIColor whiteColor]];
             [cell.payButt setTitle:@"投诉" forState:UIControlStateNormal];
             [cell.payButt setTitleColor:[UIColor colorWithHexString:@"#A5A6A7"] forState:UIControlStateNormal];
-            cell.payButt.layer.borderColor=[UIColor colorWithHexString:@"#DCDDDD"].CGColor;
-            cell.payButt.layer.borderWidth=1.0f;
             cell.deletButt.hidden=YES;
             [cell.cancelButt setTitle:@"删除订单" forState:UIControlStateNormal];
         }else
@@ -339,7 +337,7 @@
         [self dialTelephoneWithTelephoneNum:tempModel.staff_tel];
     }else if ([sender.titleLabel.text isEqualToString:@"取消订单"])
     {
-        [GrayAlertView showAlertViewWithFirstButtTitle:@"确认取消" secondButtTitle:@"再看一看" andAlertText:@"是否取消订单?" remindTitleColor:[UIColor colorWithHexString:@"#999999"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
+        [GrayAlertView showAlertViewWithFirstButtTitle:@"确认取消" secondButtTitle:@"再看一看" andAlertText:@"是否取消订单?" remindTitleColor:[UIColor colorWithHexString:@"#333333"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
             if (butt.tag==1) {
             OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
             [self cancelOrderRequest:tempModel.order_num];
@@ -351,7 +349,7 @@
         [self dialTelephoneWithTelephoneNum:tempModel.checker_tel];
     }else if ([sender.titleLabel.text isEqualToString:@"删除订单"])
     {
-        [GrayAlertView showAlertViewWithFirstButtTitle:@"确认删除" secondButtTitle:@"再看一看" andAlertText:@"是否删除订单?" remindTitleColor:[UIColor colorWithHexString:@"#999999"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
+        [GrayAlertView showAlertViewWithFirstButtTitle:@"确认删除" secondButtTitle:@"再看一看" andAlertText:@"是否删除订单?" remindTitleColor:[UIColor colorWithHexString:@"#333333"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
             if (butt.tag==1) {
                 OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
                [self deletOrderWithOrderNum:tempModel.order_num];
@@ -361,7 +359,7 @@
 }
 -(void)deletButtAction:(UIButton*)sender
 {
-    [GrayAlertView showAlertViewWithFirstButtTitle:@"确认删除" secondButtTitle:@"再看一看" andAlertText:@"是否删除订单?" remindTitleColor:[UIColor colorWithHexString:@"#999999"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
+    [GrayAlertView showAlertViewWithFirstButtTitle:@"确认删除" secondButtTitle:@"再看一看" andAlertText:@"是否删除订单?" remindTitleColor:[UIColor colorWithHexString:@"#333333"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
         if (butt.tag==1) {
             OrderListDataModel*tempModel=[model.datas objectAtIndex:sender.tag/4];
             [self deletOrderWithOrderNum:tempModel.order_num];

@@ -37,15 +37,14 @@
     imageModel.data=[[ImageObjectDataModel alloc]init];
     userinfo=[UserInfo yy_modelWithDictionary:[USER_DEFAULT objectForKey:@"userinfo"]];//字典转为数组..
     [self.manButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
-    [self.manButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
     [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
-    [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateSelected];
     if (userinfo.avatar!=nil&&![userinfo.avatar isEqualToString:@""]) {
         [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:userinfo.avatar] options:SDWebImageDownloaderProgressiveDownload progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
             dispatch_async(dispatch_get_main_queue(), ^{
         [self.addPhotoButt setImage:image forState:UIControlStateNormal];
             });
             imageModel.originalImage=image;
+            imageModel.originalImageName=[NSString stringWithFormat:@"%@_original.png",[[NSDate date] stringWithFormat:@"yyyy-MM-dd_HHmmss"]];
         }];
     }
     if (userinfo.nickname!=nil) {
@@ -53,13 +52,17 @@
     }
     if ([userinfo.sex isEqualToString:@"MAN"]) {
         self.manButt.selected=YES;
+        [self.manButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateNormal];
         self.sex=userinfo.sex;
     }else if ([userinfo.sex isEqualToString:@"WOMAN"])
     {
         self.womanButt.selected=YES;
+        [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateNormal];
         self.sex=userinfo.sex;
     }else
     {
+        self.manButt.selected=NO;
+        self.womanButt.selected=NO;
         self.sex=userinfo.sex;
     }
     if (![[USER_DEFAULT objectForKey:@"status"] isEqualToString:@"register"]) {
@@ -76,12 +79,15 @@
 - (IBAction)manButtAction:(UIButton *)sender {
     sender.selected=!sender.selected;
     if (sender.selected) {
+    [self.manButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateNormal];
       self.sex=@"MAN";
         if (self.womanButt.selected) {
             self.womanButt.selected=NO;
+            [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
         }
     }else
     {
+        [self.manButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
         if (!self.womanButt.selected) {
             self.sex=@"SECRECY";
         }
@@ -91,11 +97,14 @@
     sender.selected=!sender.selected;
     if (sender.selected) {
         self.sex=@"WOMAN";
+        [self.womanButt setImage:[UIImage imageNamed:@"radio_selected"] forState:UIControlStateNormal];
         if (self.manButt.selected) {
             self.manButt.selected=NO;
+             [self.manButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
         }
     }else
     {
+        [self.womanButt setImage:[UIImage imageNamed:@"radio_normal"] forState:UIControlStateNormal];
         if (!self.manButt.selected) {
           self.sex=@"SECRECY";
         }
@@ -157,6 +166,9 @@
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
         [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
+}
+- (IBAction)risignKeyboard:(id)sender {
+    [self.view endEditing:YES];
 }
 
 - (void)didReceiveMemoryWarning {

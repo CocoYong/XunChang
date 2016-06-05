@@ -44,8 +44,8 @@
     self.title=@"会员主页";
     self.userPhotoImageView.clipsToBounds=YES;
     self.userPhotoImageView.layer.cornerRadius=20;
-    self.userPhotoImageView.layer.borderColor=[UIColor whiteColor].CGColor;
-    self.userPhotoImageView.layer.borderWidth=1.0f;
+//    self.userPhotoImageView.layer.borderColor=[UIColor whiteColor].CGColor;
+//    self.userPhotoImageView.layer.borderWidth=1.0f;
 //    self.userInfoButt.hidden=YES;
     UIImageView *logoImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 28, 28)];
     logoImageView.clipsToBounds=YES;

@@ -11,6 +11,8 @@
 #import "NSDate+ITTAdditions.h"
 #import "PayViewController.h"
 #import "CreateOrderModel.h"
+#import "GrayAlertView.h"
+#import "OrdersListViewController.h"
 @interface ShenBaoOrdersCommitViewController ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,UITextFieldDelegate>
 {
     NSMutableArray *dataArray;
@@ -64,16 +66,28 @@
         return;
     }
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
-    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.objectModel.id,@"object_id",self.dataModel.id,@"item_id",cellTwo.numLabel.text,@"num",cellThree.startTimeTextField.text,@"start_time",cellThree.endTimeTextField.text,@"end_time", nil];
+    NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.objectModel.id,@"object_id",self.dataModel.id,@"item_id",cellTwo.numTextfield.text,@"num",cellThree.startTimeTextField.text,@"start_time",cellThree.endTimeTextField.text,@"end_time", nil];
     [ShenBaoDataRequest requestAFWithURL:CREATEORDER params:paramsDic httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
          CreateOrderModel*resultModel=[CreateOrderModel yy_modelWithDictionary:result];
         if (resultModel.code==0) {
-            self.dataModel.object_num=cellTwo.numLabel.text;
-            self.dataModel.order_num=resultModel.data.order_num;
-            [dataArray addObject:self.dataModel];
-            [self performSegueWithIdentifier:@"PayViewController" sender:self];
+            if ([[self.dataModel.total_money substringFromIndex:1] integerValue]==0) {
+                [GrayAlertView showAlertViewWithFirstButtTitle:@"取消" secondButtTitle:@"确认提交" andAlertText:@"是否创建订单?" remindTitleColor:[UIColor colorWithHexString:@"#333333"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
+                    if (butt.tag==2) {
+                        UIStoryboard *mainStoryboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                        OrdersListViewController *orderListController=[mainStoryboard instantiateViewControllerWithIdentifier:@"OrdersListViewController"];
+                        orderListController.index=2;
+                        [self showViewController:orderListController sender:self];
+                    }
+                }];
+            }else
+            {
+                self.dataModel.object_num=cellTwo.numTextfield.text;
+                self.dataModel.order_num=resultModel.data.order_num;
+                [dataArray addObject:self.dataModel];
+                [self performSegueWithIdentifier:@"PayViewController" sender:self];
+            }
         }else if (resultModel.code==9999)
         {
            [SVProgressHUD  showErrorWithStatus:resultModel.message maskType:SVProgressHUDMaskTypeBlack];
@@ -105,7 +119,7 @@
      ShenBaoOrdersCommitCell *cellOne=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCelleight"];
         if (indexPath.row==0) {
             UIView *lineView=[[UIView alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-20, 1)];
-            lineView.backgroundColor=[UIColor colorWithHexString:@"#B5B6B7"];
+            lineView.backgroundColor=[UIColor colorWithHexString:@"#e0e0e0"];
             [cellOne addSubview:lineView];
          cellOne.itemTitleLabel.text=@"科目";
          cellOne.itemDetailLabel.text=self.dataModel.order_title;
@@ -139,7 +153,7 @@
             ShenBaoOrdersCommitCell *cellTwo=[tableView dequeueReusableCellWithIdentifier:@"ShenBaoOrdersCommitCellTwo"];
             cellTwo.dataModel=self.dataModel;
             cellTwo.superController=self;
-            cellTwo.numLabel.text=self.dataModel.object_num;
+            cellTwo.numTextfield.text=self.dataModel.object_num;
             return cellTwo;
         }else
         {
@@ -182,11 +196,8 @@
         return cellThree;
     }
 }
--(void)startDoSomething
-{
+- (IBAction)startDoSomething:(id)sender {
     [self.view endEditing:YES];
-    
-    NSLog(@"do something");
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -247,13 +258,16 @@
     if (textField.tag==100) {
         self.datePickType=@"start";
         [self createDatePickerView:self.endDate];
-    }else
+        return NO;
+    }else if(textField.tag==200)
     {
         self.datePickType=@"end";
         [self createDatePickerView:self.startDate];
+        return NO;
+    }else
+    {
+        return YES;
     }
-//    [self.view endEditing:YES];
-    return NO;
 }
 -(void)startTimeButtAction:(UIButton*)startButt
 {

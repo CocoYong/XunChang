@@ -26,7 +26,7 @@
     self.title=self.itemDataModel.title;
     [self createNavBackButt];
     self.tableView.tableFooterView=[UIView new];
-    self.tableView.sectionIndexBackgroundColor=[UIColor colorWithHexString:@"#f0f0f0"];
+    self.tableView.sectionIndexBackgroundColor=[UIColor colorWithHexString:@"#E2E2E2"];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:GETOBJECT params:nil httpMethod:@"POST" block:^(id result) {
          [SVProgressHUD dismiss];
@@ -99,7 +99,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0;
+    return 10;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
