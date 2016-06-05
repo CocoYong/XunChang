@@ -98,7 +98,7 @@
         {
             cellTwo.moneyNumLabel.textColor=[UIColor blackColor];
         }
-        cellTwo.moneyNumLabel.text=[NSString stringWithFormat:@"￥%@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[tempDataModel.money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
+        cellTwo.moneyNumLabel.text=[NSString stringWithFormat:@"%@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[tempDataModel.money floatValue]] numberStyle:NSNumberFormatterDecimalStyle]];
         return cellTwo;
     }
  }
@@ -108,7 +108,7 @@
         return 102;
     }else
     {
-        return 81;
+        return 102;
     }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

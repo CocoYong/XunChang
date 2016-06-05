@@ -182,7 +182,7 @@
         [params setObject:[USER_DEFAULT objectForKey:@"scene_id"] forKey:@"scene_id"];
     }
     [params setObject:@"app" forKey:@"request_from"];
-//    [params setObject:httpMethod forKey:@"HTTP_X_HTTP_METHOD_OVERRIDE"];
+//    [params setObject:httpMethod forKey:@"HTTP_X_HTTP_METHOD_OVERRIDE"]; //本参数可以将非post请求转换为post请求
     NSString  *baseURLString=[self getSigntureRequestURL:url params:params];
     AFHTTPRequestOperationManager *httpManager=[AFHTTPRequestOperationManager manager];
     NSOperationQueue *operationQueue = httpManager.operationQueue;
