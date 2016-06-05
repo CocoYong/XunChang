@@ -9,19 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ShenBaoKemuModel.h"
 #import "ShenBaoOrdersCommitViewController.h"
-@interface ShenBaoOrdersCommitCell : UITableViewCell
-//one
-@property (weak, nonatomic) IBOutlet UIView *backView;
-@property (weak, nonatomic) IBOutlet UILabel *keMuLabel;
-@property (weak, nonatomic) IBOutlet UILabel *danweiLabel;
-@property (weak, nonatomic) IBOutlet UILabel *danjiaLabel;
-@property (weak, nonatomic) IBOutlet UILabel *yajinLabel;
-@property (weak, nonatomic) IBOutlet UILabel *shuomingLabel;
-
+@interface ShenBaoOrdersCommitCell : UITableViewCell<UITextFieldDelegate>
 //two
 @property(nonatomic,strong)ShenBaoKemuDataModel *dataModel;
 @property(nonatomic,strong)ShenBaoOrdersCommitViewController *superController;
-@property (weak, nonatomic) IBOutlet UILabel *numLabel;
+@property (weak, nonatomic) IBOutlet UITextField *numTextfield;
 @property (weak, nonatomic) IBOutlet UIButton *minusButt;
 @property (weak, nonatomic) IBOutlet UIButton *addButt;
 
