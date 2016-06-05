@@ -174,7 +174,7 @@
     //图片字符串哈
     NSString *picString=[self convertArrayToJsonString:imageDataArray];
     
-    if (picString==nil&&self.placeHolderView.text==nil) {
+    if ([imageDataArray count]==0&&([self.placeHolderView.text isEqualToString:@""]||self.placeHolderView.text==nil)) {
         [SVProgressHUD showErrorWithStatus:@"请输入文字或选择图片" maskType:SVProgressHUDMaskTypeBlack];
         return;
     }

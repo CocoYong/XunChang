@@ -509,7 +509,7 @@
         [self dialTelephoneWithTelephoneNum:detailModel.data.checker_tel];
     }else if ([sender.titleLabel.text isEqualToString:@"删除订单"])
     {
-        [GrayAlertView showAlertViewWithFirstButtTitle:@"确认删除" secondButtTitle:@"再看一看" andAlertText:@"是否删除订单?" remindTitleColor:[UIColor colorWithHexString:@"#999999"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
+        [GrayAlertView showAlertViewWithFirstButtTitle:@"确认删除" secondButtTitle:@"再看一看" andAlertText:@"是否删除订单?" remindTitleColor:[UIColor colorWithHexString:@"#333333"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
             if (butt.tag==1) {
                [self deletOrderWithOrderNum:detailModel.data.order_num];
             }
@@ -519,7 +519,7 @@
 }
 -(void)deletButtAction:(UIButton*)sender
 {
-    [GrayAlertView showAlertViewWithFirstButtTitle:@"确认删除" secondButtTitle:@"再看一看" andAlertText:@"是否删除订单?" remindTitleColor:[UIColor colorWithHexString:@"#999999"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
+    [GrayAlertView showAlertViewWithFirstButtTitle:@"确认删除" secondButtTitle:@"再看一看" andAlertText:@"是否删除订单?" remindTitleColor:[UIColor colorWithHexString:@"#333333"] buttOneTitleColor:[UIColor colorWithHexString:@"#666666"] buttTwoTitleColor:[UIColor colorWithHexString:@"#666666"] buttOneBackGroundColor:[UIColor whiteColor] buttTwoBackColor:[UIColor whiteColor] andCallBackBlock:^(UIButton *butt) {
         if (butt.tag==1) {
             [self deletOrderWithOrderNum:detailModel.data.order_num];
         }

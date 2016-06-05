@@ -55,7 +55,9 @@
         if (haveOrderListController) {
             for (UIViewController *controller in self.navigationController.viewControllers) {
                 if ([controller isKindOfClass:NSClassFromString(@"OrdersListViewController")]) {
-                    [self.navigationController popToViewController:controller animated:YES];
+                   OrdersListViewController* tempControlelr=(OrdersListViewController*)controller;
+                    tempControlelr.index=2;
+                    [self.navigationController popToViewController:tempControlelr animated:YES];
                 }
             }
         }else{

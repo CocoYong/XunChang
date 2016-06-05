@@ -46,6 +46,7 @@
     //第一个按钮
     UIButton *buttOne=[UIButton buttonWithType:UIButtonTypeCustom];
     buttOne.frame=CGRectMake(0, 120, (SCREEN_WIDTH-60)/2-0.5, 40);
+    buttOne.layer.cornerRadius=3.0f;
     buttOne.titleLabel.font=[UIFont systemFontOfSize:18];
     buttOne.tag=1;
     buttOne.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
@@ -64,7 +65,7 @@
     buttTwo.titleLabel.font=[UIFont systemFontOfSize:18];
     [buttTwo setTitle:secondTitle forState:UIControlStateNormal];
     [buttTwo setTitleColor:buttTwoTitleColor forState:UIControlStateNormal];
-    
+    buttTwo.layer.cornerRadius=3.0f;
     buttTwo.backgroundColor=buttTwoBackColor;
     buttTwo.tag=2;
     buttTwo.rac_command=[[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
