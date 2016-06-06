@@ -37,13 +37,13 @@
 {
     ShenBaoLeiXingCell *changJingCell=[tableView dequeueReusableCellWithIdentifier:@"ChangJingTableCell"];
     ScenesModel *sceneModel=[self.dataArray objectAtIndex:indexPath.row];
-    [changJingCell.changJingImageView sd_setImageWithURL:[NSURL URLWithString:sceneModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cpmrt"] options:SDWebImageProgressiveDownload];
+    [changJingCell.changJingImageView sd_setImageWithURL:[NSURL URLWithString:sceneModel.icon] placeholderImage:[UIImage imageNamed:@"icon_cqlogo"] options:SDWebImageProgressiveDownload];
     changJingCell.changJIngNameLabel.text=sceneModel.title;
     return changJingCell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 50;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
