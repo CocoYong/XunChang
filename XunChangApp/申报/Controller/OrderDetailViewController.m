@@ -34,10 +34,19 @@
     [self createNavBackButt];
     //初始化支付页面用到数组
     payModelDataArray=[NSMutableArray arrayWithCapacity:12];
+   
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self getOrderDetailRequest];
+}
+-(void)getOrderDetailRequest
+{
     NSMutableDictionary *paramsDic=[NSMutableDictionary dictionaryWithObjectsAndKeys:self.orderNum,@"order_num", nil];
     [SVProgressHUD showWithStatus:@"正在加载数据..." maskType:SVProgressHUDMaskTypeBlack];
     [ShenBaoDataRequest requestAFWithURL:ORDERDETAIL params:paramsDic httpMethod:@"POST" block:^(id result) {
-         [SVProgressHUD dismiss];
+        [SVProgressHUD dismiss];
         NSLog(@"result====%@",result);
         if ([[result objectForKey:@"code"] integerValue]==0) {
             detailModel=[OrderDetailModel yy_modelWithDictionary:result];
@@ -64,7 +73,6 @@
         [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
         [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];
     }];
-    // Do any additional setup after loading the view.
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -312,7 +320,9 @@
                     [cell.buttonThree setTitleColor:[UIColor colorWithHexString:@"#CE6836"] forState:UIControlStateNormal];
                 }else
                 {
-                    cell.hidden=YES;
+                    [cell.buttonThree setTitle:@"等待评价" forState:UIControlStateNormal];
+                    cell.buttonThree.backgroundColor=[UIColor whiteColor];
+                    [cell.buttonThree setTitleColor:[UIColor colorWithHexString:@"#CE6836"] forState:UIControlStateNormal];
                 }
             }
             return cell;
@@ -409,10 +419,10 @@
     }else
     {
         if (indexPath.row==detailModel.data.progressArray.count) {
-            if ([self.userType isEqualToString:@"apply_staff"]&&[detailModel.data.task_status isEqualToString:@"sign"])
-            {
-                return 0;
-            }
+//            if ([self.userType isEqualToString:@"apply_staff"]&&[detailModel.data.task_status isEqualToString:@"sign"])
+//            {
+//                return 0;
+//            }
             return 60;
         }else
         {

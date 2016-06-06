@@ -90,6 +90,7 @@
         [cell.statusButt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         cell.telephoneButt.hidden=NO;
         cell.starBackView.hidden=YES;
+        cell.statusButt.hidden=NO;
         
     }else if ([secondModel.task_status isEqualToString:@"finish"])
     {
@@ -99,24 +100,29 @@
         [cell.statusButt setTitleColor:[UIColor colorWithHexString:@"#CE6836"] forState:UIControlStateNormal];
         cell.telephoneButt.hidden=NO;
         cell.starBackView.hidden=YES;
+        cell.statusButt.hidden=NO;
     }else
     {
-          cell.statusLabel.text=@"交易成功";
+        cell.statusLabel.text=@"交易成功";
+        cell.statusButt.hidden=YES;
         if ([secondModel.is_comment isEqualToString:@"Y"]) {
             cell.starBackView.hidden=NO;
-            cell.statusButt.hidden=YES;
+            cell.scoreLabel.hidden=NO;
             cell.telephoneButt.hidden=YES;
             cell.starView.value=[secondModel.star floatValue];
             cell.starView.enabled=NO;
-            cell.scoreLabel.text=[NSString stringWithFormat:@"%@",secondModel.star];
+            cell.scoreLabel.text=[NSString stringWithFormat:@"%.1f",[secondModel.star floatValue]];
         }else
         {
-            cell.starBackView.hidden=YES;
-            cell.scoreLabel.hidden=YES;
-            cell.statusButt.hidden=NO;
-            cell.telephoneButt.hidden=YES;
             cell.statusButt.backgroundColor=[UIColor whiteColor];
             [cell.statusButt setTitleColor:[UIColor colorWithHexString:@"#CE6836"] forState:UIControlStateNormal];
+            [cell.statusButt setTitle:@"等待评价" forState:UIControlStateNormal];
+            cell.statusButt.backgroundColor=[UIColor whiteColor];
+            [cell.statusButt setTitleColor:[UIColor colorWithHexString:@"#CE6836"] forState:UIControlStateNormal];
+            cell.telephoneButt.hidden=YES;
+            cell.starBackView.hidden=YES;
+            cell.statusButt.hidden=NO;
+
         }
     }
     return cell;
