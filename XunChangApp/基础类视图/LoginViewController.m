@@ -95,22 +95,24 @@
              [SVProgressHUD dismiss];
             NSLog(@"result===%@",result);
             RegistOrLogin *model=[RegistOrLogin yy_modelWithDictionary:result];
-            if (model.code==0) {
-                [USER_DEFAULT setObject:model.data.user_token forKey:@"user_token"];
-                [USER_DEFAULT setObject:model.data.status forKey:@"status"];
-                [USER_DEFAULT setObject:model.data.id forKey:@"user_id"];
-                [self registerJPUSH:[JPUSHService registrationID]];
+//            if (model.code==0) {
+//                [USER_DEFAULT setObject:model.data.user_token forKey:@"user_token"];
+//                [USER_DEFAULT setObject:model.data.status forKey:@"status"];
+//                [USER_DEFAULT setObject:model.data.id forKey:@"user_id"];
+//                [self registerJPUSH:[JPUSHService registrationID]];
                 [self dismissViewControllerAnimated:YES completion:nil];
-            }else if (model.code==9999)
-            {
-                [SVProgressHUD showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeBlack];
-            }else
-            {
-                
-            }
+//            }else if (model.code==9999)
+//            {
+//                [SVProgressHUD showErrorWithStatus:model.message maskType:SVProgressHUDMaskTypeBlack];
+//            }else
+//            {
+//                
+//            }
         } errorBlock:^(NSError *error) {
             [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
-            [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
+            [self dismissViewControllerAnimated:YES completion:nil];
+
+//            [SVProgressHUD  showErrorWithStatus:@"网络请求错误了..." maskType:SVProgressHUDMaskTypeBlack];
         } noNetWorking:^(NSString *noNetWorking) {
             [SVProgressHUD setErrorImage:[UIImage imageNamed:@"icon_cry"]];
             [SVProgressHUD  showErrorWithStatus:@"没网了..." maskType:SVProgressHUDMaskTypeBlack];

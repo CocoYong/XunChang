@@ -665,8 +665,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue destinationViewController] isKindOfClass:NSClassFromString(@"PayViewController")]) {
         PayViewController *payController=[segue destinationViewController];
@@ -676,6 +674,4 @@
         evaluateController.orderNum=sender;
     }
 }
-
-
 @end
